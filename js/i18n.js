@@ -38,15 +38,33 @@ function applyTranslations(lang) {
   }
   document.title = t.meta.title;
 
-  // Menyu elementlari (yangi tartib: Home, HR, Websites, Warehouse, ERP, CRM)
-  const menuItems = document.querySelectorAll('.futer-menu .tab span');
-  if (menuItems.length >= 6) {
-    menuItems[0].textContent = t.menu.home;      // Home
-    menuItems[1].textContent = t.menu.hr;         // HR
-    menuItems[2].textContent = t.menu.websites;   // Websites
-    menuItems[3].textContent = t.menu.warehouse;  // Warehouse
-    menuItems[4].textContent = t.menu.erp;        // ERP
-    menuItems[5].textContent = t.menu.crm;        // CRM
+  // Menyu elementlari (tartib: Home, HR, Websites, Warehouse, ERP, CRM)
+  // Har bir menu elementini alohida tanlash orqali to'g'ri tartibni ta'minlaymiz
+  const menuTabs = document.querySelectorAll('.futer-menu .tab');
+  if (menuTabs.length >= 6) {
+    // Home (index 0)
+    const homeSpan = menuTabs[0].querySelector('span');
+    if (homeSpan) homeSpan.textContent = t.menu.home;
+    
+    // HR (index 1)
+    const hrSpan = menuTabs[1].querySelector('span');
+    if (hrSpan) hrSpan.textContent = t.menu.hr;
+    
+    // Websites (index 2)
+    const websitesSpan = menuTabs[2].querySelector('span');
+    if (websitesSpan) websitesSpan.textContent = t.menu.websites;
+    
+    // Warehouse (index 3)
+    const warehouseSpan = menuTabs[3].querySelector('span');
+    if (warehouseSpan) warehouseSpan.textContent = t.menu.warehouse;
+    
+    // ERP (index 4)
+    const erpSpan = menuTabs[4].querySelector('span');
+    if (erpSpan) erpSpan.textContent = t.menu.erp;
+    
+    // CRM (index 5)
+    const crmSpan = menuTabs[5].querySelector('span');
+    if (crmSpan) crmSpan.textContent = t.menu.crm;
   }
 
   // Header menyu

@@ -345,3 +345,244 @@ a {
 .brand a i{
     font-size: 20px;
 }
+
+/* Responsive Styles for Footer Menu */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .futer-menu {
+    width: 90px;
+  }
+  
+  .futer-menu ul {
+    width: 90px;
+  }
+  
+  .futer-menu ul li a {
+    width: 90px;
+  }
+  
+  .futer-menu ul li a i {
+    width: 30px;
+    height: 30px;
+    background-size: 25px;
+  }
+  
+  .futer-menu ul li a span {
+    font-size: 11px;
+    line-height: 12px;
+  }
+  
+  .content-stie {
+    width: calc(100% - 90px);
+  }
+  
+  .big-conteny-info {
+    padding: 20px 40px;
+  }
+  
+  .title-blocks {
+    font-size: 2.2rem;
+  }
+  
+  .big-data-info {
+    font-size: 18px;
+    width: 55%;
+  }
+}
+
+/* Mobile Styles (up to 768px) */
+@media (max-width: 768px) {
+  .site-blocks-big {
+    flex-direction: column;
+  }
+  
+  .futer-menu {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #f8da00;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .futer-menu ul {
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    justify-content: space-around;
+  }
+  
+  .futer-menu ul li {
+    height: auto;
+    flex: 1;
+    max-width: 16.66%;
+  }
+  
+  .futer-menu ul li a {
+    width: 100%;
+    height: 70px;
+    padding: 8px 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .futer-menu ul li a i {
+    width: 28px;
+    height: 28px;
+    background-size: 24px;
+    margin-bottom: 4px;
+  }
+  
+  .futer-menu ul li a span {
+    font-size: 10px;
+    line-height: 12px;
+    margin-top: 2px;
+    text-align: center;
+  }
+  
+  .content-stie {
+    width: 100%;
+    padding-bottom: 78px; /* Space for bottom menu */
+  }
+  
+  .big-conteny-info {
+    padding: 20px 25px;
+    margin-top: 10vh;
+  }
+  
+  .title-blocks {
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    word-spacing: 8px;
+  }
+  
+  .big-data-info {
+    width: 100%;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  
+  .top-header {
+    padding: 15px 20px;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    font-size: 32px;
+  }
+  
+  .turon {
+    font-size: 22px;
+    margin-left: 8px;
+  }
+  
+  .menu ul {
+    flex-wrap: wrap;
+  }
+  
+  .menu ul li a {
+    font-size: 14px;
+    margin: 0px 8px;
+  }
+  
+  .telfon {
+    font-size: 16px;
+    margin-left: 15px;
+  }
+  
+  .brand {
+    right: 15px;
+    bottom: 100px; /* Above the bottom menu */
+  }
+  
+  .brand a i {
+    font-size: 18px;
+  }
+}
+
+/* Small Mobile Styles (up to 480px) */
+@media (max-width: 480px) {
+  .futer-menu ul li a {
+    height: 65px;
+    padding: 6px 3px;
+  }
+  
+  .futer-menu ul li a i {
+    width: 24px;
+    height: 24px;
+    background-size: 20px;
+  }
+  
+  .futer-menu ul li a span {
+    font-size: 9px;
+    line-height: 11px;
+  }
+  
+  .content-stie {
+    padding-bottom: 73px;
+  }
+  
+  .big-conteny-info {
+    padding: 15px 20px;
+    margin-top: 8vh;
+  }
+  
+  .title-blocks {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    word-spacing: 5px;
+  }
+  
+  .big-data-info {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  
+  .top-header {
+    padding: 12px 15px;
+  }
+  
+  .logo {
+    font-size: 28px;
+  }
+  
+  .turon {
+    font-size: 18px;
+    margin-left: 5px;
+  }
+  
+  .menu ul li a {
+    font-size: 12px;
+    margin: 0px 5px;
+  }
+  
+  .telfon {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  
+  .btn-my2 {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+  
+  .brand {
+    bottom: 90px;
+  }
+  
+  .brand a {
+    margin: 0px 6px;
+  }
+  
+  .brand a i {
+    font-size: 16px;
+  }
+}
