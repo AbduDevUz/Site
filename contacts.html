@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#070B1A" />
 
-    <title>Buyurtma berish — TINCH SOFT</title>
-    <meta name="description" content="TINCH SOFT mahsulotlariga buyurtma va bepul konsultatsiya so'rovi." />
-    <meta name="robots" content="noindex, follow" />
+    <title>Aloqa — TINCH SOFT</title>
+    <meta name="description" content="TINCH SOFT bilan bog'laning: Toshkent, +998 99 055 37 85, info@tinch.uz" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href="https://tinch.uz/contacts.html" />
+    <link rel="alternate" hreflang="uz" href="https://tinch.uz/contacts.html?lang=uz" />
+    <link rel="alternate" hreflang="ru" href="https://tinch.uz/contacts.html?lang=ru" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tinch.uz/contacts.html" />
+    <meta property="og:title" content="Aloqa — TINCH SOFT" />
+    <meta property="og:image" content="https://tinch.uz/images/logo2.png" />
 
     <link rel="icon" href="./images/logo2.png" />
     <link rel="apple-touch-icon" href="./images/logo2.png" />
@@ -33,13 +42,15 @@
     <main id="main">
       <section class="section">
         <div class="container contact-grid">
-          <!-- Chap ustun -->
+          <!-- Chap ustun: aloqa ma'lumotlari -->
           <div class="stack stack-4 reveal">
-            <span class="eyebrow" data-i18n="order.eyebrow">Buyurtma</span>
-            <h1 class="h1" data-i18n="order.title"></h1>
-            <p class="lead" data-i18n="order.text"></p>
+            <span class="eyebrow" data-i18n="contacts.eyebrow">Aloqa</span>
+            <h1 class="h1" data-i18n="contacts.title"></h1>
+            <p class="lead" data-i18n="contacts.text"></p>
 
             <div class="contact-list" id="contactList"></div>
+
+            <div class="socials" id="contactSocials" style="margin-top: var(--space-6)"></div>
           </div>
 
           <!-- O'ng ustun: forma -->
@@ -113,7 +124,7 @@
                   <select class="select" id="f-plan" name="plan"></select>
                 </div>
 
-                <div class="field">
+                <div class="field field--full">
                   <label for="f-employees" data-i18n="order.fields.employees">Xodimlar soni</label>
                   <input
                     class="input"
@@ -133,7 +144,7 @@
                     class="textarea"
                     id="f-message"
                     name="message"
-                    rows="4"
+                    rows="5"
                     data-i18n-attr="placeholder:order.fields.messagePh"
                   ></textarea>
                 </div>
@@ -153,6 +164,26 @@
 
     <footer class="site-footer" id="siteFooter"></footer>
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "TINCH SOFT — Aloqa",
+        "url": "https://tinch.uz/contacts.html",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "TINCH SOFT",
+          "telephone": "+998-99-055-37-85",
+          "email": "info@tinch.uz",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Toshkent",
+            "addressCountry": "UZ"
+          }
+        }
+      }
+    </script>
+
     <script src="js/data/site.js"></script>
     <script src="js/data/products.js"></script>
     <script src="js/icons.js"></script>
@@ -161,5 +192,6 @@
     <script src="js/app.js"></script>
     <script src="js/contact-info.js"></script>
     <script src="js/order.js"></script>
+    <script src="js/contacts.js"></script>
   </body>
 </html>

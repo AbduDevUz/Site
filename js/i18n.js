@@ -1,267 +1,218 @@
-// Til o'zgartirish tizimi
-let currentLanguage = localStorage.getItem('language') || 'ru';
+/* ============================================================
+   TINCH SOFT — i18n
+   ------------------------------------------------------------
+   Eski versiya DOM indeksiga bog'langan edi (tab_item[3] va h.k.),
+   shuning uchun har bir yangi blok tarjimani buzardi.
 
-// Tarjimalarni yuklash (endi fetch() o'rniga to'g'ridan-to'g'ri JavaScript obyektidan)
-function loadTranslations() {
-  // translations.js fayli allaqachon yuklangan bo'lishi kerak
-  if (typeof translations === 'undefined') {
-    console.error('Tarjimalar yuklanmagan! translations.js faylini yuklang.');
-    return;
-  }
-  
-  document.documentElement.lang = currentLanguage;
-  applyTranslations(currentLanguage);
-  updateLanguageSwitcher(currentLanguage);
-}
+   Yangi qoida — indeks yo'q, faqat atribut va ma'lumot:
+     <h1 data-i18n="home.hero.titleLead">           → textContent
+     <p  data-i18n-html="footer.about">             → innerHTML
+     <input data-i18n-attr="placeholder:order.fields.namePh">
 
-// Tilni o'zgartirish
-function changeLanguage(lang) {
-  if (translations && translations[lang]) {
-    currentLanguage = lang;
-    localStorage.setItem('language', lang);
-    document.documentElement.lang = lang;
-    applyTranslations(lang);
-    updateLanguageSwitcher(lang);
-  }
-}
+   JS ichida:
+     t({uz:"…", ru:"…"})   → joriy tildagi matn
+     tk("home.hero.text")  → SITE obyektidan yo'l bo'yicha olib, t() qiladi
 
-// Tarjimalarni qo'llash
-function applyTranslations(lang) {
-  if (!translations || !translations[lang]) return;
-  
-  const t = translations[lang];
+   Til o'zgarganda 'languagechange' hodisasi yuboriladi —
+   sahifa modullari shunga obuna bo'lib qayta render qiladi.
+   ============================================================ */
 
-  // Meta ma'lumotlar
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) {
-    metaDesc.setAttribute('content', t.meta.description);
-  }
-  document.title = t.meta.title;
+(function () {
+  "use strict";
 
-  // Menyu elementlari (tartib: Home, HR, Websites, Warehouse, ERP, CRM)
-  // Har bir menu elementini alohida tanlash orqali to'g'ri tartibni ta'minlaymiz
-  const menuTabs = document.querySelectorAll('.futer-menu .tab');
-  if (menuTabs.length >= 6) {
-    // Home (index 0)
-    const homeSpan = menuTabs[0].querySelector('span');
-    if (homeSpan) homeSpan.textContent = t.menu.home;
-    
-    // HR (index 1)
-    const hrSpan = menuTabs[1].querySelector('span');
-    if (hrSpan) hrSpan.textContent = t.menu.hr;
-    
-    // Websites (index 2)
-    const websitesSpan = menuTabs[2].querySelector('span');
-    if (websitesSpan) websitesSpan.textContent = t.menu.websites;
-    
-    // Warehouse (index 3)
-    const warehouseSpan = menuTabs[3].querySelector('span');
-    if (warehouseSpan) warehouseSpan.textContent = t.menu.warehouse;
-    
-    // ERP (index 4)
-    const erpSpan = menuTabs[4].querySelector('span');
-    if (erpSpan) erpSpan.textContent = t.menu.erp;
-    
-    // CRM (index 5)
-    const crmSpan = menuTabs[5].querySelector('span');
-    if (crmSpan) crmSpan.textContent = t.menu.crm;
-  }
+  var SUPPORTED = ["uz", "ru"];
+  var DEFAULT_LANG = "uz";
+  var STORAGE_KEY = "tinch:lang";
 
-  // Header menyu
-  const headerMenu = document.querySelectorAll('.menu ul li a');
-  if (headerMenu.length >= 2) {
-    headerMenu[0].textContent = t.header.about;
-    headerMenu[1].textContent = t.header.contacts;
-  }
+  /* ---------- Tilni aniqlash ---------- */
 
-  // Salom matni (agar HTML da data-i18n="header.greeting" atributi bo'lsa)
-  const greetingElement = document.querySelector('[data-i18n="header.greeting"]');
-  if (greetingElement) {
-    greetingElement.textContent = t.header.greeting;
-  }
-
-  // Telefon raqami
-  const phoneLink = document.querySelector('.telfon a');
-  if (phoneLink) {
-    phoneLink.textContent = t.header.phone;
-  }
-
-  // Home section (tab_item 0)
-  const homeSection = document.querySelectorAll('.tab_item')[0];
-  if (homeSection) {
-    const homeTitle = homeSection.querySelector('.title-blocks');
-    if (homeTitle) {
-      homeTitle.innerHTML = `${t.home.title} <br /> <span>${t.home.titleSpan}</span> ${t.home.titleSuffix}`;
+  function detect() {
+    // 1. URL: ?lang=ru
+    try {
+      var q = new URLSearchParams(window.location.search).get("lang");
+      if (q && SUPPORTED.indexOf(q) !== -1) return q;
+    } catch (e) {
+      /* eski brauzer — e'tiborsiz qoldiramiz */
     }
-    const homeDesc = homeSection.querySelector('.big-data-info');
-    if (homeDesc) {
-      homeDesc.textContent = t.home.description;
-    }
-    const homeBtn = homeSection.querySelector('.btn-my2');
-    if (homeBtn) {
-      homeBtn.textContent = t.home.button;
-    }
-  }
 
-  // HRM section (tab_item 1) - yangi tartib
-  const hrmSection = document.querySelectorAll('.tab_item')[1];
-  if (hrmSection) {
-    const hrmTitle = hrmSection.querySelector('.title-blocks');
-    if (hrmTitle) {
-      hrmTitle.innerHTML = `${t.hrm.title}<span>${t.hrm.titleSpan}</span>`;
-    }
-    const hrmDesc = hrmSection.querySelector('.big-data-info');
-    if (hrmDesc) {
-      hrmDesc.innerHTML = t.hrm.description;
-    }
-    const hrmBtn = hrmSection.querySelector('.btn-my2');
-    if (hrmBtn) {
-      hrmBtn.textContent = t.hrm.button;
-    }
-  }
+    // 2. Saqlangan tanlov
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && SUPPORTED.indexOf(saved) !== -1) return saved;
 
-  // Websites section (tab_item 2) - yangi tartib
-  const websitesSection = document.querySelectorAll('.tab_item')[2];
-  if (websitesSection) {
-    const websitesTitle = websitesSection.querySelector('.title-blocks');
-    if (websitesTitle) {
-      websitesTitle.innerHTML = `${t.websites.title} <br /> <span>${t.websites.titleSpan}</span> ${t.websites.titleSuffix}`;
-    }
-    const websitesDesc = websitesSection.querySelector('.big-data-info');
-    if (websitesDesc) {
-      websitesDesc.innerHTML = t.websites.description;
-    }
-    const websitesBtn = websitesSection.querySelector('.btn-my2');
-    if (websitesBtn) {
-      websitesBtn.textContent = t.websites.button;
-    }
-  }
-
-  // Warehouse section (tab_item 3) - yangi tartib
-  const warehouseSection = document.querySelectorAll('.tab_item')[3];
-  if (warehouseSection) {
-    const warehouseTitle = warehouseSection.querySelector('.title-blocks');
-    if (warehouseTitle) {
-      warehouseTitle.innerHTML = `${t.warehouse.title} <br /> <span>${t.warehouse.titleSpan}</span> ${t.warehouse.titleSuffix}`;
-    }
-    const warehouseDesc = warehouseSection.querySelector('.big-data-info ul');
-    if (warehouseDesc) {
-      const items = warehouseDesc.querySelectorAll('li');
-      if (items.length >= 6) {
-        items[0].textContent = t.warehouse.description.item1;
-        items[1].textContent = t.warehouse.description.item2;
-        items[2].textContent = t.warehouse.description.item3;
-        items[3].textContent = t.warehouse.description.item4;
-        items[4].textContent = t.warehouse.description.item5;
-        items[5].textContent = t.warehouse.description.item6;
+      // Eski kalitdan ko'chirish (oldingi versiya 'language' ishlatgan)
+      var legacy = localStorage.getItem("language");
+      if (legacy && SUPPORTED.indexOf(legacy) !== -1) {
+        localStorage.setItem(STORAGE_KEY, legacy);
+        return legacy;
       }
+    } catch (e) {
+      /* localStorage o'chirilgan bo'lishi mumkin */
     }
-    const warehouseBtn = warehouseSection.querySelector('.btn-my2');
-    if (warehouseBtn) {
-      warehouseBtn.textContent = t.warehouse.button;
-    }
+
+    // 3. Standart til — o'zbekcha.
+    //    Brauzer tili bo'yicha aniqlash ataylab qilinmaydi: O'zbekistondagi
+    //    ko'p qurilmalarda tizim tili ru-RU bo'lgani uchun sayt doim ruscha
+    //    ochilib ketardi. Foydalanuvchi tanlasa — tanlovi saqlanadi.
+    return DEFAULT_LANG;
   }
 
-  // ERP section (tab_item 4) - yangi tartib
-  const erpSection = document.querySelectorAll('.tab_item')[4];
-  if (erpSection) {
-    const erpTitle = erpSection.querySelector('.title-blocks');
-    if (erpTitle) {
-      erpTitle.innerHTML = `${t.erp.title}<span>${t.erp.titleSpan}</span>`;
-    }
-    const erpDesc = erpSection.querySelector('.big-data-info');
-    if (erpDesc) {
-      erpDesc.innerHTML = t.erp.description;
-    }
-    const erpBtn = erpSection.querySelector('.btn-my2');
-    if (erpBtn) {
-      erpBtn.textContent = t.erp.button;
-    }
+  var current = detect();
+
+  /* ---------- Asosiy API ---------- */
+
+  /** Joriy til kodi ("uz" | "ru") */
+  function lang() {
+    return current;
   }
 
-  // CRM section (tab_item 5) - yangi tartib
-  const crmSection = document.querySelectorAll('.tab_item')[5];
-  if (crmSection) {
-    const crmTitle = crmSection.querySelector('.title-blocks');
-    if (crmTitle) {
-      crmTitle.innerHTML = `${t.crm.title}<span>${t.crm.titleSpan}</span>`;
+  /**
+   * { uz, ru } obyektidan joriy tildagi matnni oladi.
+   * Oddiy satr berilsa — o'zini qaytaradi.
+   */
+  function t(value) {
+    if (value === null || value === undefined) return "";
+    if (typeof value === "string" || typeof value === "number") return String(value);
+    if (typeof value !== "object") return "";
+    if (value[current] !== undefined) return value[current];
+    // Zaxira: birinchi mavjud til
+    for (var i = 0; i < SUPPORTED.length; i++) {
+      if (value[SUPPORTED[i]] !== undefined) return value[SUPPORTED[i]];
     }
-    const crmDesc = crmSection.querySelector('.big-data-info');
-    if (crmDesc) {
-      crmDesc.innerHTML = t.crm.description;
-    }
-    const crmBtn = crmSection.querySelector('.btn-my2');
-    if (crmBtn) {
-      crmBtn.textContent = t.crm.button;
-    }
+    return "";
   }
-}
 
-// Til tanlovchi tugmasini yangilash - yangi dizayn
-function updateLanguageSwitcher(lang) {
-  const langLinks = document.querySelectorAll('.lang-link');
-  if (!langLinks || langLinks.length === 0) return;
-  
-  // Barcha linklardan active class ni olib tashlash
-  langLinks.forEach(link => {
-    link.classList.remove('active');
-    const linkLang = link.getAttribute('data-lang');
-    if (linkLang === lang) {
-      link.classList.add('active');
+  /**
+   * SITE obyektidan nuqtali yo'l bo'yicha qiymat olib, t() qiladi.
+   * tk("order.fields.namePh") → "Masalan: Aziz Karimov"
+   */
+  function tk(path) {
+    var node = window.SITE;
+    var parts = String(path).split(".");
+    for (var i = 0; i < parts.length; i++) {
+      if (node === null || node === undefined) return "";
+      node = node[parts[i]];
     }
-  });
-}
+    if (node === undefined) {
+      if (window.console) console.warn("[i18n] kalit topilmadi:", path);
+      return "";
+    }
+    return t(node);
+  }
 
-// Til tanlovchi event listenerlarni qo'shish
-function initLanguageSwitcher() {
-  const langLinks = document.querySelectorAll('.lang-link');
-  langLinks.forEach(link => {
-    // Eski event listenerlarni olib tashlash
-    const newLink = link.cloneNode(true);
-    link.parentNode.replaceChild(newLink, link);
-    
-    newLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      const lang = newLink.getAttribute('data-lang');
-      changeLanguage(lang);
+  /* ---------- Atributlar bo'yicha qo'llash ---------- */
+
+  function apply(root) {
+    var scope = root || document;
+
+    scope.querySelectorAll("[data-i18n]").forEach(function (el) {
+      el.textContent = tk(el.getAttribute("data-i18n"));
     });
-  });
-  updateLanguageSwitcher(currentLanguage);
-}
 
-// Sahifa yuklanganda tarjimalarni yuklash
-function initI18n() {
-  // Kichik kechikish - translations.js yuklanguncha kutish
-  if (typeof translations === 'undefined') {
-    setTimeout(initI18n, 50);
-    return;
+    scope.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      el.innerHTML = tk(el.getAttribute("data-i18n-html"));
+    });
+
+    // data-i18n-attr="placeholder:order.fields.namePh; aria-label:ui.orderCta"
+    scope.querySelectorAll("[data-i18n-attr]").forEach(function (el) {
+      el.getAttribute("data-i18n-attr")
+        .split(";")
+        .forEach(function (pair) {
+          var bits = pair.split(":");
+          if (bits.length !== 2) return;
+          var attr = bits[0].trim();
+          var key = bits[1].trim();
+          if (attr && key) el.setAttribute(attr, tk(key));
+        });
+    });
   }
-  loadTranslations();
-  initLanguageSwitcher();
-}
 
-// DOM yuklanganda ishga tushirish
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initI18n);
-} else {
-  // DOM allaqachon yuklangan
-  initI18n();
-}
+  /**
+   * Sahifa meta ma'lumotlarini yangilaydi.
+   * @param {{title:object, description:object}} meta
+   */
+  function applyMeta(meta) {
+    if (!meta) return;
 
-// jQuery ready ham qo'shamiz (agar mavjud bo'lsa)
-if (typeof jQuery !== 'undefined') {
-  jQuery(document).ready(function() {
-    // Agar tarjimalar yuklanmagan bo'lsa, yuklash
-    if (typeof translations !== 'undefined') {
-      loadTranslations();
-    } else {
-      setTimeout(function() {
-        if (typeof translations !== 'undefined') {
-          loadTranslations();
-        }
-      }, 100);
+    if (meta.title) {
+      document.title = t(meta.title);
+      setMeta("property", "og:title", t(meta.title));
+      setMeta("property", "twitter:title", t(meta.title));
     }
-    // Til tanlovchini init qilish
-    initLanguageSwitcher();
-  });
-}
+    if (meta.description) {
+      setMeta("name", "description", t(meta.description));
+      setMeta("property", "og:description", t(meta.description));
+      setMeta("property", "twitter:description", t(meta.description));
+    }
+    setMeta("property", "og:locale", current === "ru" ? "ru_RU" : "uz_UZ");
+  }
+
+  function setMeta(kind, key, value) {
+    var el = document.querySelector("meta[" + kind + '="' + key + '"]');
+    if (!el) {
+      el = document.createElement("meta");
+      el.setAttribute(kind, key);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("content", value);
+  }
+
+  /* ---------- Tilni o'zgartirish ---------- */
+
+  function setLang(next) {
+    if (SUPPORTED.indexOf(next) === -1 || next === current) return;
+
+    current = next;
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch (e) {
+      /* xotira mavjud emas — sessiya davomida ishlaydi */
+    }
+
+    document.documentElement.lang = next;
+    apply();
+    document.dispatchEvent(new CustomEvent("languagechange", { detail: { lang: next } }));
+  }
+
+  /* ---------- Kichik yordamchilar ---------- */
+
+  /** HTML ichiga xavfsiz qo'yish uchun matnni ekranlash */
+  function esc(str) {
+    return String(str === null || str === undefined ? "" : str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /** Sonni bo'shliq bilan ajratish: 1035000 → "1 035 000" */
+  function num(value) {
+    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
+
+  /* ---------- Eksport ---------- */
+
+  window.I18N = {
+    SUPPORTED: SUPPORTED,
+    lang: lang,
+    setLang: setLang,
+    t: t,
+    tk: tk,
+    apply: apply,
+    applyMeta: applyMeta,
+    esc: esc,
+    num: num,
+    onChange: function (fn) {
+      document.addEventListener("languagechange", fn);
+    },
+  };
+
+  // Qisqartmalar — modullarda ko'p ishlatiladi
+  window.t = t;
+  window.tk = tk;
+  window.esc = esc;
+
+  // <html lang> ni darhol to'g'rilash (CSS/skrinrider uchun)
+  document.documentElement.lang = current;
+})();

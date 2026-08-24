@@ -1,144 +1,111 @@
-# SEO Optimallashtirish Qo'llanmasi
+# SEO qo'llanmasi
 
-## Qo'shilgan SEO Elementlar
+## Nima allaqachon qilingan
 
-### 1. Meta Tags
-- ✅ **Meta Description** - Sahifa tavsifi (allaqachon bor)
-- ✅ **Meta Keywords** - Qidiruv kalit so'zlari (qo'shildi)
-- ✅ **Meta Author** - Muallif (qo'shildi)
-- ✅ **Meta Robots** - Qidiruv tizimlari uchun ko'rsatmalar (qo'shildi)
-- ✅ **Meta Language** - Til (qo'shildi)
+| Element                    | Holati | Qayerda                                    |
+| -------------------------- | ------ | ------------------------------------------ |
+| `<title>` va `description` | ✓      | Har sahifada + tilga qarab JS yangilaydi    |
+| Open Graph / Twitter Card  | ✓      | Har sahifaning `<head>` qismida             |
+| `hreflang` (uz / ru)       | ✓      | `index.html`, `pricing.html`, `contacts.html` |
+| Canonical                  | ✓      | Har sahifada; `product.html` da JS qo'yadi  |
+| `robots.txt`               | ✓      | Ildizda                                     |
+| `sitemap.xml`              | ✓      | Ildizda                                     |
+| Organization JSON-LD       | ✓      | `index.html`                                |
+| SoftwareApplication + Offer| ✓      | `product.html` (JS narxlardan quradi)       |
+| ContactPage JSON-LD        | ✓      | `contacts.html`                             |
+| Rasmlarda `alt`            | ✓      | `render.js` mahsulot nomidan quradi         |
+| WebP + o'lcham             | ✓      | `images/opt/`, `<picture>` bilan            |
+| Mobil moslashuv            | ✓      | 390px dan boshlab tekshirilgan              |
 
-### 2. Open Graph Tags (Facebook, LinkedIn)
-- ✅ **og:type** - Kontent turi
-- ✅ **og:url** - Sahifa URL
-- ✅ **og:title** - Sarlavha
-- ✅ **og:description** - Tavsif
-- ✅ **og:image** - Rasm
-- ✅ **og:locale** - Til va mintaqa (ru_RU, uz_UZ)
+---
 
-### 3. Twitter Card Tags
-- ✅ **twitter:card** - Twitter kartasi turi
-- ✅ **twitter:url** - Sahifa URL
-- ✅ **twitter:title** - Sarlavha
-- ✅ **twitter:description** - Tavsif
-- ✅ **twitter:image** - Rasm
+## Meta-teglarni o'zgartirish
 
-### 4. Canonical URL
-- ✅ **rel="canonical"** - Asosiy sahifa URL (duplicate kontentni oldini oladi)
+Sarlavha va tavsif **`js/data/site.js`** dan olinadi:
 
-### 5. Alternate Languages (hreflang)
-- ✅ **hreflang="ru"** - Rus tili uchun
-- ✅ **hreflang="uz"** - O'zbek tili uchun
-- ✅ **hreflang="x-default"** - Default til
-
-### 6. Alt Attributes (Rasmlar uchun)
-- ✅ Barcha rasmlarga alt atributlari qo'shildi
-- SEO va accessibility uchun muhim
-
-### 7. Structured Data (JSON-LD)
-- ✅ **Organization Schema** - Kompaniya ma'lumotlari
-- ✅ **WebSite Schema** - Sayt ma'lumotlari
-- Google va boshqa qidiruv tizimlari uchun
-
-## Qo'shimcha SEO Tavsiyalar
-
-### 1. Semantic HTML
-```html
-<!-- Yaxshi -->
-<header>
-  <nav>
-    <ul>
-      <li><a href="#">О Проекте</a></li>
-    </ul>
-  </nav>
-</header>
-<main>
-  <section>
-    <h1>Asosiy sarlavha</h1>
-  </section>
-</main>
-<footer>
-  <p>Copyright</p>
-</footer>
+```js
+home: {
+  meta: {
+    title: { uz: "...", ru: "..." },
+    description: { uz: "...", ru: "..." },
+  },
+}
 ```
 
-### 2. Heading Struktura (H1, H2, H3)
-- Har bir sahifada faqat bitta `<h1>` bo'lishi kerak
-- `<h2>`, `<h3>` va boshqalar mantiqiy tartibda
+Xuddi shunday `pricing.meta`, `contacts.meta`, `order.meta`.
+Mahsulot sahifalari uchun sarlavha `product.name + tagline` dan,
+tavsif esa `product.short` dan avtomatik quriladi.
 
-### 3. Internal Linking
-- Sahifalar o'rtasida ichki havolalar qo'shing
-- Anchor textlar mazmunli bo'lishi kerak
+> HTML fayldagi `<title>` — bu JS yuklanmaguncha ko'rinadigan zaxira.
+> Uni ham yangilab qo'ying, lekin haqiqiy manba — `site.js`.
 
-### 4. Page Speed
-- Rasmlarni optimallashtirish (WebP format)
-- CSS va JS fayllarni minify qilish
-- Lazy loading rasmlar uchun
+---
 
-### 5. Mobile-Friendly
-- ✅ Responsive dizayn (allaqachon bor)
-- ✅ Viewport meta tag (allaqachon bor)
+## Tavsif yozish qoidalari
 
-### 6. SSL Certificate
-- HTTPS protokoli ishlatish (production uchun)
+- **Title:** 50–60 belgi. Kalit so'z + brend. Misol:
+  `Tinch HR — xodimlar bo'limini avtomatlashtirish | TINCH SOFT`
+- **Description:** 140–160 belgi. Foyda + geografiya + harakatga chorlov.
+- Har sahifada **noyob** bo'lsin — takrorlanmasin.
 
-### 7. Sitemap.xml
+---
+
+## Kalit so'zlar (O'zbekiston bozori)
+
+**O'zbekcha:** xodimlarni boshqarish tizimi, HR dastur, kadrlar bo'limi
+avtomatlashtirish, Face ID davomat, ombor hisobi dasturi, ERP tizim
+O'zbekiston, CRM dastur Toshkent, biznes avtomatlashtirish.
+
+**Ruscha:** HRM система Ташкент, автоматизация отдела кадров, учёт рабочего
+времени Face ID, складской учёт программа, ERP система Узбекистан,
+CRM для бизнеса Ташкент.
+
+Kalit so'zlarni `site.js` va `products.js` dagi matnlarga **tabiiy** joylang —
+`<meta name="keywords">` teg qidiruv tizimlariga ta'sir qilmaydi, shuning
+uchun uni qaytarmadim.
+
+---
+
+## Yangi mahsulot qo'shganda
+
+1. `js/data/products.js` ga mahsulotni qo'shing.
+2. `sitemap.xml` ga qatorini qo'shing:
+
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://tinch.uz/</loc>
-    <lastmod>2024-01-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-</urlset>
+<url>
+  <loc>https://tinch.uz/product.html?id=YANGI_ID</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
 ```
 
-### 8. robots.txt
-```
-User-agent: *
-Allow: /
-Sitemap: https://tinch.uz/sitemap.xml
-```
+3. Google Search Console'da sitemap'ni qayta yuboring.
 
-## Google Search Console
+---
 
-1. Google Search Console ga saytni qo'shing
-2. Sitemap.xml ni yuklang
-3. Indexing holatini kuzatib boring
+## Deploy'dan keyin qilinadigan ishlar
 
-## Google Analytics
+1. **Google Search Console** — saytni qo'shing, `sitemap.xml` ni yuboring.
+2. **Yandex Webmaster** — O'zbekistonda Yandex ulushi katta, e'tibordan
+   qoldirmang.
+3. **Google Business Profile** — Toshkentdagi manzil bilan.
+4. **PageSpeed Insights** bilan tekshiring: `https://pagespeed.web.dev/`
+5. **Sarlavhalar ierarxiyasi** — har sahifada bitta `<h1>` bo'lishi kerak
+   (hozir shunday).
 
-1. Google Analytics kodini qo'shing
-2. Foydalanuvchilar harakatini kuzatib boring
-3. Conversion tracking sozlang
+---
 
-## Tekshirish Vositlari
+## Bilib qo'yish kerak bo'lgan cheklov
 
-- **Google PageSpeed Insights** - Sahifa tezligi
-- **Google Rich Results Test** - Structured data tekshirish
-- **Facebook Sharing Debugger** - Open Graph tekshirish
-- **Twitter Card Validator** - Twitter Card tekshirish
-- **W3C Validator** - HTML validatsiya
+Sayt kontenti **JavaScript orqali** render qilinadi (build tizimisiz ikki
+tilni bitta manbadan boshqarish uchun). Googlebot JS'ni bajaradi va bunday
+sahifalarni indekslaydi, lekin:
 
-## Muhim Eslatmalar
+- Indekslash biroz sekinroq bo'ladi (bir necha kun).
+- Ba'zi kichik qidiruv tizimlari va ijtimoiy tarmoq preview'lari JS'ni
+  bajarmaydi — shuning uchun `<title>`, `description` va OG teglari
+  HTML'da **statik** holda ham yozilgan.
 
-1. **URL o'zgartirish**: Production da `https://tinch.uz/` ni o'z URL bilan almashtiring (agar kerak bo'lsa)
-2. **Rasmlar**: Barcha rasmlarga alt atributlari qo'shildi
-3. **Tillar**: hreflang taglar qo'shildi (uz va ru)
-4. **Structured Data**: JSON-LD qo'shildi (Google uchun)
-
-## Keyingi Qadamlar
-
-1. ✅ Meta tags qo'shildi
-2. ✅ Open Graph tags qo'shildi
-3. ✅ Twitter Card tags qo'shildi
-4. ✅ Alt atributlari qo'shildi
-5. ✅ Structured data qo'shildi
-6. ⏳ Sitemap.xml yaratish
-7. ⏳ robots.txt yaratish
-8. ⏳ Google Analytics qo'shish
-9. ⏳ Google Search Console sozlash
-
+Agar kelajakda indekslash muhim bo'lsa, keyingi qadam — sahifalarni
+statik generatsiya qilish (Astro yoki oddiy Node skripti bilan
+`products.js` dan `product-hr.html`, `product-erp.html` yaratish).

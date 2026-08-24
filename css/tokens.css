@@ -1,0 +1,144 @@
+/* ============================================================
+   TINCH SOFT — Design Tokens
+   Yagona manba: rang, tipografika, masofa, radius, soya, animatsiya.
+   Boshqa CSS fayllarda xom qiymat (#hex, px) yozilmaydi — faqat var().
+   ============================================================ */
+
+:root {
+  /* ---------- Brend ranglari ---------- */
+  --brand-indigo-300: #A5A6FF;
+  --brand-indigo-400: #7B7BF8;
+  --brand-indigo-500: #5B5BF5; /* asosiy aksent */
+  --brand-indigo-600: #4A44E3;
+  --brand-indigo-700: #3B34C0;
+  --brand-violet-400: #A78BFA;
+  --brand-yellow-400: #FFE44D;
+  --brand-yellow-500: #F8DA00; /* eski brend rangi — ikkinchi darajali aksent */
+
+  /* ---------- Sirtlar (navy shkala) ---------- */
+  --navy-950: #070B1A; /* eng chuqur fon */
+  --navy-900: #0A1026;
+  --navy-850: #0E1531;
+  --navy-800: #121B3E;
+  --navy-700: #1A2455;
+  --navy-600: #24306E;
+
+  --bg: var(--navy-950);
+  --bg-alt: var(--navy-900);
+  --surface: var(--navy-850);
+  --surface-raised: var(--navy-800);
+  --surface-hover: var(--navy-700);
+
+  /* ---------- Chiziqlar ---------- */
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-accent: rgba(91, 91, 245, 0.45);
+
+  /* ---------- Matn ---------- */
+  --text: #EEF1FB;
+  --text-muted: #A7B0D0;
+  --text-dim: #6F7AA0;
+  --text-on-accent: #FFFFFF;
+  --text-on-yellow: #131A2E;
+
+  /* ---------- Holat ranglari ---------- */
+  --ok: #34D399;
+  --ok-bg: rgba(52, 211, 153, 0.12);
+  --no: #FB7185;
+  --no-bg: rgba(251, 113, 133, 0.10);
+  --info: #60A5FA;
+  --info-bg: rgba(96, 165, 250, 0.10);
+  --warn: var(--brand-yellow-500);
+
+  /* ---------- Gradientlar ---------- */
+  --grad-accent: linear-gradient(135deg, var(--brand-indigo-500), var(--brand-violet-400));
+  --grad-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0));
+  --grad-text: linear-gradient(120deg, #FFFFFF 0%, #C9CBFF 55%, var(--brand-indigo-300) 100%);
+  --glow-accent: radial-gradient(60% 60% at 50% 0%, rgba(91, 91, 245, 0.28), transparent 70%);
+
+  /* ---------- Tipografika ---------- */
+  --font-display: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Ravon o'lchov — clamp(min, ideal, max) */
+  --fs-display: clamp(2.15rem, 1.35rem + 3.6vw, 4.15rem);
+  --fs-h1: clamp(2rem, 1.3rem + 3vw, 3.4rem);
+  --fs-h2: clamp(1.6rem, 1.15rem + 1.9vw, 2.5rem);
+  --fs-h3: clamp(1.25rem, 1.05rem + 0.85vw, 1.65rem);
+  --fs-h4: clamp(1.05rem, 0.98rem + 0.35vw, 1.2rem);
+  --fs-lead: clamp(1rem, 0.94rem + 0.35vw, 1.18rem);
+  --fs-body: 1rem;
+  --fs-sm: 0.9rem;
+  --fs-xs: 0.8rem;
+  --fs-eyebrow: 0.75rem;
+
+  --lh-tight: 1.08;
+  --lh-snug: 1.28;
+  --lh-normal: 1.6;
+  --lh-loose: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.16em;
+
+  /* ---------- Masofa (4px shkala) ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --section-y: clamp(3.5rem, 2rem + 6vw, 7rem);
+
+  /* ---------- Radius ---------- */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* ---------- Soyalar ---------- */
+  --shadow-sm: 0 1px 2px rgba(3, 6, 18, 0.4);
+  --shadow-md: 0 8px 24px -8px rgba(3, 6, 18, 0.65);
+  --shadow-lg: 0 24px 60px -20px rgba(3, 6, 18, 0.8);
+  --shadow-accent: 0 16px 40px -14px rgba(91, 91, 245, 0.6);
+  --ring: 0 0 0 3px rgba(91, 91, 245, 0.35);
+
+  /* ---------- Kenglik ---------- */
+  --w-container: 1240px;
+  --w-narrow: 760px;
+  --w-prose: 68ch;
+
+  /* ---------- Animatsiya ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur: 240ms;
+  --dur-slow: 480ms;
+
+  /* ---------- Qatlamlar ---------- */
+  --z-base: 1;
+  --z-sticky: 50;
+  --z-header: 100;
+  --z-drawer: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+
+  /* ---------- Header balandligi (sticky offset uchun) ---------- */
+  --header-h: 72px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-h: 62px;
+  }
+}

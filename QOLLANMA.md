@@ -1,111 +1,273 @@
-# Yangi Matn Qo'shish Qo'llanmasi
+# TINCH SOFT sayti — tahrirlash qo'llanmasi
 
-## "Salom" so'zini qo'shish misoli
+## Asosiy qoida
 
-### 1-qadam: translations.js fayliga qo'shish
+**Barcha matn va narxlar ikkita faylda saqlanadi. HTML fayllarga hech narsa yozilmaydi.**
 
-`js/translations.js` fayliga ikkala til uchun qo'shing:
+| Fayl                  | Nima uchun                                                     |
+| --------------------- | -------------------------------------------------------------- |
+| `js/data/site.js`     | Sayt matnlari: menyu, bosh sahifa, footer, forma, aloqa         |
+| `js/data/products.js` | Mahsulotlar, tariflar, imkoniyatlar matritsasi, narxlar jadvali |
 
-```javascript
-"ru": {
-  "header": {
-    "greeting": "Привет",  // ← Yangi qo'shildi
-    "about": "О Проекте",
-    ...
-  }
-},
-"uz": {
-  "header": {
-    "greeting": "Salom",  // ← Yangi qo'shildi
-    "about": "Loyiha haqida",
-    ...
-  }
+Har bir tarjima qilinadigan qiymat — `{ uz: "...", ru: "..." }` obyekti.
+Faylni tahrirlab saqlang, brauzerni yangilang — tamom. Build yoki npm kerak emas.
+
+---
+
+## 1. Narxni o'zgartirish
+
+`js/data/products.js` → kerakli mahsulot → `pricingModes` → `plans` → `price`:
+
+```js
+price: {
+  amount: 27000,                 // ← shu yerni o'zgartiring
+  currency: "UZS",
+  period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" }
 }
 ```
 
-### 2-qadam: i18n.js fayliga qo'shish
+Narx so'rov bo'yicha bo'lsa: `price: null`.
 
-`js/i18n.js` faylida `applyTranslations()` funksiyasiga qo'shing:
+**Narxlar jadvalidagi qatorlar** esa `priceTables` → `rows` ichida:
 
-```javascript
-// Salom matni
-const greetingElement = document.querySelector('[data-i18n="header.greeting"]');
-if (greetingElement) {
-  greetingElement.textContent = t.header.greeting;
+```js
+rows: [
+  { name: "Tinch HR Basic 20", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
+]
+```
+
+> Narxni ikki joyda yangilashni unutmang: tarif kartasi (`price`) va jadval (`rows`).
+
+---
+
+## 2. Tarifga yangi imkoniyat qo'shish
+
+`featureGroups` — bu PDF'dagi ✓/✗ jadvalining aynan o'zi.
+
+```js
+featureGroups: [
+  {
+    title: { uz: "Dashboard va statistika", ru: "Дашборд и статистика" },
+    items: [
+      {
+        label: { uz: "Asosiy dashboard", ru: "Основной дашборд" },
+        plans: { basic: true, pro: true },   // ✓ = true,  ✗ = false
+      },
+      // ← yangi qatorni shu yerga qo'shing
+    ],
+  },
+]
+```
+
+`plans` ichidagi kalitlar (`basic`, `pro`) — `plans[].id` bilan bir xil bo'lishi shart.
+Qaysi tariflar jadvalda ko'rsatilishini `matrixPlans` belgilaydi:
+
+```js
+matrixPlans: ["basic", "pro"],
+```
+
+Jadval avtomatik quriladi: kompyuterda — jadval, telefonda — akkordeon.
+
+---
+
+## 3. Yangi tarif qo'shish (masalan «Enterprise»)
+
+```js
+plans: [
+  { id: "basic", ... },
+  { id: "pro", ... },
+  {
+    id: "enterprise",                                  // ← yangi
+    name: { uz: "Tinch HR Enterprise", ru: "Tinch HR Enterprise" },
+    badge: { uz: "Yangi", ru: "Новинка" },             // ixtiyoriy
+    featured: false,                                    // ta'kidlangan karta
+    desc: { uz: "...", ru: "..." },
+    price: { amount: 50000, currency: "UZS", period: { uz: "...", ru: "..." } },
+    highlights: [
+      { uz: "Birinchi qator", ru: "Первая строка" },
+    ],
+  },
+],
+```
+
+So'ng:
+
+1. `matrixPlans` ga `"enterprise"` qo'shing.
+2. Har bir `featureGroups[].items[].plans` ga `enterprise: true/false` qo'shing.
+
+---
+
+## 4. Yangi mahsulot qo'shish
+
+`js/data/products.js` oxiriga yangi obyekt qo'shing:
+
+```js
+{
+  id: "pos",                                       // URL: product.html?id=pos
+  icon: "cart",                                    // js/icons.js dagi nom
+  image: { webp: "./images/opt/pos.webp", jpg: "./images/opt/pos.jpg" },
+  name: { uz: "Tinch POS", ru: "Tinch POS" },
+  tagline: { uz: "...", ru: "..." },
+  short: { uz: "...", ru: "..." },                 // kartochka matni
+  intro: { uz: "...", ru: "..." },                 // sahifa kirish matni
+  tags: [{ uz: "Kassa", ru: "Касса" }],
+  highlights: [ { icon: "cart", title: {...}, text: {...} } ],
+  pricingModes: [ { id: "project", label: {...}, showMatrix: true, plans: [...], priceTables: [], notes: [] } ],
+  matrixPlans: ["start", "pro"],
+  featureGroups: [ ... ],
 }
 ```
 
-### 3-qadam: HTML faylda ishlatish
+Bosh sahifa, tariflar sahifasi, footer va buyurtma formasi — hammasi
+o'zi yangilanadi, boshqa hech narsa tahrirlash kerak emas.
 
-`index.html` faylda qayerda ko'rsatmoqchi bo'lsangiz, shu joyga qo'shing:
+**Mavjud ikonkalar:** `users, settings, handshake, warehouse, globe, shield, plug,
+gauge, headset, chart, id-card, scan-face, user-plus, file-signature, layout-board,
+factory, wallet, truck, funnel, history, bell, boxes, barcode, cart, layout,
+sparkles, phone, mail, map-pin, clock, download, printer`.
+Yangi ikonka `js/icons.js` dagi `PATHS` obyektiga qo'shiladi (24×24 SVG path).
+
+---
+
+## 5. Sayt matnlarini o'zgartirish
+
+`js/data/site.js` ichida:
+
+| Bo'lim               | Nima                                        |
+| -------------------- | ------------------------------------------- |
+| `company`            | Telefon, email, Telegram, ijtimoiy tarmoqlar |
+| `nav`                | Yuqoridagi menyu                             |
+| `home.hero`          | Bosh sahifa sarlavhasi va statistika         |
+| `home.whySection`    | «Nega biz» kartalari                         |
+| `home.processSection`| 4 qadam                                      |
+| `product`            | Mahsulot sahifasi sarlavhalari               |
+| `order`              | Forma yorliqlari va xabarlari                |
+| `footer`             | Pastki qism                                  |
+
+HTML'da matn kerak bo'lsa, `data-i18n` atributidan foydalaning:
 
 ```html
-<!-- Variant 1: data-i18n atributi bilan -->
-<span data-i18n="header.greeting">Salom</span>
-
-<!-- Variant 2: ID yoki class bilan -->
-<span id="greeting">Salom</span>
+<h2 data-i18n="home.whySection.title"></h2>
+<p data-i18n-html="footer.about"></p>
+<input data-i18n-attr="placeholder:order.fields.namePh" />
 ```
 
-Agar ID yoki class ishlatsangiz, `i18n.js` da shu ID/class bo'yicha qidirish kerak:
+Qiymat `site.js` dagi nuqtali yo'l bo'yicha topiladi. **`i18n.js` ga hech
+narsa qo'shish kerak emas** — eski versiyadan asosiy farqi shu.
 
-```javascript
-// ID bilan
-const greetingElement = document.getElementById('greeting');
-if (greetingElement) {
-  greetingElement.textContent = t.header.greeting;
-}
+---
 
-// Class bilan
-const greetingElement = document.querySelector('.greeting');
-if (greetingElement) {
-  greetingElement.textContent = t.header.greeting;
+## 6. Buyurtma formasini serverga ulash
+
+Hozir forma **email xati** ochadi (server sozlanmagani uchun).
+Serverga yuborish uchun `js/data/site.js`:
+
+```js
+forms: {
+  endpoint: "https://formspree.io/f/XXXXXXX",   // ← manzilni yozing
+  fallbackEmail: "info@tinch.uz",
+},
+```
+
+Ma'lumot `POST` bilan JSON ko'rinishida boradi:
+
+```json
+{
+  "name": "...", "company": "...", "phone": "...", "email": "...",
+  "productId": "hr", "product": "Tinch HR",
+  "planId": "pro", "plan": "Tinch HR PRO",
+  "employees": "45", "message": "...", "lang": "uz", "page": "https://..."
 }
 ```
 
-## Umumiy qoida
+Tayyor variantlar: Formspree, Getform, Web3Forms yoki o'z API'ingiz.
+Telegram-botga yuborish uchun ham shu endpoint'ni ishlating (bot tokenini
+**hech qachon** frontend kodiga yozmang).
 
-1. **translations.js** → Yangi kalit qo'shing (ru va uz uchun)
-2. **i18n.js** → `applyTranslations()` funksiyasiga kod qo'shing
-3. **index.html** → HTML elementga `data-i18n` atributi yoki ID/class qo'shing
+---
 
-## Misollar
+## 7. Rasm qo'shish
 
-### Misol 1: Sarlavha qo'shish
+Rasmlar `images/opt/` papkasida `.webp` + `.jpg` juftligi sifatida saqlanadi
+(webp — asosiy, jpg — eski brauzerlar uchun zaxira).
 
-```javascript
-// translations.js
-"home": {
-  "welcomeTitle": "Xush kelibsiz",  // uz
-  "welcomeTitle": "Добро пожаловать"  // ru
-}
+Yangi rasm tayyorlash (bir marta `npm i sharp` kerak):
 
-// i18n.js
-const welcomeTitle = document.querySelector('[data-i18n="home.welcomeTitle"]');
-if (welcomeTitle) {
-  welcomeTitle.textContent = t.home.welcomeTitle;
-}
-
-// index.html
-<h1 data-i18n="home.welcomeTitle">Xush kelibsiz</h1>
+```js
+const sharp = require("sharp");
+sharp("asl.jpg").resize({ width: 1200 })
+  .webp({ quality: 78 }).toFile("images/opt/nom.webp");
+sharp("asl.jpg").resize({ width: 1200 })
+  .jpeg({ quality: 82, mozjpeg: true }).toFile("images/opt/nom.jpg");
 ```
 
-### Misol 2: Tugma matni
+Yoki onlayn: [squoosh.app](https://squoosh.app) — kenglik 1200px, sifat ~80.
 
-```javascript
-// translations.js
-"buttons": {
-  "submit": "Yuborish",  // uz
-  "submit": "Отправить"  // ru
-}
+---
 
-// i18n.js
-const submitBtn = document.querySelector('[data-i18n="buttons.submit"]');
-if (submitBtn) {
-  submitBtn.textContent = t.buttons.submit;
-}
+## 8. Fayllar tuzilishi
 
-// index.html
-<button data-i18n="buttons.submit">Yuborish</button>
+```
+index.html          bosh sahifa
+product.html        mahsulot sahifasi (?id=hr)
+pricing.html        barcha tariflar (?product=hr)
+order.html          buyurtma formasi (?product=hr&plan=pro)
+contacts.html       aloqa
+content.html        eski manzil → contacts.html ga yo'naltiradi
+
+css/tokens.css      rang, shrift, masofa — dizayn tizimi
+css/base.css        reset va tipografika
+css/components.css  tugma, karta, jadval, forma, header, footer
+css/pages.css       hero, tariflar, aloqa sahifasi bloklari
+
+js/data/site.js     ← SAYT MATNLARI
+js/data/products.js ← MAHSULOT VA TARIFLAR
+js/i18n.js          til tizimi (atribut asosida)
+js/icons.js         SVG ikonkalar
+js/render.js        karta, tarif, jadval markupi
+js/app.js           header, footer, mobil menyu
+js/home.js  js/product.js  js/pricing.js  js/order.js  js/contacts.js
 ```
 
+---
+
+## 9. Lokal ishga tushirish
+
+`file://` orqali ochsangiz ham ishlaydi, lekin to'g'ri sinash uchun:
+
+```bash
+cd d:/Abdulahadxon/Site
+python -m http.server 8080
+```
+
+So'ng brauzerda: `http://localhost:8080`
+
+Tilni tekshirish: `?lang=ru` yoki `?lang=uz` qo'shing.
+
+---
+
+## 10. Almashtirish tavsiya etiladigan rasmlar
+
+Hozirgi rasmlar — stok fotolar. Ikkitasini yaxshilash kerak:
+
+| Fayl                            | Muammo                             | Nima kerak                        |
+| ------------------------------- | ---------------------------------- | --------------------------------- |
+| `images/opt/hr.*`               | Asli 500×339 — retina ekranda xira  | 1200px kenglikdagi asl rasm        |
+| `images/opt/hero-dashboard.*`   | Asli 600×401                        | Tizimning **haqiqiy** ekran tasviri |
+
+Eng kuchli variant — stok foto o'rniga Tinch HR interfeysining o'z
+skrinshoti. Bosh sahifadagi «brauzer ramkasi» aynan shu uchun qilingan.
+
+> `images/video/` papkasidagi `Main.png`, `menu.png`, `Screenshot_*.png`
+> fayllari **boshqa saytlarning** (SAP va h.k.) skrinshotlari — brauzer
+> xatcho'plaringiz ham ko'rinib turibdi. Ularni saytda ishlatmang.
+
+---
+
+## 11. Ma'lumot aniqligi haqida
+
+`products.js` dagi Tinch HR ma'lumotlari **PDF'dan aynan ko'chirilgan**.
+Bitta joyni tekshirib qo'ying: narxlar jadvalida tarif nomi va xodimlar
+soni mos kelmaydi (`Basic 20` → 15 xodim, `Basic 50` → 45 xodim,
+`Basic 100` → 90 xodim). PDF'da shunday yozilgan, shuning uchun o'zgartirmadim.
+Agar bu xato bo'lsa — `priceTables[].rows[].employees` qiymatlarini tuzating.

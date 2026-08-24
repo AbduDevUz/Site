@@ -1,0 +1,1422 @@
+/* ============================================================
+   TINCH SOFT — Komponentlar
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Tugmalar
+   ------------------------------------------------------------ */
+
+.btn {
+  --btn-bg: var(--surface-raised);
+  --btn-fg: var(--text);
+  --btn-border: var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.8rem 1.4rem;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--r-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-align: center;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    filter var(--dur) var(--ease-out);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn--primary {
+  --btn-bg: var(--brand-indigo-500);
+  --btn-fg: var(--text-on-accent);
+  --btn-border: transparent;
+  box-shadow: var(--shadow-accent);
+}
+
+.btn--primary:hover {
+  --btn-bg: var(--brand-indigo-600);
+}
+
+.btn--yellow {
+  --btn-bg: var(--brand-yellow-500);
+  --btn-fg: var(--text-on-yellow);
+  --btn-border: transparent;
+  box-shadow: 0 16px 40px -16px rgba(248, 218, 0, 0.55);
+}
+
+.btn--yellow:hover {
+  --btn-bg: var(--brand-yellow-400);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-border: var(--border-strong);
+}
+
+.btn--ghost:hover {
+  --btn-bg: rgba(255, 255, 255, 0.05);
+  --btn-border: var(--border-accent);
+}
+
+.btn--quiet {
+  --btn-bg: transparent;
+  --btn-border: transparent;
+  --btn-fg: var(--text-muted);
+  padding-inline: var(--space-3);
+}
+
+.btn--quiet:hover {
+  --btn-fg: var(--text);
+  --btn-bg: rgba(255, 255, 255, 0.05);
+}
+
+.btn--lg {
+  padding: 1rem 1.9rem;
+  font-size: var(--fs-body);
+}
+
+.btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--fs-xs);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn__icon {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Matn havolasi — o'q bilan */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  color: var(--brand-indigo-300);
+  transition: gap var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+
+.link-arrow::after {
+  content: "→";
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.link-arrow:hover {
+  gap: var(--space-3);
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------
+   Nishonlar (badge / pill)
+   ------------------------------------------------------------ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.badge--accent {
+  border-color: var(--border-accent);
+  background: rgba(91, 91, 245, 0.16);
+  color: var(--brand-indigo-300);
+}
+
+.badge--yellow {
+  border-color: rgba(248, 218, 0, 0.4);
+  background: rgba(248, 218, 0, 0.14);
+  color: var(--brand-yellow-400);
+}
+
+.badge--ok {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+/* ------------------------------------------------------------
+   Kartalar
+   ------------------------------------------------------------ */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  background-image: var(--grad-surface);
+  overflow: hidden;
+  transition:
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+.card--hover:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: rgba(91, 91, 245, 0.14);
+  color: var(--brand-indigo-300);
+  flex: none;
+}
+
+.card__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+}
+
+.card__text {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-loose);
+}
+
+/* Mahsulot kartasi (bosh sahifa) */
+.product-card {
+  padding: 0;
+  gap: 0;
+}
+
+.product-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--navy-800);
+}
+
+.product-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.product-card:hover .product-card__media img {
+  transform: scale(1.05);
+}
+
+.product-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 11, 26, 0.25) 0%, rgba(7, 11, 26, 0.9) 100%);
+}
+
+.product-card__glyph {
+  position: absolute;
+  left: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-strong);
+  background: rgba(10, 16, 38, 0.72);
+  backdrop-filter: blur(8px);
+  color: var(--brand-indigo-300);
+}
+
+.product-card__glyph svg {
+  width: 22px;
+  height: 22px;
+}
+
+.product-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  flex: 1;
+}
+
+.product-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+.product-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.product-card__price {
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.product-card__price b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  color: var(--text);
+}
+
+/* Statistika kartasi */
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stat__value {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat__label {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   Header
+   ------------------------------------------------------------ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    backdrop-filter var(--dur) var(--ease-out);
+}
+
+.site-header.is-stuck {
+  background: rgba(7, 11, 26, 0.78);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom-color: var(--border);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--header-h);
+  min-width: 0;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
+  min-width: 0;
+}
+
+.brand-logo img {
+  width: 34px;
+  height: auto;
+}
+
+.brand-logo__text {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-yellow-500);
+}
+
+.brand-logo__text span {
+  color: var(--text);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.site-nav a {
+  position: relative;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+}
+
+.site-nav a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.site-nav a.is-active {
+  color: var(--text);
+}
+
+.site-nav a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  translate: -50% 0;
+  width: 16px;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: var(--grad-accent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
+}
+
+.header-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.header-phone svg {
+  width: 15px;
+  height: 15px;
+  color: var(--brand-indigo-300);
+}
+
+/* Til almashtirgich */
+.lang-switch {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lang-switch button {
+  padding: 0.32rem 0.72rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+}
+
+.lang-switch button:hover {
+  color: var(--text);
+}
+
+.lang-switch button.is-active {
+  background: var(--brand-indigo-500);
+  color: var(--text-on-accent);
+}
+
+/* Burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.burger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin-inline: auto;
+  border-radius: var(--r-pill);
+  background: var(--text);
+  transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out);
+}
+
+.burger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.burger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.burger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobil menyu */
+.mobile-nav {
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: var(--z-drawer);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6) clamp(1rem, 0.4rem + 2.6vw, 2.5rem) var(--space-10);
+  background: rgba(7, 11, 26, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition:
+    opacity var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out),
+    visibility var(--dur);
+}
+
+.mobile-nav.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.mobile-nav a {
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.mobile-nav a.is-active {
+  border-color: var(--border-accent);
+  color: var(--brand-indigo-300);
+}
+
+@media (max-width: 1024px) {
+  .site-nav,
+  .header-phone {
+    display: none;
+  }
+  .burger {
+    display: flex;
+  }
+  .site-header__inner {
+    gap: var(--space-4);
+  }
+}
+
+/* Kichik ekranda CTA tugmasi mobil menyuda qoladi — sarlavhada joy bo'shatamiz */
+@media (max-width: 620px) {
+  .header-actions > .btn {
+    display: none;
+  }
+  .brand-logo__text {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------ */
+
+.site-footer {
+  margin-top: var(--section-y);
+  border-top: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: var(--space-10);
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  padding-block: var(--space-16) var(--space-10);
+}
+
+.site-footer h4 {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.site-footer ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.site-footer li a,
+.site-footer address a {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  transition: color var(--dur) var(--ease-out);
+}
+
+.site-footer li a:hover,
+.site-footer address a:hover {
+  color: var(--brand-indigo-300);
+}
+
+.site-footer address {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.site-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.socials {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
+  transition:
+    color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
+}
+
+.socials a:hover {
+  color: var(--brand-indigo-300);
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+
+.socials svg {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 900px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+}
+
+@media (max-width: 560px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------
+   Callout / eslatma
+   ------------------------------------------------------------ */
+
+.callout {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--info);
+  border-radius: var(--r-md);
+  background: var(--info-bg);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-loose);
+  color: var(--text-muted);
+}
+
+.callout b,
+.callout strong {
+  color: var(--text);
+}
+
+.callout__icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--info);
+}
+
+.callout--warn {
+  border-left-color: var(--warn);
+  background: rgba(248, 218, 0, 0.08);
+}
+
+.callout--warn .callout__icon {
+  color: var(--warn);
+}
+
+/* ------------------------------------------------------------
+   Tariflar
+   ------------------------------------------------------------ */
+
+.plans {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  align-items: start;
+}
+
+.plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  background-image: var(--grad-surface);
+  transition:
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.plan-card--featured {
+  border-color: var(--border-accent);
+  background:
+    var(--glow-accent),
+    linear-gradient(180deg, rgba(91, 91, 245, 0.10), rgba(91, 91, 245, 0)) var(--surface);
+  box-shadow: var(--shadow-accent);
+}
+
+.plan-card__badge {
+  position: absolute;
+  top: calc(var(--space-4) * -1 + 2px);
+  left: 50%;
+  translate: -50% 0;
+}
+
+.plan-card__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 800;
+}
+
+.plan-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  line-height: var(--lh-loose);
+  min-height: 3em;
+}
+
+.plan-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding-block: var(--space-2);
+}
+
+.plan-card__amount {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.plan-card__currency {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.plan-card__period {
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+.plan-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.plan-card__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
+  color: var(--text-muted);
+}
+
+.plan-card__list li svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: var(--ok);
+}
+
+.plan-card .btn {
+  margin-top: auto;
+}
+
+/* ------------------------------------------------------------
+   Belgilar: ✓ / ✗
+   ------------------------------------------------------------ */
+
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.mark svg {
+  width: 12px;
+  height: 12px;
+}
+
+.mark--yes {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.mark--no {
+  background: var(--no-bg);
+  color: var(--no);
+  opacity: 0.65;
+}
+
+/* ------------------------------------------------------------
+   Xususiyatlar matritsasi
+   ------------------------------------------------------------ */
+
+.matrix {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.matrix__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.matrix table {
+  min-width: 620px;
+}
+
+.matrix thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: var(--space-4) var(--space-5);
+  background: var(--navy-800);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  text-align: center;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+.matrix thead th:first-child {
+  text-align: left;
+  width: 46%;
+}
+
+/* Nom va nishon ustma-ust — ustunlar belgilarga to'g'ri keladi */
+.matrix thead th:not(:first-child) {
+  display: table-cell;
+}
+
+.matrix thead th .badge {
+  display: block;
+  width: fit-content;
+  margin: var(--space-2) auto 0;
+  font-size: 0.68rem;
+  padding: 0.15rem 0.5rem;
+}
+
+.matrix tbody th {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  text-align: left;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.matrix tbody td {
+  padding: var(--space-3) var(--space-5);
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.matrix tbody td .mark {
+  margin-inline: auto;
+}
+
+.matrix tbody tr:hover th,
+.matrix tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.028);
+  color: var(--text);
+}
+
+.matrix__group th {
+  padding: var(--space-5) var(--space-5) var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-eyebrow);
+  font-weight: 800;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--brand-indigo-300);
+  background: rgba(91, 91, 245, 0.06);
+  border-bottom: 1px solid var(--border);
+}
+
+.matrix tbody tr:last-child th,
+.matrix tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Mobil uchun akkordeon ko'rinish */
+.matrix-mobile {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.acc {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.acc__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.acc__count {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+.acc__chevron {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--text-dim);
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.acc__head[aria-expanded="true"] .acc__chevron {
+  transform: rotate(180deg);
+}
+
+.acc__body {
+  display: none;
+  padding: 0 var(--space-5) var(--space-4);
+}
+
+.acc__head[aria-expanded="true"] + .acc__body {
+  display: block;
+}
+
+.acc__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.acc__marks {
+  display: flex;
+  gap: var(--space-4);
+  flex: none;
+}
+
+.acc__mark-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.acc__mark-col small {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+@media (max-width: 720px) {
+  .matrix {
+    display: none;
+  }
+  .matrix-mobile {
+    display: flex;
+  }
+}
+
+/* ------------------------------------------------------------
+   Narxlar jadvali
+   ------------------------------------------------------------ */
+
+.price-table {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.price-table__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.price-table table {
+  min-width: 560px;
+}
+
+.price-table thead th {
+  padding: var(--space-4) var(--space-5);
+  background: var(--navy-800);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.price-table thead th:first-child {
+  text-align: left;
+}
+
+.price-table tbody td {
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.price-table tbody td:first-child {
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--brand-indigo-300);
+}
+
+.price-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.price-table .cell-strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.price-table .cell-quiet {
+  color: var(--text-dim);
+}
+
+.price-table .cell-off {
+  color: var(--ok);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  margin-left: var(--space-2);
+}
+
+.price-table__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.price-table__foot b {
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------
+   Segment tugmalari (tarif rejimi almashtirgich)
+   ------------------------------------------------------------ */
+
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.segmented button {
+  padding: 0.5rem 1.1rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+}
+
+.segmented button:hover {
+  color: var(--text);
+}
+
+.segmented button.is-active {
+  background: var(--brand-indigo-500);
+  color: var(--text-on-accent);
+}
+
+@media (max-width: 560px) {
+  .segmented {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .segmented button {
+    flex: 1;
+  }
+}
+
+/* ------------------------------------------------------------
+   Formalar
+   ------------------------------------------------------------ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field > label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}
+
+.field__req {
+  color: var(--no);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  transition: border-color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-dim);
+}
+
+.input:hover,
+.textarea:hover,
+.select:hover {
+  border-color: var(--border-accent);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--brand-indigo-500);
+  background: rgba(91, 91, 245, 0.08);
+  box-shadow: var(--ring);
+}
+
+.textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: var(--lh-loose);
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A7B0D0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 16px;
+  padding-right: 2.6rem;
+}
+
+.select option {
+  background: var(--navy-850);
+  color: var(--text);
+}
+
+.field.has-error .input,
+.field.has-error .textarea,
+.field.has-error .select {
+  border-color: var(--no);
+}
+
+.field__error {
+  font-size: var(--fs-xs);
+  color: var(--no);
+}
+
+.form-note {
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+  line-height: var(--lh-loose);
+}
+
+/* Form javob xabari */
+.form-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+}
+
+.form-status--ok {
+  background: var(--ok-bg);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  color: var(--ok);
+}
+
+.form-status--err {
+  background: var(--no-bg);
+  border: 1px solid rgba(251, 113, 133, 0.35);
+  color: var(--no);
+}
+
+/* ------------------------------------------------------------
+   Suzuvchi harakat tugmasi (Telegram)
+   ------------------------------------------------------------ */
+
+.fab {
+  position: fixed;
+  right: clamp(1rem, 2vw, 2rem);
+  bottom: clamp(1rem, 2vw, 2rem);
+  z-index: var(--z-sticky);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--r-pill);
+  background: var(--brand-indigo-500);
+  color: var(--text-on-accent);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-accent);
+  transition: transform var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
+}
+
+.fab:hover {
+  transform: translateY(-3px);
+  background: var(--brand-indigo-600);
+}
+
+.fab svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 560px) {
+  .fab span {
+    display: none;
+  }
+  .fab {
+    padding: var(--space-4);
+  }
+}
+
+/* ------------------------------------------------------------
+   Breadcrumb
+   ------------------------------------------------------------ */
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--fs-xs);
+  color: var(--text-dim);
+}
+
+.crumbs a:hover {
+  color: var(--brand-indigo-300);
+}
+
+.crumbs li:not(:last-child)::after {
+  content: "/";
+  margin-left: var(--space-2);
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.crumbs ol,
+.crumbs ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------
+   Skeleton (kontent yuklanguncha)
+   ------------------------------------------------------------ */
+
+.skeleton {
+  border-radius: var(--r-md);
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-hover) 37%, var(--surface) 63%);
+  background-size: 400% 100%;
+  animation: skeleton 1.4s ease infinite;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}

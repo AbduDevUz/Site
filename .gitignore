@@ -1,0 +1,11 @@
+# Muhit va vositalar
+.omc/
+.claude/
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Vaqtinchalik
+*.log
+*.tmp
+probe.html

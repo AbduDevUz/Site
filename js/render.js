@@ -1,0 +1,459 @@
+/* ============================================================
+   TINCH SOFT — Umumiy render funksiyalari
+   ------------------------------------------------------------
+   Mahsulot kartasi, tarif kartalari, taqqoslash matritsasi va
+   narxlar jadvali bir necha sahifada ishlatiladi — shuning uchun
+   markup shu yerda bir marta yoziladi.
+   ============================================================ */
+
+(function () {
+  "use strict";
+
+  var S = window.SITE;
+
+  /* ------------------------------------------------------------
+     Yordamchilar
+     ------------------------------------------------------------ */
+
+  function byId(id) {
+    return (window.PRODUCTS || []).filter(function (p) {
+      return p.id === id;
+    })[0];
+  }
+
+  /** Matritsa uchun ishlatiladigan tarif rejimi (birinchi showMatrix: true) */
+  function matrixMode(product) {
+    return (product.pricingModes || []).filter(function (m) {
+      return m.showMatrix && m.plans && m.plans.length;
+    })[0];
+  }
+
+  /** Mahsulotdagi eng arzon ko'rsatilgan narx — kartochka uchun */
+  function entryPrice(product) {
+    var found = null;
+    (product.pricingModes || []).forEach(function (mode) {
+      (mode.plans || []).forEach(function (plan) {
+        if (plan.price && (!found || plan.price.amount < found.amount)) found = plan.price;
+      });
+    });
+    return found;
+  }
+
+  function planById(product, planId) {
+    var out = null;
+    (product.pricingModes || []).forEach(function (mode) {
+      (mode.plans || []).forEach(function (plan) {
+        if (plan.id === planId) out = plan;
+      });
+    });
+    return out;
+  }
+
+  /**
+   * Rasm markupi. image { webp, jpg } bo'lsa <picture> qaytaradi,
+   * oddiy satr bo'lsa — oddiy <img>.
+   */
+  function picture(image, alt, opts) {
+    opts = opts || {};
+    var attrs =
+      ' alt="' + esc(alt) + '"' +
+      (opts.width ? ' width="' + opts.width + '"' : "") +
+      (opts.height ? ' height="' + opts.height + '"' : "") +
+      ' loading="' + (opts.eager ? "eager" : "lazy") + '"' +
+      ' decoding="async"';
+
+    if (typeof image === "string") {
+      return '<img src="' + image + '"' + attrs + " />";
+    }
+
+    return (
+      "<picture>" +
+        '<source srcset="' + image.webp + '" type="image/webp" />' +
+        '<img src="' + image.jpg + '"' + attrs + " />" +
+      "</picture>"
+    );
+  }
+
+  function mark(on) {
+    return on
+      ? '<span class="mark mark--yes" title="' + esc(t(S.ui.included)) + '">' + icon("check") + "</span>"
+      : '<span class="mark mark--no" title="' + esc(t(S.ui.notIncluded)) + '">' + icon("x") + "</span>";
+  }
+
+  /* ------------------------------------------------------------
+     Mahsulot kartasi (bosh sahifa)
+     ------------------------------------------------------------ */
+
+  function productCard(product) {
+    var price = entryPrice(product);
+    var priceHtml = price
+      ? '<div class="product-card__price">' + esc(t(S.ui.from)) +
+        "<b>" + window.I18N.num(price.amount) + " " + price.currency + "</b>" +
+        '<span>' + esc(t(price.period)) + "</span></div>"
+      : '<div class="product-card__price"><b>' + esc(t(S.ui.priceOnRequest)) + "</b></div>";
+
+    var tags = (product.tags || [])
+      .map(function (tag) {
+        return '<span class="badge">' + esc(t(tag)) + "</span>";
+      })
+      .join("");
+
+    return (
+      '<article class="card card--hover product-card reveal">' +
+        '<a class="product-card__media" href="product.html?id=' + product.id + '" aria-label="' + esc(t(product.name)) + '">' +
+          picture(product.image, t(product.name) + " — " + t(product.tagline), { width: 1200, height: 675 }) +
+          '<span class="product-card__glyph">' + icon(product.icon) + "</span>" +
+        "</a>" +
+        '<div class="product-card__body">' +
+          '<h3 class="card__title"><a href="product.html?id=' + product.id + '">' + esc(t(product.name)) + "</a></h3>" +
+          '<p class="dim" style="font-size:var(--fs-xs)">' + esc(t(product.tagline)) + "</p>" +
+          '<p class="card__text">' + esc(t(product.short)) + "</p>" +
+          '<div class="product-card__tags">' + tags + "</div>" +
+        "</div>" +
+        '<div class="product-card__foot">' +
+          priceHtml +
+          '<a class="link-arrow" href="product.html?id=' + product.id + '">' + esc(t(S.ui.detailsCta)) + "</a>" +
+        "</div>" +
+      "</article>"
+    );
+  }
+
+  /* ------------------------------------------------------------
+     Tarif kartalari
+     ------------------------------------------------------------ */
+
+  function planCard(product, plan) {
+    var priceHtml;
+    if (plan.price) {
+      priceHtml =
+        '<div class="plan-card__price">' +
+          '<span class="plan-card__amount">' + window.I18N.num(plan.price.amount) + "</span>" +
+          '<span class="plan-card__currency">' + esc(plan.price.currency) + "</span>" +
+          '<span class="plan-card__period">/ ' + esc(t(plan.price.period)) + "</span>" +
+        "</div>";
+    } else {
+      priceHtml =
+        '<div class="plan-card__price">' +
+          '<span class="plan-card__amount" style="font-size:var(--fs-h3)">' + esc(t(S.ui.priceOnRequest)) + "</span>" +
+        "</div>";
+    }
+
+    var list = (plan.highlights || [])
+      .map(function (h) {
+        return "<li>" + icon("check") + "<span>" + esc(t(h)) + "</span></li>";
+      })
+      .join("");
+
+    var badge = plan.badge
+      ? '<span class="plan-card__badge badge badge--accent"><span class="badge__dot"></span>' + esc(t(plan.badge)) + "</span>"
+      : "";
+
+    return (
+      '<article class="plan-card reveal' + (plan.featured ? " plan-card--featured" : "") + '">' +
+        badge +
+        '<div class="stack stack-2">' +
+          '<h3 class="plan-card__name">' + esc(t(plan.name)) + "</h3>" +
+          '<p class="plan-card__desc">' + esc(t(plan.desc)) + "</p>" +
+        "</div>" +
+        priceHtml +
+        '<ul class="plan-card__list">' + list + "</ul>" +
+        '<a class="btn ' + (plan.featured ? "btn--primary" : "btn--ghost") + ' btn--block" ' +
+          'href="order.html?product=' + product.id + "&plan=" + plan.id + '">' +
+          esc(t(S.ui.orderCta)) +
+        "</a>" +
+      "</article>"
+    );
+  }
+
+  /* ------------------------------------------------------------
+     Taqqoslash matritsasi
+     ------------------------------------------------------------ */
+
+  function matrix(product) {
+    var mode = matrixMode(product);
+    var ids = product.matrixPlans || [];
+    if (!mode || !ids.length || !(product.featureGroups || []).length) return "";
+
+    var plans = ids
+      .map(function (id) {
+        return planById(product, id);
+      })
+      .filter(Boolean);
+
+    if (!plans.length) return "";
+
+    /* --- Desktop: jadval --- */
+    var head =
+      "<thead><tr><th>" + esc(t(S.ui.allFeatures)) + "</th>" +
+      plans
+        .map(function (p) {
+          return "<th>" + esc(t(p.name)) + (p.badge ? '<span class="badge badge--accent">' + esc(t(p.badge)) + "</span>" : "") + "</th>";
+        })
+        .join("") +
+      "</tr></thead>";
+
+    var body = "<tbody>";
+    product.featureGroups.forEach(function (group) {
+      body +=
+        '<tr class="matrix__group"><th colspan="' + (plans.length + 1) + '">' + esc(t(group.title)) + "</th></tr>";
+      group.items.forEach(function (item) {
+        body += "<tr><th>" + esc(t(item.label)) + "</th>";
+        plans.forEach(function (p) {
+          body += "<td>" + mark(!!item.plans[p.id]) + "</td>";
+        });
+        body += "</tr>";
+      });
+    });
+    body += "</tbody>";
+
+    var table = '<div class="matrix"><div class="matrix__scroll"><table>' + head + body + "</table></div></div>";
+
+    /* --- Mobil: akkordeon --- */
+    var acc = '<div class="matrix-mobile">';
+    product.featureGroups.forEach(function (group, gi) {
+      var included = group.items.filter(function (item) {
+        return plans.some(function (p) {
+          return item.plans[p.id];
+        });
+      }).length;
+
+      acc +=
+        '<div class="acc">' +
+          '<button class="acc__head" type="button" aria-expanded="' + (gi === 0 ? "true" : "false") + '">' +
+            "<span>" + esc(t(group.title)) + "</span>" +
+            '<span class="acc__count">' + included + " / " + group.items.length + "</span>" +
+            icon("chevron-down", "acc__chevron") +
+          "</button>" +
+          '<div class="acc__body">' +
+            group.items
+              .map(function (item) {
+                return (
+                  '<div class="acc__row"><span>' + esc(t(item.label)) + "</span>" +
+                  '<span class="acc__marks">' +
+                    plans
+                      .map(function (p) {
+                        return (
+                          '<span class="acc__mark-col">' +
+                            mark(!!item.plans[p.id]) +
+                            "<small>" + esc(shortName(t(p.name))) + "</small>" +
+                          "</span>"
+                        );
+                      })
+                      .join("") +
+                  "</span></div>"
+                );
+              })
+              .join("") +
+          "</div>" +
+        "</div>";
+    });
+    acc += "</div>";
+
+    return table + acc;
+  }
+
+  /** "Tinch HR PRO" → "PRO" (mobil ustun sarlavhasi uchun) */
+  function shortName(name) {
+    var parts = name.trim().split(/\s+/);
+    return parts.length > 1 ? parts[parts.length - 1] : name;
+  }
+
+  function bindAccordions(root) {
+    (root || document).querySelectorAll(".acc__head").forEach(function (head) {
+      if (head.dataset.bound) return;
+      head.dataset.bound = "1";
+      head.addEventListener("click", function () {
+        var open = head.getAttribute("aria-expanded") === "true";
+        head.setAttribute("aria-expanded", String(!open));
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------
+     Narxlar jadvali
+     ------------------------------------------------------------ */
+
+  function priceTable(table) {
+    var head =
+      "<thead><tr>" +
+      table.columns
+        .map(function (c) {
+          return "<th>" + esc(t(c.label)) + "</th>";
+        })
+        .join("") +
+      "</tr></thead>";
+
+    var body =
+      "<tbody>" +
+      table.rows
+        .map(function (row) {
+          return (
+            "<tr>" +
+            table.columns
+              .map(function (c) {
+                var raw = row[c.key];
+                var value = c.html ? String(raw || "") : esc(t(raw));
+                var cls = c.strong ? ' class="cell-strong"' : c.quiet ? ' class="cell-quiet"' : "";
+                return "<td" + cls + ">" + value + "</td>";
+              })
+              .join("") +
+            "</tr>"
+          );
+        })
+        .join("") +
+      "</tbody>";
+
+    return (
+      '<div class="stack stack-4 reveal">' +
+        (table.title ? '<h3 class="h4">' + esc(t(table.title)) + "</h3>" : "") +
+        '<div class="price-table">' +
+          '<div class="price-table__scroll"><table>' + head + body + "</table></div>" +
+          (table.foot ? '<div class="price-table__foot">' + t(table.foot) + "</div>" : "") +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  /* ------------------------------------------------------------
+     Eslatmalar
+     ------------------------------------------------------------ */
+
+  function notes(list) {
+    if (!list || !list.length) return "";
+    return list
+      .map(function (n) {
+        var cls = n.type === "warn" ? " callout--warn" : "";
+        return (
+          '<div class="callout' + cls + ' reveal">' +
+            icon("info", "callout__icon") +
+            "<div>" + t(n.text) + "</div>" +
+          "</div>"
+        );
+      })
+      .join("");
+  }
+
+  /* ------------------------------------------------------------
+     To'liq tarif bloki (rejim almashtirgich bilan)
+     ------------------------------------------------------------ */
+
+  function pricingBlock(product, opts) {
+    opts = opts || {};
+    var modes = product.pricingModes || [];
+    if (!modes.length) return "";
+
+    var showSwitch = modes.length > 1;
+    var switcher = showSwitch
+      ? '<div class="segmented" role="tablist" data-pricing-switch="' + product.id + '">' +
+        modes
+          .map(function (m, i) {
+            return (
+              '<button type="button" role="tab" data-mode="' + m.id + '"' +
+              (i === 0 ? ' class="is-active" aria-selected="true"' : ' aria-selected="false"') +
+              ">" + esc(t(m.label)) + "</button>"
+            );
+          })
+          .join("") +
+        "</div>"
+      : "";
+
+    var panels = modes
+      .map(function (m, i) {
+        var inner = '<div class="stack stack-8">';
+
+        if (m.description) {
+          inner += '<p class="lead" style="max-width:60ch">' + esc(t(m.description)) + "</p>";
+        }
+        if (m.plans && m.plans.length) {
+          inner +=
+            '<div class="plans">' +
+            m.plans
+              .map(function (plan) {
+                return planCard(product, plan);
+              })
+              .join("") +
+            "</div>";
+        }
+        if (m.showMatrix && opts.matrix !== false) {
+          inner +=
+            '<div class="stack stack-4">' +
+              '<h3 class="h3">' + esc(t(S.ui.featureCompare)) + "</h3>" +
+              matrix(product) +
+            "</div>";
+        }
+        if (m.priceTables && m.priceTables.length) {
+          inner += m.priceTables.map(priceTable).join("");
+        }
+        inner += notes(m.notes);
+        inner += "</div>";
+
+        return (
+          '<div class="pricing-panel" data-mode-panel="' + m.id + '"' + (i === 0 ? "" : " hidden") + ">" +
+          inner +
+          "</div>"
+        );
+      })
+      .join("");
+
+    return (
+      '<div class="pricing-block" data-product="' + product.id + '">' +
+        (switcher ? '<div class="row" style="margin-bottom:var(--space-8)">' + switcher + "</div>" : "") +
+        panels +
+      "</div>"
+    );
+  }
+
+  function bindPricingSwitch(root) {
+    (root || document).querySelectorAll("[data-pricing-switch]").forEach(function (group) {
+      if (group.dataset.bound) return;
+      group.dataset.bound = "1";
+
+      var block = group.closest(".pricing-block");
+      group.querySelectorAll("button").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          group.querySelectorAll("button").forEach(function (b) {
+            b.classList.remove("is-active");
+            b.setAttribute("aria-selected", "false");
+          });
+          btn.classList.add("is-active");
+          btn.setAttribute("aria-selected", "true");
+
+          var mode = btn.getAttribute("data-mode");
+          block.querySelectorAll("[data-mode-panel]").forEach(function (panel) {
+            panel.hidden = panel.getAttribute("data-mode-panel") !== mode;
+          });
+
+          if (window.observeReveal) window.observeReveal(block);
+          bindAccordions(block);
+        });
+      });
+    });
+  }
+
+  /** Render qilingandan keyin barcha interaktiv elementlarni ulash */
+  function hydrate(root) {
+    bindAccordions(root);
+    bindPricingSwitch(root);
+    if (window.observeReveal) window.observeReveal(root);
+  }
+
+  /* ------------------------------------------------------------
+     Eksport
+     ------------------------------------------------------------ */
+
+  window.R = {
+    byId: byId,
+    planById: planById,
+    matrixMode: matrixMode,
+    entryPrice: entryPrice,
+    mark: mark,
+    picture: picture,
+    productCard: productCard,
+    planCard: planCard,
+    matrix: matrix,
+    priceTable: priceTable,
+    notes: notes,
+    pricingBlock: pricingBlock,
+    hydrate: hydrate,
+  };
+})();

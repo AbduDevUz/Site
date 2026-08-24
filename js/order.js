@@ -1,212 +1,288 @@
-// Order page functionality
-let currentService = null;
+/* ============================================================
+   TINCH SOFT — Buyurtma formasi
+   URL: order.html?product=hr&plan=pro
+   ------------------------------------------------------------
+   Yuborish: SITE.forms.endpoint bo'lsa — JSON POST.
+   Bo'sh bo'lsa — to'ldirilgan email xati ochiladi (zaxira rejim).
+   ============================================================ */
 
-// Get service from URL parameter
-function getServiceFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const service = urlParams.get('service');
-  return service || 'home';
-}
+(function () {
+  "use strict";
 
-// Apply service information
-function applyServiceInfo(lang) {
-  if (!translations || !translations[lang]) return;
-  
-  const service = getServiceFromURL();
-  currentService = service;
-  
-  const t = translations[lang];
-  let serviceData = null;
-  
-  // Get service data based on service type
-  switch(service) {
-    case 'home':
-      serviceData = t.home;
-      break;
-    case 'hrm':
-    case 'hr':
-      serviceData = t.hrm;
-      break;
-    case 'websites':
-      serviceData = t.websites;
-      break;
-    case 'warehouse':
-      serviceData = t.warehouse;
-      break;
-    case 'erp':
-      serviceData = t.erp;
-      break;
-    case 'crm':
-      serviceData = t.crm;
-      break;
-    default:
-      serviceData = t.home;
-  }
-  
-  if (serviceData && serviceData.orderTitle) {
-    const titleElement = document.getElementById('serviceTitle');
-    if (titleElement) {
-      titleElement.textContent = serviceData.orderTitle;
-    }
-    
-    const descriptionElement = document.getElementById('serviceDescription');
-    if (descriptionElement && serviceData.orderDescription) {
-      descriptionElement.innerHTML = serviceData.orderDescription;
+  var S = window.SITE;
+
+  var form = document.getElementById("orderForm");
+  var productSel = document.getElementById("f-product");
+  var planSel = document.getElementById("f-plan");
+  var summaryHost = document.getElementById("orderSummary");
+  var statusHost = document.getElementById("formStatus");
+  var submitBtn = document.getElementById("submitBtn");
+
+  if (!form) return;
+
+  function param(name) {
+    try {
+      return new URLSearchParams(window.location.search).get(name);
+    } catch (e) {
+      return null;
     }
   }
-  
-  // Apply contact translations
-  applyOrderTranslations(lang);
-}
 
-// Apply order page translations
-function applyOrderTranslations(lang) {
-  if (!translations || !translations[lang] || !translations[lang].contact) return;
-  
-  const t = translations[lang].contact;
-  
-  // Newsletter prompt
-  const newsletter = document.getElementById('newsletterPrompt');
-  if (newsletter) {
-    newsletter.textContent = t.newsletter || 'ЗАКАЗАТЬ УСЛУГИ';
-  }
-  
-  // Address and Phone
-  const addressPhone = document.querySelector('.address-phone');
-  if (addressPhone) {
-    addressPhone.textContent = `${t.address}, ${t.phone}`;
-  }
-  
-  // Hours
-  const weekdays = document.querySelector('.weekdays');
-  const weekends = document.querySelector('.weekends');
-  if (weekdays) {
-    weekdays.textContent = t.hoursWeekdays + ',';
-  }
-  if (weekends) {
-    weekends.textContent = t.hoursWeekends;
-  }
-  
-  // Email
-  const email = document.querySelector('.email');
-  if (email) {
-    email.textContent = t.email;
-    email.href = `mailto:${t.email}`;
-  }
-  
-  // Follow title
-  const followTitle = document.querySelector('.follow-title');
-  if (followTitle) {
-    followTitle.textContent = t.follow;
-  }
-  
-  // Form placeholders
-  const nameInput = document.getElementById('name');
-  if (nameInput) {
-    nameInput.placeholder = t.namePlaceholder;
-  }
-  
-  const phoneInput = document.getElementById('phone');
-  if (phoneInput) {
-    phoneInput.placeholder = lang === 'uz' ? 'Telefon raqamingizni kiriting' : 'Введите номер телефона';
-  }
-  
-  const emailInput = document.getElementById('email');
-  if (emailInput) {
-    emailInput.placeholder = t.emailPlaceholder;
-  }
-  
-  const messageTextarea = document.getElementById('message');
-  if (messageTextarea) {
-    messageTextarea.placeholder = t.messagePlaceholder;
-  }
-  
-  // Submit button
-  const submitBtn = document.querySelector('.submit-btn');
-  if (submitBtn) {
-    submitBtn.textContent = t.submit;
-  }
-  
-  // Copyright
-  const copyright = document.querySelector('.copyright');
-  if (copyright) {
-    copyright.textContent = t.copyright;
-  }
-}
+  // Eski havolalar bilan moslik: order.html?service=hrm
+  var LEGACY = { hrm: "hr", home: "", websites: "websites", warehouse: "warehouse", erp: "erp", crm: "crm" };
+  var initialProduct = param("product") || LEGACY[param("service")] || "";
+  var initialPlan = param("plan") || "";
 
-// Language switcher for order page
-function initOrderLanguageSwitcher() {
-  const langLinks = document.querySelectorAll('.lang-link');
-  const currentLang = localStorage.getItem('language') || 'ru';
-  
-  langLinks.forEach(link => {
-    const lang = link.getAttribute('data-lang');
-    
-    // Highlight current language
-    if (lang === currentLang) {
-      link.classList.add('active');
+  /* ------------------------------------------------------------
+     Tanlov ro'yxatlari
+     ------------------------------------------------------------ */
+
+  function fillProducts() {
+    var chosen = productSel.value || initialProduct;
+
+    productSel.innerHTML =
+      '<option value="">' + esc(t(S.order.fields.any)) + "</option>" +
+      window.PRODUCTS.map(function (p) {
+        return '<option value="' + p.id + '">' + esc(t(p.name)) + "</option>";
+      }).join("");
+
+    if (chosen && window.R.byId(chosen)) productSel.value = chosen;
+  }
+
+  function fillPlans() {
+    var product = window.R.byId(productSel.value);
+    var chosen = planSel.value || initialPlan;
+
+    var options = ['<option value="">' + esc(t(S.order.fields.any)) + "</option>"];
+
+    if (product) {
+      (product.pricingModes || []).forEach(function (mode) {
+        (mode.plans || []).forEach(function (plan) {
+          options.push('<option value="' + plan.id + '">' + esc(t(plan.name)) + "</option>");
+        });
+      });
     }
-    
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Update active state
-      langLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      
-      // Change language
-      localStorage.setItem('language', lang);
-      document.documentElement.lang = lang;
-      applyServiceInfo(lang);
+
+    planSel.innerHTML = options.join("");
+    planSel.disabled = !product;
+
+    if (chosen) {
+      planSel.value = chosen;
+      if (planSel.value !== chosen) planSel.value = ""; // bunday tarif yo'q
+    }
+  }
+
+  /* ------------------------------------------------------------
+     Tanlangan tarif eslatmasi
+     ------------------------------------------------------------ */
+
+  function renderSummary() {
+    var product = window.R.byId(productSel.value);
+    if (!product) {
+      summaryHost.innerHTML = "";
+      return;
+    }
+
+    var plan = planSel.value ? window.R.planById(product, planSel.value) : null;
+    var line = plan
+      ? t(plan.name) + (plan.price ? " · " + window.I18N.num(plan.price.amount) + " " + plan.price.currency + " / " + t(plan.price.period) : "")
+      : t(product.tagline);
+
+    summaryHost.innerHTML =
+      '<div class="order-summary">' +
+        '<span class="order-summary__ic">' + icon(product.icon) + "</span>" +
+        "<div>" +
+          "<small>" + esc(t(plan ? S.order.fields.plan : S.order.fields.product)) + "</small>" +
+          "<b>" + esc(t(product.name)) + "</b>" +
+          '<small style="margin-top:2px">' + esc(line) + "</small>" +
+        "</div>" +
+      "</div>";
+  }
+
+  /* ------------------------------------------------------------
+     Tekshiruv
+     ------------------------------------------------------------ */
+
+  function setError(input, message) {
+    var field = input.closest(".field");
+    var box = field.querySelector(".field__error");
+    field.classList.toggle("has-error", !!message);
+    if (box) {
+      box.textContent = message || "";
+      box.hidden = !message;
+    }
+  }
+
+  function validate() {
+    var ok = true;
+
+    var name = form.elements.name;
+    if (!name.value.trim()) {
+      setError(name, t(S.order.validation.required));
+      ok = false;
+    } else {
+      setError(name, "");
+    }
+
+    var phone = form.elements.phone;
+    var digits = phone.value.replace(/\D/g, "");
+    if (!phone.value.trim()) {
+      setError(phone, t(S.order.validation.required));
+      ok = false;
+    } else if (digits.length < 9) {
+      setError(phone, t(S.order.validation.phone));
+      ok = false;
+    } else {
+      setError(phone, "");
+    }
+
+    var email = form.elements.email;
+    if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
+      setError(email, t(S.order.validation.email));
+      ok = false;
+    } else {
+      setError(email, "");
+    }
+
+    if (!ok) {
+      var first = form.querySelector(".field.has-error input");
+      if (first) first.focus();
+    }
+    return ok;
+  }
+
+  /* ------------------------------------------------------------
+     Yuborish
+     ------------------------------------------------------------ */
+
+  function collect() {
+    var product = window.R.byId(productSel.value);
+    var plan = product && planSel.value ? window.R.planById(product, planSel.value) : null;
+
+    return {
+      name: form.elements.name.value.trim(),
+      company: form.elements.company.value.trim(),
+      phone: form.elements.phone.value.trim(),
+      email: form.elements.email.value.trim(),
+      productId: productSel.value,
+      product: product ? t(product.name) : "",
+      planId: planSel.value,
+      plan: plan ? t(plan.name) : "",
+      employees: form.elements.employees.value.trim(),
+      message: form.elements.message.value.trim(),
+      lang: window.I18N.lang(),
+      page: window.location.href,
+    };
+  }
+
+  function asText(data) {
+    return [
+      "Ism: " + data.name,
+      "Korxona: " + (data.company || "—"),
+      "Telefon: " + data.phone,
+      "Email: " + (data.email || "—"),
+      "Mahsulot: " + (data.product || "—"),
+      "Tarif: " + (data.plan || "—"),
+      "Xodimlar soni: " + (data.employees || "—"),
+      "",
+      "Xabar:",
+      data.message || "—",
+      "",
+      "Til: " + data.lang,
+      "Sahifa: " + data.page,
+    ].join("\n");
+  }
+
+  function status(kind, message) {
+    statusHost.innerHTML = message
+      ? '<div class="form-status form-status--' + kind + '">' +
+        icon(kind === "ok" ? "check" : "info") + "<span>" + esc(message) + "</span></div>"
+      : "";
+  }
+
+  function setBusy(busy) {
+    submitBtn.disabled = busy;
+    submitBtn.querySelector("span").textContent = t(busy ? S.order.fields.sending : S.order.fields.submit);
+  }
+
+  function mailtoFallback(data) {
+    var subject = "TINCH SOFT — " + (data.product || "so'rov") + (data.plan ? " / " + data.plan : "");
+    window.location.href =
+      "mailto:" + S.forms.fallbackEmail +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(asText(data));
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+
+    var data = collect();
+    status("", "");
+
+    if (!S.forms.endpoint) {
+      // Server sozlanmagan — email xati orqali
+      mailtoFallback(data);
+      status("ok", t(S.order.success));
+      form.reset();
+      renderSummary();
+      return;
+    }
+
+    setBusy(true);
+
+    fetch(S.forms.endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        status("ok", t(S.order.success));
+        form.reset();
+        fillProducts();
+        fillPlans();
+        renderSummary();
+      })
+      .catch(function () {
+        status("err", t(S.order.error));
+      })
+      .finally(function () {
+        setBusy(false);
+      });
+  });
+
+  /* ------------------------------------------------------------
+     Hodisalar
+     ------------------------------------------------------------ */
+
+  productSel.addEventListener("change", function () {
+    initialPlan = "";
+    planSel.value = "";
+    fillPlans();
+    renderSummary();
+  });
+
+  planSel.addEventListener("change", renderSummary);
+
+  form.querySelectorAll("input").forEach(function (input) {
+    input.addEventListener("input", function () {
+      if (input.closest(".field").classList.contains("has-error")) setError(input, "");
     });
   });
-}
 
-// Form submission handler
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('orderForm');
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form values
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-      const service = getServiceFromURL();
-      
-      // Here you can add form submission logic
-      // For example, send to server or email service
-      console.log('Order form submitted:', { name, phone, email, message, service });
-      
-      // Show success message
-      const currentLang = localStorage.getItem('language') || 'ru';
-      const successMsg = currentLang === 'uz' 
-        ? 'Xabaringiz uchun rahmat! Tez orada siz bilan bog\'lanamiz.'
-        : 'Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.';
-      
-      alert(successMsg);
-      
-      // Reset form
-      form.reset();
-    });
+  /* ------------------------------------------------------------
+     Ishga tushirish
+     ------------------------------------------------------------ */
+
+  function render() {
+    window.I18N.applyMeta(S.order.meta);
+    fillProducts();
+    fillPlans();
+    renderSummary();
+    setBusy(false);
   }
-  
-  // Apply translations when page loads
-  const currentLang = localStorage.getItem('language') || 'ru';
-  document.documentElement.lang = currentLang;
-  
-  if (typeof translations !== 'undefined') {
-    applyServiceInfo(currentLang);
-    initOrderLanguageSwitcher();
-  } else {
-    // Wait for translations to load
-    setTimeout(function() {
-      if (typeof translations !== 'undefined') {
-        applyServiceInfo(currentLang);
-        initOrderLanguageSwitcher();
-      }
-    }, 100);
-  }
-});
+
+  render();
+  window.I18N.onChange(render);
+})();
