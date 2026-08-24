@@ -181,16 +181,35 @@ narsa qo'shish kerak emas** — eski versiyadan asosiy farqi shu.
 
 ---
 
-## 6. Buyurtma formasini serverga ulash
+## 6. Buyurtma formasi qayerga tushadi
 
-Hozir forma **email xati** ochadi (server sozlanmagani uchun).
-Serverga yuborish uchun `js/data/site.js`:
+Hozir forma **Telegram** orqali ishlaydi: mijoz «Yuborish» ni bosganda
+`@AbduDevUz` bilan suhbat ochiladi va xabar allaqachon to'ldirilgan bo'ladi —
+mijoz faqat Telegramning yuborish tugmasini bosadi.
 
 ```js
 forms: {
-  endpoint: "https://formspree.io/f/XXXXXXX",   // ← manzilni yozing
+  endpoint: "",             // bo'sh — zaxira rejim ishlaydi
+  fallback: "telegram",     // yoki "email"
   fallbackEmail: "info@tinch.uz",
 },
+```
+
+Qabul qiluvchini almashtirish: `company.telegramDirect`.
+
+### Nega bot orqali avtomatik emas
+
+Telegram boti token talab qiladi. Tokenni frontend kodiga yozib bo'lmaydi —
+u brauzerda ochiq ko'rinadi va istalgan odam sizning botingiz nomidan xabar
+yubora oladi. To'liq avtomatik qilish uchun token **server tomonda** turishi
+kerak.
+
+### To'liq avtomatik qilish
+
+`endpoint` ni to'ldirsangiz, mijoz saytdan chiqmaydi — ma'lumot fonda ketadi:
+
+```js
+forms: { endpoint: "https://api.tinch.uz/lead", ... }
 ```
 
 Ma'lumot `POST` bilan JSON ko'rinishida boradi:
@@ -372,3 +391,101 @@ foydalanuvchilar soniga aynan teng (`Basic 5` → 5 foydalanuvchi).
 `soon: true` bilan belgiladim (PRO tarifida, 6 ta imkoniyat). Ishga tushgach
 `soon` bayrog'ini o'chirasiz. Tavsif noto'g'ri bo'lsa —
 `products.js` → `warehouse` → «Telegram-bot orqali buyurtma» guruhini tuzating.
+
+---
+
+## 14. Serverga qo'yish (deploy)
+
+Sayt statik — hech qanday PHP, Node yoki baza kerak emas. Barcha fayllarni
+hosting ildiziga (`public_html`) ko'chirasiz, tamom.
+
+### Apache / cPanel
+
+`.htaccess` fayli tayyor — u bilan birga ko'chiring. Ichida:
+
+- **gzip / brotli siqish** — CSS va JS hajmi ~4 barobar kamayadi
+- **kesh sarlavhalari** — rasm va shriftlar 1 yil, HTML har safar tekshiriladi
+- **www → asosiy domen** yo'naltirish
+- **`/index.html` → `/`** yo'naltirish (SEO uchun bitta manzil)
+- **xavfsizlik sarlavhalari** (nosniff, referrer-policy, frame-options)
+- **404 sahifasi**
+
+SSL sertifikat o'rnatgandan keyin `.htaccess` dagi HTTPS blokidagi
+izohni oching (`#` belgilarini olib tashlang):
+
+```apache
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+```
+
+### Nginx ishlatsangiz
+
+`.htaccess` ishlamaydi, o'rniga server blokiga:
+
+```nginx
+gzip on;
+gzip_types text/css application/javascript application/json image/svg+xml;
+gzip_min_length 512;
+
+location ~* \.(webp|jpg|jpeg|png|svg|ico|woff2)$ {
+  add_header Cache-Control "public, max-age=31536000, immutable";
+}
+location ~* \.(css|js)$ {
+  add_header Cache-Control "public, max-age=604800";
+}
+location ~* \.html$ {
+  add_header Cache-Control "no-cache, must-revalidate";
+}
+error_page 404 /404.html;
+```
+
+### Qo'ygandan keyingi ro'yxat
+
+1. `https://tinch.uz` ochiladimi, `http://` avtomatik `https://` ga o'tadimi
+2. Telegramda saytga havola tashlang — preview rasmi chiqishi kerak
+   (`images/opt/og-cover.jpg`)
+3. Mavjud bo'lmagan manzilni oching (`tinch.uz/xxx`) — 404 sahifasi chiqsin
+4. [Google Search Console](https://search.google.com/search-console) ga
+   qo'shing va `sitemap.xml` ni yuboring
+5. [Yandex Webmaster](https://webmaster.yandex.ru) — O'zbekistonda ulushi katta
+6. [PageSpeed Insights](https://pagespeed.web.dev) bilan tekshiring
+7. Telefon va Telegram havolalarini telefonda bosib ko'ring
+
+### Domen o'zgarsa
+
+`https://tinch.uz` manzili quyidagi joylarda yozilgan:
+
+- `js/data/site.js` → `company.url`
+- har bir `.html` faylning `<head>` qismi (canonical, og:url, og:image)
+- `sitemap.xml`
+- `robots.txt`
+
+---
+
+## 15. Serverga nima yuklash kerak
+
+Loyihada 33 MB fayl bor, lekin **serverga 1 MB dan kamrog'i kerak**.
+Qolgani — rasmlarning asl nusxalari, ular git tarixida saqlanib qoladi.
+
+### Yuklang
+
+```
+*.html          .htaccess       robots.txt      sitemap.xml
+css/            js/             images/opt/     images/logo2.png
+```
+
+### Yuklamang (27.6 MB, ishlatilmaydi)
+
+```
+images/pages/   asl rasmlar — images/opt/ shulardan yasalgan
+images/video/   eski videolar va boshqa saytlarning skrinshotlari
+images/icon/    eski dizayn ikonkalari — endi SVG kod ichida
+images/bg-7.png images/Screenshot_1.png
+QOLLANMA.md     SEO_QOLLANMA.md     .git/
+```
+
+Bu papkalarni **o'chirmang** — kelajakda rasmni qayta siqish kerak bo'lsa,
+asl nusxa shu yerda turibdi. Faqat serverga ko'chirmang.
+
+> `css/style.css` — eski dizaynning uslublari edi, hech qayerga ulanmagani
+> uchun o'chirildi. Kerak bo'lsa git tarixidan tiklanadi.

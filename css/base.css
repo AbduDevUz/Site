@@ -283,6 +283,17 @@ h6 {
   padding-block: var(--section-y);
 }
 
+/* Ekrandan tashqaridagi bo'limlarni brauzer hisoblamaydi — birinchi
+   chizish sezilarli tezlashadi. contain-intrinsic-size taxminiy
+   balandlik beradi, shunda siljish paneli sakramaydi.
+   Birinchi ekran (hero, product-hero) bundan mustasno. */
+@supports (content-visibility: auto) {
+  .section:not(:first-of-type) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+}
+
 .section--tight {
   padding-block: calc(var(--section-y) * 0.6);
 }

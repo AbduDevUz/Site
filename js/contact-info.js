@@ -30,16 +30,16 @@
     if (!host) return;
 
     host.innerHTML =
-      item("phone", t(S.ui.contactCta), S.company.phone, S.company.phoneHref) +
+      item("phone", t(S.ui.phoneLabel), S.company.phone, S.company.phoneHref) +
       item("mail", "Email", S.company.email, "mailto:" + S.company.email) +
-      item("telegram", "Telegram", "@tinchsoft", S.company.telegram) +
-      item("map-pin", t(S.contacts.eyebrow), t(S.ui.address)) +
+      item("telegram", "Telegram", S.company.telegramHandle, S.company.telegram) +
+      item("map-pin", t(S.ui.addressLabel), t(S.ui.address)) +
       '<div class="contact-item">' +
         '<span class="contact-item__ic">' + icon("clock") + "</span>" +
         "<div>" +
-          '<span class="contact-item__label">' + esc(t(S.ui.hoursWeekdays)) + "</span>" +
-          '<span class="contact-item__value" style="font-weight:400;font-size:var(--fs-sm)">' +
-            esc(t(S.ui.hoursWeekends)) +
+          '<span class="contact-item__label">' + esc(t(S.ui.hoursLabel)) + "</span>" +
+          '<span class="contact-item__value contact-item__value--soft">' +
+            esc(t(S.ui.hoursWeekdays)) + "<br>" + esc(t(S.ui.hoursWeekends)) +
           "</span>" +
         "</div>" +
       "</div>";

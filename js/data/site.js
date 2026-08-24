@@ -13,12 +13,20 @@ window.SITE = {
     legalName: "TINCH SOFT",
     url: "https://tinch.uz",
     logo: "./images/logo2.png",
-    phone: "+998 99 055 37 85",
-    phoneHref: "tel:+998990553785",
+    phone: "+998 (94) 834-95-55",
+    phoneHref: "tel:+998948349555",
     email: "info@tinch.uz",
-    telegram: "https://t.me/tinchsoft",
+
+    /* Ommaviy Telegram — saytdagi «Telegram orqali yozish» tugmasi */
+    telegram: "https://t.me/tinch_dev",
+    telegramHandle: "@tinch_dev",
+
+    /* So'rovlar tushadigan shaxsiy Telegram */
+    telegramDirect: "https://t.me/AbduDevUz",
+    telegramDirectHandle: "@AbduDevUz",
+
     socials: [
-      { id: "telegram", href: "https://t.me/tinchsoft", label: "Telegram" },
+      { id: "telegram", href: "https://t.me/tinch_dev", label: "Telegram" },
       { id: "instagram", href: "https://www.instagram.com/tinchsoft", label: "Instagram" },
       { id: "facebook", href: "https://www.facebook.com/tinchsoft", label: "Facebook" },
       { id: "youtube", href: "https://www.youtube.com/@tinchsoft", label: "YouTube" },
@@ -28,23 +36,33 @@ window.SITE = {
   /* ------------------------------------------------------------
      Forma yuborish sozlamasi
      ------------------------------------------------------------
-     endpoint bo'sh bo'lsa — forma ma'lumotlari email xatiga
-     to'ldirilgan holda ochiladi (mailto zaxira rejimi).
-
-     Serverga yuborish uchun endpoint ga POST qabul qiladigan
-     manzilni yozing, masalan:
+     endpoint — POST qabul qiladigan manzil. To'ldirilsa, forma
+     ma'lumotlari JSON ko'rinishida to'g'ridan-to'g'ri shu yerga
+     ketadi va foydalanuvchi saytdan chiqmaydi. Masalan:
        endpoint: "https://formspree.io/f/XXXXXXX"
        endpoint: "https://api.tinch.uz/lead"
-     Ma'lumot JSON ko'rinishida yuboriladi.
+
+     endpoint bo'sh bo'lsa — zaxira rejim ishlaydi:
+       fallback: "telegram" → to'ldirilgan xabar bilan Telegram ochiladi
+       fallback: "email"    → to'ldirilgan xat bilan pochta ochiladi
+
+     DIQQAT: Telegram bot tokenini bu yerga (umuman frontend kodiga)
+     yozmang — u brauzerda ochiq ko'rinadi. Bot orqali avtomatik
+     yuborish kerak bo'lsa, tokenni server tomonda saqlang va shu
+     serverning manzilini endpoint ga qo'ying.
      ------------------------------------------------------------ */
   forms: {
     endpoint: "",
+    fallback: "telegram",
     fallbackEmail: "info@tinch.uz",
   },
 
   /* ---------- Umumiy UI matnlari ---------- */
   ui: {
     address: { uz: "Toshkent, O'zbekiston", ru: "Ташкент, Узбекистан" },
+    phoneLabel: { uz: "Telefon", ru: "Телефон" },
+    addressLabel: { uz: "Manzil", ru: "Адрес" },
+    hoursLabel: { uz: "Ish vaqti", ru: "Часы работы" },
     hoursWeekdays: { uz: "Du – Ju: 9:00 – 18:00", ru: "Пн – Пт: 9:00 – 18:00" },
     hoursWeekends: { uz: "Sha – Yak: 10:00 – 16:00", ru: "Сб – Вс: 10:00 – 16:00" },
     orderCta: { uz: "Buyurtma berish", ru: "Оставить заявку" },
@@ -279,10 +297,13 @@ window.SITE = {
   /* ---------- Aloqa sahifasi ---------- */
   contacts: {
     meta: {
-      title: { uz: "Aloqa — TINCH SOFT", ru: "Контакты — TINCH SOFT" },
+      title: {
+        uz: "Aloqa: telefon, Telegram va manzil — TINCH SOFT",
+        ru: "Контакты: телефон, Telegram и адрес — TINCH SOFT",
+      },
       description: {
-        uz: "TINCH SOFT bilan bog'laning: Toshkent, +998 99 055 37 85, info@tinch.uz",
-        ru: "Свяжитесь с TINCH SOFT: Ташкент, +998 99 055 37 85, info@tinch.uz",
+        uz: "TINCH SOFT bilan bog'laning: Toshkent, +998 (94) 834-95-55, info@tinch.uz, Telegram @tinch_dev.",
+        ru: "Свяжитесь с TINCH SOFT: Ташкент, +998 (94) 834-95-55, info@tinch.uz, Telegram @tinch_dev.",
       },
     },
     eyebrow: { uz: "Aloqa", ru: "Контакты" },
@@ -339,9 +360,36 @@ window.SITE = {
       uz: "Rahmat! So'rovingiz qabul qilindi — tez orada bog'lanamiz.",
       ru: "Спасибо! Заявка принята — свяжемся с вами в ближайшее время.",
     },
+    sentTelegram: {
+      uz: "Telegram ochildi va xabar tayyor — «Yuborish» tugmasini bosing.",
+      ru: "Telegram открыт, сообщение готово — нажмите «Отправить».",
+    },
+    sentEmail: {
+      uz: "Pochta ochildi va xat tayyor — «Yuborish» tugmasini bosing.",
+      ru: "Почта открыта, письмо готово — нажмите «Отправить».",
+    },
+    fallbackAlt: {
+      uz: "Ochilmadimi? Email orqali yuboring",
+      ru: "Не открылось? Отправьте по email",
+    },
     error: {
       uz: "Yuborishda xatolik. Iltimos, Telegram yoki telefon orqali bog'laning.",
       ru: "Ошибка при отправке. Пожалуйста, свяжитесь через Telegram или по телефону.",
+    },
+  },
+
+  /* ---------- 404 sahifasi ---------- */
+  notFound: {
+    meta: {
+      title: { uz: "Sahifa topilmadi — TINCH SOFT", ru: "Страница не найдена — TINCH SOFT" },
+      description: {
+        uz: "So'ralgan sahifa mavjud emas yoki boshqa manzilga ko'chirilgan. Bosh sahifaga qayting yoki mahsulotlar ro'yxatidan kerakligini tanlang.",
+        ru: "Запрошенная страница не существует или была перемещена. Вернитесь на главную или выберите нужный продукт из списка.",
+      },
+    },
+    text: {
+      uz: "Bunday sahifa yo'q — manzil noto'g'ri yozilgan yoki sahifa ko'chirilgan bo'lishi mumkin. Quyidagi mahsulotlardan birini tanlang yoki bosh sahifaga qayting.",
+      ru: "Такой страницы нет — возможно, адрес указан неверно или страница была перемещена. Выберите один из продуктов ниже или вернитесь на главную.",
     },
   },
 

@@ -390,17 +390,27 @@
   height: auto;
 }
 
+/* Sariq — faqat belgida qoladi. Matn ham sariq bo'lsa, rang ikki marta
+   takrorlanib, navy fonda haddan tashqari qichqiradi va aksent kuchini
+   yo'qotadi. Shuning uchun: TINCH — oq, SOFT — indigo. */
 .brand-logo__text {
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--brand-yellow-500);
+  color: var(--text);
+  white-space: nowrap;
 }
 
 .brand-logo__text span {
-  color: var(--text);
+  color: var(--brand-indigo-300);
+  font-weight: 700;
+}
+
+/* Belgi ustidagi nozik sariq nur — logotipni fondan ajratadi */
+.brand-logo img {
+  filter: drop-shadow(0 2px 8px rgba(248, 218, 0, 0.28));
 }
 
 .site-nav {
@@ -593,6 +603,37 @@
   .brand-logo__text {
     font-size: 1rem;
     letter-spacing: 0.08em;
+  }
+}
+
+/* Barmoq bilan boshqariladigan ekranlarda teginish maydonlari kattaroq
+   bo'lishi kerak (tavsiya — kamida 40px) */
+@media (pointer: coarse) {
+  .lang-switch button {
+    min-width: 42px;
+    padding-block: 0.55rem;
+  }
+  .mobile-nav a {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+  }
+  .site-footer li a,
+  .site-footer address a {
+    display: inline-block;
+    padding-block: var(--space-1);
+  }
+  .socials a {
+    width: 44px;
+    height: 44px;
+  }
+  .acc__head {
+    min-height: 52px;
+  }
+  .product-switch a,
+  .anchor-nav a,
+  .segmented button {
+    min-height: 42px;
   }
 }
 
@@ -920,9 +961,25 @@ body.is-locked {
   overflow: hidden;
 }
 
-.matrix__scroll {
+/* Gorizontal siljiydigan jadvallarda o'ng chekkada yumshoq soya —
+   yana ustun borligini bildiradi */
+.matrix__scroll,
+.price-table__scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent);
+}
+
+/* Kontent to'liq sig'sa — soya kerak emas */
+@media (min-width: 1100px) {
+  .matrix__scroll,
+  .price-table__scroll {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }
 
 .matrix table {
@@ -1113,10 +1170,7 @@ body.is-locked {
   overflow: hidden;
 }
 
-.price-table__scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+
 
 .price-table table {
   min-width: 560px;
@@ -1327,11 +1381,12 @@ body.is-locked {
 /* Form javob xabari */
 .form-status {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   border-radius: var(--r-md);
   font-size: var(--fs-sm);
+  line-height: var(--lh-snug);
 }
 
 .form-status--ok {
@@ -1344,6 +1399,26 @@ body.is-locked {
   background: var(--no-bg);
   border: 1px solid rgba(251, 113, 133, 0.35);
   color: var(--no);
+}
+
+.form-status svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+.form-status__alt {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.form-status__alt:hover {
+  color: var(--text);
 }
 
 /* ------------------------------------------------------------
@@ -1384,6 +1459,13 @@ body.is-locked {
   }
   .fab {
     padding: var(--space-4);
+  }
+}
+
+/* Suzuvchi tugma sahifa oxiridagi matnni to'smasligi uchun joy qoldiramiz */
+@media (max-width: 720px) {
+  .site-footer__bottom {
+    padding-bottom: calc(var(--space-6) + 56px);
   }
 }
 

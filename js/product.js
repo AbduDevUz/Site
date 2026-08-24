@@ -223,6 +223,30 @@
      SEO
      ------------------------------------------------------------ */
 
+  /** <meta> ni yangilaydi yoki yaratadi */
+  function meta(kind, key, value) {
+    var el = document.head.querySelector("meta[" + kind + '="' + key + '"]');
+    if (!el) {
+      el = document.createElement("meta");
+      el.setAttribute(kind, key);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("content", value);
+  }
+
+  /** <link rel> ni yangilaydi yoki yaratadi (hreflang bo'yicha ajratib) */
+  function link(rel, hreflang, href) {
+    var sel = 'link[rel="' + rel + '"]' + (hreflang ? '[hreflang="' + hreflang + '"]' : ":not([hreflang])");
+    var el = document.head.querySelector(sel);
+    if (!el) {
+      el = document.createElement("link");
+      el.setAttribute("rel", rel);
+      if (hreflang) el.setAttribute("hreflang", hreflang);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("href", href);
+  }
+
   function seo(product) {
     window.I18N.applyMeta({
       title: {
@@ -232,13 +256,21 @@
       description: product.short,
     });
 
-    var canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-    }
-    canonical.href = S.company.url + "/product.html?id=" + product.id;
+    var pageUrl = S.company.url + "/product.html?id=" + product.id;
+
+    link("canonical", null, pageUrl);
+    link("alternate", "uz", pageUrl + "&lang=uz");
+    link("alternate", "ru", pageUrl + "&lang=ru");
+    link("alternate", "x-default", pageUrl);
+
+    meta("property", "og:url", pageUrl);
+    meta("property", "og:type", "product");
+
+    // Ijtimoiy tarmoqlar uchun mahsulot rasmi (to'liq manzil bilan)
+    var img = typeof product.image === "string" ? product.image : product.image.jpg;
+    var absolute = S.company.url + "/" + String(img).replace(/^\.\//, "");
+    meta("property", "og:image", absolute);
+    meta("name", "twitter:image", absolute);
 
     var offers = [];
     (product.pricingModes || []).forEach(function (mode) {
@@ -255,17 +287,30 @@
 
     var node = document.getElementById("productJsonLd");
     if (node) {
-      node.textContent = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        name: t(product.name),
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        description: t(product.short),
-        inLanguage: ["uz", "ru"],
-        publisher: { "@type": "Organization", name: S.company.name, url: S.company.url },
-        offers: offers.length ? offers : undefined,
-      });
+      node.textContent = JSON.stringify([
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: t(product.name),
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          description: t(product.short),
+          url: pageUrl,
+          image: absolute,
+          inLanguage: ["uz", "ru"],
+          publisher: { "@type": "Organization", name: S.company.name, url: S.company.url },
+          offers: offers.length ? offers : undefined,
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: t(S.ui.backHome), item: S.company.url + "/" },
+            { "@type": "ListItem", position: 2, name: t(S.ui.products), item: S.company.url + "/#products" },
+            { "@type": "ListItem", position: 3, name: t(product.name), item: pageUrl },
+          ],
+        },
+      ]);
     }
   }
 

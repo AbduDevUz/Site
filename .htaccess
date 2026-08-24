@@ -1,0 +1,117 @@
+# ============================================================
+#  TINCH SOFT — Apache sozlamalari (cPanel / hosting uchun)
+#  Fayllarni siqish, keshlash va xavfsizlik sarlavhalari.
+#  Nginx ishlatsangiz — QOLLANMA.md dagi 14-bo'limga qarang.
+# ============================================================
+
+# ------------------------------------------------------------
+# 1. Kodlash — o'zbek va rus harflari to'g'ri ko'rinishi uchun
+# ------------------------------------------------------------
+AddDefaultCharset UTF-8
+AddType application/javascript .js
+AddType image/webp .webp
+AddType image/svg+xml .svg
+
+
+# ------------------------------------------------------------
+# 2. Siqish (gzip / deflate)
+#    CSS va JS hajmi ~4 barobar kamayadi. Rasmlar siqilmaydi —
+#    ular allaqachon siqilgan formatda (webp / jpg).
+# ------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE application/rss+xml image/svg+xml
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+
+# Brotli — mavjud bo'lsa, gzip'dan ham yaxshiroq siqadi
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+
+# ------------------------------------------------------------
+# 3. Brauzer keshi
+#    Rasm va shriftlar uzoq saqlanadi, HTML esa saqlanmaydi —
+#    shunda sayt yangilansa foydalanuvchi darhol ko'radi.
+# ------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+
+  ExpiresByType text/css                  "access plus 7 days"
+  ExpiresByType application/javascript    "access plus 7 days"
+
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType application/xml           "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Rasmlar hech qachon o'zgarmaydi — nomi o'zgarsa yangisi yuklanadi
+  <FilesMatch "\.(webp|jpg|jpeg|png|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML har safar tekshiriladi
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # CSS/JS — bir hafta, lekin yangilanishni tekshirib
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
+  </FilesMatch>
+
+  # ---------- Xavfsizlik ----------
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header unset X-Powered-By
+</IfModule>
+
+
+# ------------------------------------------------------------
+# 4. Manzillarni tartibga solish
+#    index.html va .html kengaytmasini yashirish SEO uchun
+#    foydali: bitta sahifa bitta manzilda bo'ladi.
+# ------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS ga majburiy o'tkazish (sertifikat o'rnatilgandan keyin)
+  # RewriteCond %{HTTPS} !=on
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # www siz variantga birlashtirish
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # /index.html → /
+  RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # Eski aloqa sahifasi
+  RewriteRule ^content\.html$ /contacts.html [R=301,L]
+</IfModule>
+
+
+# ------------------------------------------------------------
+# 5. Xatolik sahifasi
+# ------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# Papka ichini ko'rsatmaslik
+Options -Indexes

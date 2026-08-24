@@ -2,20 +2,26 @@
 
 ## Nima allaqachon qilingan
 
-| Element                    | Holati | Qayerda                                    |
-| -------------------------- | ------ | ------------------------------------------ |
-| `<title>` va `description` | ✓      | Har sahifada + tilga qarab JS yangilaydi    |
-| Open Graph / Twitter Card  | ✓      | Har sahifaning `<head>` qismida             |
-| `hreflang` (uz / ru)       | ✓      | `index.html`, `pricing.html`, `contacts.html` |
-| Canonical                  | ✓      | Har sahifada; `product.html` da JS qo'yadi  |
-| `robots.txt`               | ✓      | Ildizda                                     |
-| `sitemap.xml`              | ✓      | Ildizda                                     |
-| Organization JSON-LD       | ✓      | `index.html`                                |
-| SoftwareApplication + Offer| ✓      | `product.html` (JS narxlardan quradi)       |
-| ContactPage JSON-LD        | ✓      | `contacts.html`                             |
-| Rasmlarda `alt`            | ✓      | `render.js` mahsulot nomidan quradi         |
-| WebP + o'lcham             | ✓      | `images/opt/`, `<picture>` bilan            |
-| Mobil moslashuv            | ✓      | 390px dan boshlab tekshirilgan              |
+| Element                     | Holati | Qayerda                                       |
+| --------------------------- | ------ | --------------------------------------------- |
+| `<title>` va `description`  | ✓      | Har sahifada + tilga qarab JS yangilaydi       |
+| Open Graph (1200×630 rasm)   | ✓      | `images/opt/og-cover.jpg` — Telegram/FB preview |
+| Twitter Card                | ✓      | Har sahifada `summary_large_image`             |
+| `hreflang` (uz / ru / x-default) | ✓ | Barcha indekslanadigan sahifalarda             |
+| Canonical                   | ✓      | Har sahifada; `product.html` da JS qo'yadi     |
+| `robots.txt`                | ✓      | Ildizda                                        |
+| `sitemap.xml` + `lastmod`   | ✓      | 9 ta manzil                                    |
+| Organization JSON-LD        | ✓      | `index.html`                                   |
+| SoftwareApplication + Offer | ✓      | `product.html` (narxlardan quriladi)           |
+| BreadcrumbList              | ✓      | `product.html` — qidiruvda yo'l ko'rinadi      |
+| ContactPage JSON-LD         | ✓      | `contacts.html`                                |
+| Rasmlarda `alt`             | ✓      | Tekshirildi — bitta ham bo'sh emas             |
+| WebP + o'lcham              | ✓      | `images/opt/`, `<picture>` bilan               |
+| 404 sahifasi                | ✓      | `404.html` — noindex, mahsulotlar ro'yxati bilan |
+| Mobil moslashuv             | ✓      | 320px dan boshlab tekshirilgan                 |
+| gzip + kesh                 | ✓      | `.htaccess` (Apache) — QOLLANMA 14-bo'lim      |
+| `max-image-preview:large`   | ✓      | Googlda katta rasm bilan chiqadi               |
+
 
 ---
 

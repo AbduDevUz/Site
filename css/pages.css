@@ -446,14 +446,33 @@
   height: 19px;
 }
 
+/* Yorliq va qiymat — alohida qatorda. Ikkalasi ham inline element
+   bo'lgani uchun oldin bir-biriga yopishib qolar edi. */
 .contact-item__label {
+  display: block;
+  margin-bottom: 2px;
   font-size: var(--fs-xs);
+  line-height: 1.3;
   color: var(--text-dim);
 }
 
 .contact-item__value {
+  display: block;
   font-size: var(--fs-body);
   font-weight: 600;
+  line-height: 1.35;
+  word-break: break-word;
+  transition: color var(--dur) var(--ease-out);
+}
+
+a.contact-item__value:hover {
+  color: var(--brand-indigo-300);
+}
+
+.contact-item__value--soft {
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
 
 .form-card {

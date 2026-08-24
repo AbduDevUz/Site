@@ -193,10 +193,11 @@
     ].join("\n");
   }
 
-  function status(kind, message) {
+  function status(kind, message, extraHtml) {
     statusHost.innerHTML = message
       ? '<div class="form-status form-status--' + kind + '">' +
-        icon(kind === "ok" ? "check" : "info") + "<span>" + esc(message) + "</span></div>"
+        icon(kind === "ok" ? "check" : "info") +
+        "<span>" + esc(message) + (extraHtml || "") + "</span></div>"
       : "";
   }
 
@@ -205,12 +206,35 @@
     submitBtn.querySelector("span").textContent = t(busy ? S.order.fields.sending : S.order.fields.submit);
   }
 
-  function mailtoFallback(data) {
-    var subject = "TINCH SOFT — " + (data.product || "so'rov") + (data.plan ? " / " + data.plan : "");
-    window.location.href =
+  function subjectOf(data) {
+    return "TINCH SOFT — " + (data.product || "so'rov") + (data.plan ? " / " + data.plan : "");
+  }
+
+  function mailtoHref(data) {
+    return (
       "mailto:" + S.forms.fallbackEmail +
-      "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(asText(data));
+      "?subject=" + encodeURIComponent(subjectOf(data)) +
+      "&body=" + encodeURIComponent(asText(data))
+    );
+  }
+
+  function mailtoFallback(data) {
+    window.location.href = mailtoHref(data);
+  }
+
+  /**
+   * Telegramda to'ldirilgan xabar bilan suhbatni ochadi.
+   * Bot tokeni kerak emas — shuning uchun frontendda sir saqlanmaydi.
+   * Telegram uzun matnni kesib qo'yishi mumkin, shuning uchun cheklaymiz.
+   */
+  function telegramFallback(data) {
+    var text = subjectOf(data) + "\n\n" + asText(data);
+    if (text.length > 1500) text = text.slice(0, 1497) + "…";
+
+    var url = S.company.telegramDirect + "?text=" + encodeURIComponent(text);
+    var win = window.open(url, "_blank", "noopener");
+    // Popup bloklansa — shu oynada ochamiz
+    if (!win) window.location.href = url;
   }
 
   form.addEventListener("submit", function (e) {
@@ -221,10 +245,27 @@
     status("", "");
 
     if (!S.forms.endpoint) {
-      // Server sozlanmagan — email xati orqali
-      mailtoFallback(data);
-      status("ok", t(S.order.success));
+      // Server sozlanmagan — zaxira rejim (site.js → forms.fallback)
+      var viaEmail = S.forms.fallback === "email";
+
+      if (viaEmail) {
+        mailtoFallback(data);
+      } else {
+        telegramFallback(data);
+      }
+
+      status(
+        "ok",
+        t(viaEmail ? S.order.sentEmail : S.order.sentTelegram),
+        viaEmail
+          ? ""
+          : '<br><a href="' + mailtoHref(data) + '" class="form-status__alt">' +
+            esc(t(S.order.fallbackAlt)) + "</a>"
+      );
+
       form.reset();
+      fillProducts();
+      fillPlans();
       renderSummary();
       return;
     }
