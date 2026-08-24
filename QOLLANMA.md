@@ -308,7 +308,56 @@ uchun, Tinch Ombor esa distribyutsiya uchun. Narxni o'zgartirmoqchi bo'lsangiz �
 
 ---
 
-## 12. Ma'lumot aniqligi haqida
+## 12. Tinch Uylar: narxlar va manba haqida
+
+Ma'lumot raqobatchining (GOHOUSE) taqdimotidan olingan. **Undan faqat
+funksional ro'yxat olindi** — nima ishlashi. Matnlar butunlay qaytadan
+yozildi, ularning brendi, skrinshotlari, mijozlar ro'yxati va kompaniya
+tarixi ishlatilmadi. Bular ularniki, saytga qo'yish mumkin emas.
+
+Narxlar ~25% pasaytirildi:
+
+| | Raqobatchi | Tinch Uylar |
+| --- | --- | --- |
+| Boshlang'ich tarif | 1 200 000 UZS/oy | **900 000 UZS/oy** |
+| To'liq tarif | 2 400 000 UZS/oy | **1 800 000 UZS/oy** |
+| Qo'shimcha foydalanuvchi | 200 000 UZS/oy | **150 000 UZS/oy** |
+| Qo'shimcha 100 birlik | 800 000 UZS/oy | **600 000 UZS/oy** |
+| Progress (bir marotaba) | 10 800 USD | **8 100 USD** |
+| Expert (bir marotaba) | 14 600 USD | **10 800 USD** |
+| Premium (bir marotaba) | 18 000 USD | **13 500 USD** |
+
+Chegirma qoidalari saqlangan: yillik to'lovda −25%, bir marotaba to'lovda −10%.
+Limitlar (foydalanuvchi, obyekt, uy, birlik soni) o'zgartirilmagan.
+
+> Raqobatchining «Expert» paketida arifmetika to'g'ri kelmasdi: 4 000 × 4 = 16 000,
+> −10% = 14 400, ammo ular 14 600 deb yozgan. Bizda uchala paket ham aniq:
+> 3 000 × 3/4/5 → −10% → 8 100 / 10 800 / 13 500.
+
+### Ikki xil tarif jadvali
+
+Tinch Uylar'da ikkita rejim bor va **har birining o'z taqqoslash jadvali**:
+
+```js
+pricingModes: [
+  { id: "subscription", matrixPlans: ["start", "standard"], ... },
+  { id: "onetime",      matrixPlans: ["progress", "expert", "premium"], ... },
+]
+```
+
+`featureGroups` bitta — lekin har bir qatorning `plans` obyektida beshta
+kalit ham bor. Rejim `matrixPlans` orqali o'ziga kerak ustunlarni tanlaydi.
+Boshqa mahsulotlarda `matrixPlans` mahsulot darajasida turaveradi.
+
+### Rasm
+
+`images/opt/uylar.*` — men yaratgan vaqtinchalik grafika (shaxmatka + shahar
+silueti, sayt ranglarida). **Uni tizimning haqiqiy skrinshoti bilan
+almashtiring** — shaxmatka yoki interaktiv fasad ekrani eng mos keladi.
+
+---
+
+## 13. Ma'lumot aniqligi haqida
 
 `products.js` dagi Tinch HR ma'lumotlari **PDF'dan aynan ko'chirilgan**.
 Bitta joyni tekshirib qo'ying: narxlar jadvalida tarif nomi va xodimlar

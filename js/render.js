@@ -28,15 +28,22 @@
     })[0];
   }
 
-  /** Mahsulotdagi eng arzon ko'rsatilgan narx — kartochka uchun */
+  /**
+   * Kartochkadagi «… dan» narxi.
+   * Faqat BIRINCHI narxi bor rejim ichida solishtiriladi: aks holda
+   * UZS va USD summalari xom holda taqqoslanib, 8 100 USD 900 000 UZS dan
+   * «arzon» bo'lib chiqadi.
+   */
   function entryPrice(product) {
-    var found = null;
-    (product.pricingModes || []).forEach(function (mode) {
-      (mode.plans || []).forEach(function (plan) {
+    var modes = product.pricingModes || [];
+    for (var i = 0; i < modes.length; i++) {
+      var found = null;
+      (modes[i].plans || []).forEach(function (plan) {
         if (plan.price && (!found || plan.price.amount < found.amount)) found = plan.price;
       });
-    });
-    return found;
+      if (found) return found;
+    }
+    return null;
   }
 
   function planById(product, planId) {
@@ -200,9 +207,16 @@
      Taqqoslash matritsasi
      ------------------------------------------------------------ */
 
-  function matrix(product) {
+  /**
+   * Taqqoslash matritsasi.
+   * @param {object} product
+   * @param {string[]} [planIds] qaysi tariflar ustun bo'lishi. Berilmasa —
+   *   product.matrixPlans. Bu bir mahsulotda ikki xil tarif rejimi (obuna va
+   *   bir martalik) bo'lganda har biriga o'z jadvalini berish imkonini beradi.
+   */
+  function matrix(product, planIds) {
     var mode = matrixMode(product);
-    var ids = product.matrixPlans || [];
+    var ids = planIds || product.matrixPlans || [];
     if (!mode || !ids.length || !(product.featureGroups || []).length) return "";
 
     var plans = ids
@@ -412,7 +426,7 @@
           inner +=
             '<div class="stack stack-4">' +
               '<h3 class="h3">' + esc(t(S.ui.featureCompare)) + "</h3>" +
-              matrix(product) +
+              matrix(product, m.matrixPlans) +
             "</div>";
         }
         if (m.priceTables && m.priceTables.length) {

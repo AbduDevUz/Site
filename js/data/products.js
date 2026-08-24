@@ -1023,7 +1023,561 @@ window.PRODUCTS = [
   },
 
   /* ==========================================================
-     5. SAYTLAR
+     5. UYLAR (ko'chmas mulk savdosi)
+     ========================================================== */
+  {
+    id: "uylar",
+    icon: "building",
+    image: { webp: "./images/opt/uylar.webp", jpg: "./images/opt/uylar.jpg" },
+    name: { uz: "Tinch Uylar", ru: "Tinch Uylar" },
+    tagline: {
+      uz: "Ko'chmas mulk savdosini avtomatlashtirish",
+      ru: "Автоматизация продаж недвижимости",
+    },
+    short: {
+      uz: "Shaxmatka, bron va savdo, bo'lib to'lashni avtomatik hisoblash, shartnoma shakllantirish, onlayn kassa, SMS eslatmalar va menejerlar ko'rsatkichlari.",
+      ru: "Шахматка, бронь и продажа, автоматический расчёт рассрочки, формирование договоров, онлайн-касса, SMS-напоминания и показатели менеджеров.",
+    },
+    intro: {
+      uz: "Tinch Uylar — quruvchi kompaniyalar va savdo bo'limlari uchun tizim. Turar-joy majmuasidagi har bir xonadon, ofis, savdo maydoni va parking joyi o'z kartasiga ega bo'ladi. Sotuvchi shaxmatkadan bo'sh birlikni tanlaydi, bron qo'yadi yoki savdoni rasmiylashtiradi; bo'lib to'lash jadvali darhol hisoblanadi, shartnoma shablondan yig'iladi, to'lov sanasi yaqinlashganda mijozga SMS o'zi ketadi. Rahbar esa qaysi uy qanday sotilayotganini va qaysi menejer rejani bajarayotganini real vaqtda ko'rib turadi.",
+      ru: "Tinch Uylar — система для застройщиков и отделов продаж. Каждая квартира, офис, торговое помещение и машиноместо в жилом комплексе получает собственную карточку. Продавец выбирает свободную единицу в шахматке, ставит бронь или оформляет продажу; график рассрочки считается сразу, договор собирается из шаблона, а при приближении даты платежа клиенту автоматически уходит SMS. Руководитель в реальном времени видит, как продаётся каждый дом и кто из менеджеров выполняет план.",
+    },
+    tags: [
+      { uz: "Shaxmatka", ru: "Шахматка" },
+      { uz: "Bo'lib to'lash", ru: "Рассрочка" },
+      { uz: "Shartnoma", ru: "Договоры" },
+      { uz: "SMS", ru: "SMS" },
+    ],
+    highlights: [
+      {
+        icon: "grid",
+        title: { uz: "Shaxmatka va interaktiv fasad", ru: "Шахматка и интерактивный фасад" },
+        text: {
+          uz: "Bo'sh, bron qilingan va sotilgan birliklar bitta ekranda rang bilan ajratiladi. Qavat rejasi, bino fasadi va planirovka — mijozga shu yerdan ko'rsatasiz.",
+          ru: "Свободные, забронированные и проданные единицы разделены цветом на одном экране. План этажа, фасад здания и планировку показываете клиенту здесь же.",
+        },
+      },
+      {
+        icon: "percent",
+        title: { uz: "Bo'lib to'lash o'zi hisoblanadi", ru: "Рассрочка считается сама" },
+        text: {
+          uz: "Boshlang'ich to'lov, muddat va foizni kiriting — tizim oylik to'lov jadvalini, umumiy summani va ustamani darhol chiqaradi.",
+          ru: "Введите первоначальный взнос, срок и ставку — система сразу выдаёт график ежемесячных платежей, итоговую сумму и переплату.",
+        },
+      },
+      {
+        icon: "file-signature",
+        title: { uz: "Shartnoma shablondan yig'iladi", ru: "Договор собирается из шаблона" },
+        text: {
+          uz: "Mijoz ma'lumotini kiritish kifoya — tizim savdo shartlarini hisobga olib tayyor shartnomani beradi. Boshqa mijozga o'tkazish va qo'shimcha kelishuv ham shu yerda.",
+          ru: "Достаточно ввести данные клиента — система выдаёт готовый договор с учётом условий сделки. Переоформление на другого клиента и допсоглашение — там же.",
+        },
+      },
+      {
+        icon: "message-square",
+        title: { uz: "Mijozga SMS o'zi ketadi", ru: "SMS клиенту уходит сама" },
+        text: {
+          uz: "To'lov sanasi yaqinlashganda, muddat o'tib ketganda, tug'ilgan kun va bayramlarda. Matn va vaqtni siz belgilaysiz — qolganini tizim qiladi.",
+          ru: "При приближении даты платежа, при просрочке, в день рождения и в праздники. Текст и время задаёте вы — остальное делает система.",
+        },
+      },
+      {
+        icon: "wallet",
+        title: { uz: "Onlayn kassa va ko'p valyuta", ru: "Онлайн-касса и мультивалютность" },
+        text: {
+          uz: "Bir vaqtda bir necha kompaniya hisobi, bo'lib to'lash bo'yicha tushum, pul aylanmasi va bugungi qarzdorliklar — bitta bo'limda.",
+          ru: "Несколько счетов компании одновременно, поступления по рассрочке, денежный оборот и задолженности на сегодня — в одном разделе.",
+        },
+      },
+      {
+        icon: "chart",
+        title: { uz: "Rahbar uchun ko'rsatkichlar", ru: "Показатели для руководителя" },
+        text: {
+          uz: "Savdo rejasi, menejerlar KPI si, obyekt kesimidagi hisobot va narx tahlili. Har bir raqamni bosib, uni chiqargan ro'yxatga tushasiz.",
+          ru: "План продаж, KPI менеджеров, отчёт в разрезе объектов и ценовая аналитика. Нажав на любую цифру, попадаете в список, из которого она получена.",
+        },
+      },
+    ],
+
+    /* ---------- Tarif rejimlari ---------- */
+    pricingModes: [
+      {
+        id: "subscription",
+        label: { uz: "Oylik obuna", ru: "Ежемесячная подписка" },
+        description: {
+          uz: "Bulutda ishlaydi, o'rnatish va server kerak emas. Minimal to'lov muddati — 3 oy, 12 oyga oldindan to'lasangiz 25% chegirma.",
+          ru: "Работает в облаке, установка и сервер не нужны. Минимальный срок оплаты — 3 месяца, при оплате за 12 месяцев скидка 25%.",
+        },
+        showMatrix: true,
+        matrixPlans: ["start", "standard"],
+        plans: [
+          {
+            id: "start",
+            name: { uz: "Uylar Start", ru: "Uylar Start" },
+            desc: {
+              uz: "Bitta majmuani sotishni boshlash uchun: shaxmatka, bron, standart savdo va kassa.",
+              ru: "Чтобы начать продавать один комплекс: шахматка, бронь, стандартная продажа и касса.",
+            },
+            price: { amount: 900000, currency: "UZS", period: { uz: "oy", ru: "месяц" } },
+            highlights: [
+              { uz: "2 foydalanuvchi · 200 birlik · cheksiz obyekt", ru: "2 пользователя · 200 единиц · объектов без ограничений" },
+              { uz: "Shaxmatka, genplan, plitka va ro'yxat ko'rinishi", ru: "Шахматка, генплан, плитка и список" },
+              { uz: "Bron va standart savdo, mijozlar bazasi", ru: "Бронь и стандартная продажа, база клиентов" },
+              { uz: "Onlayn kassa, ko'p valyuta, pul aylanmasi", ru: "Онлайн-касса, мультивалютность, денежный оборот" },
+              { uz: "Harakatlar jurnali va Excel eksport", ru: "Журнал действий и выгрузка в Excel" },
+            ],
+          },
+          {
+            id: "standard",
+            name: { uz: "Uylar Standard", ru: "Uylar Standard" },
+            badge: { uz: "Tavsiya etiladi", ru: "Рекомендуем" },
+            featured: true,
+            desc: {
+              uz: "Barcha modullar ochiq: bo'lib to'lash, shartnoma generatsiyasi, SMS, KPI va to'liq hisobotlar.",
+              ru: "Все модули открыты: рассрочка, генерация договоров, SMS, KPI и полная отчётность.",
+            },
+            price: { amount: 1800000, currency: "UZS", period: { uz: "oy", ru: "месяц" } },
+            highlights: [
+              { uz: "Start tarifidagi barcha imkoniyatlar", ru: "Все возможности тарифа Start" },
+              { uz: "Bo'lib to'lash va uni avtomatik hisoblash", ru: "Рассрочка и её автоматический расчёт" },
+              { uz: "Shartnoma va qo'shimcha kelishuv generatsiyasi", ru: "Генерация договоров и допсоглашений" },
+              { uz: "Avtomatik SMS va push bildirishnomalar", ru: "Автоматические SMS и push-уведомления" },
+              { uz: "KPI, savdo rejasi va obyektlar hisoboti", ru: "KPI, план продаж и отчёты по объектам" },
+            ],
+          },
+        ],
+        priceTables: [
+          {
+            title: { uz: "Oylik obuna — narxlar jadvali", ru: "Ежемесячная подписка — таблица цен" },
+            columns: [
+              { key: "name", label: { uz: "Tarif", ru: "Тариф" } },
+              { key: "users", label: { uz: "Foydalanuvchi", ru: "Пользователей" } },
+              { key: "units", label: { uz: "Birlik (xonadon)", ru: "Единиц (квартир)" } },
+              { key: "monthly", label: { uz: "Oyiga", ru: "В месяц" }, strong: true },
+              { key: "yearlyHtml", label: { uz: "Yiliga", ru: "В год" }, html: true },
+            ],
+            rows: [
+              {
+                name: "Uylar Start",
+                users: "2",
+                units: "200",
+                monthly: "900 000 UZS",
+                yearlyHtml: '8 100 000 UZS <span class="cell-off">−25%</span>',
+              },
+              {
+                name: "Uylar Standard",
+                users: "2",
+                units: "200",
+                monthly: "1 800 000 UZS",
+                yearlyHtml: '16 200 000 UZS <span class="cell-off">−25%</span>',
+              },
+            ],
+            foot: {
+              uz: "<b>Obyekt va uylar soni cheklanmagan.</b> Minimal to'lov muddati — 3 oy. Yillik narx 12 oyga oldindan to'langanda amal qiladi.",
+              ru: "<b>Количество объектов и домов не ограничено.</b> Минимальный срок оплаты — 3 месяца. Годовая цена действует при предоплате за 12 месяцев.",
+            },
+          },
+          {
+            title: { uz: "Limitni kengaytirish", ru: "Расширение лимитов" },
+            columns: [
+              { key: "name", label: { uz: "Nimasi", ru: "Что" } },
+              { key: "price", label: { uz: "Qo'shimcha narx", ru: "Доплата" }, strong: true },
+            ],
+            rows: [
+              {
+                name: { uz: "Har bir qo'shimcha foydalanuvchi", ru: "Каждый дополнительный пользователь" },
+                price: "150 000 UZS / oy",
+              },
+              {
+                name: { uz: "Har qo'shimcha 100 birlik", ru: "Каждые дополнительные 100 единиц" },
+                price: "600 000 UZS / oy",
+              },
+              {
+                name: { uz: "Texnik qo'llab-quvvatlash: har 5 murojaat", ru: "Техподдержка: каждые 5 обращений" },
+                price: "400 000 UZS / oy",
+              },
+            ],
+            foot: {
+              uz: "<b>Fayl xotirasi:</b> tarifga 100 MB kiritilgan (planirovka, foto, hujjat). Kengaytirish alohida kelishiladi.",
+              ru: "<b>Файловое хранилище:</b> в тариф входит 100 МБ (планировки, фото, документы). Расширение согласовывается отдельно.",
+            },
+          },
+        ],
+        notes: [
+          {
+            type: "info",
+            text: {
+              uz: "<b>Qo'shimcha xizmatlar:</b> kompaniya sayti bilan integratsiya (obyektlar, bo'sh birliklar va arizalar sinxronizatsiyasi), IP-telefoniya va SMS-shlyuz ulanishi — alohida kelishiladi.",
+              ru: "<b>Дополнительные услуги:</b> интеграция с сайтом компании (синхронизация объектов, свободных единиц и заявок), IP-телефония и подключение SMS-шлюза — согласовываются отдельно.",
+            },
+          },
+          {
+            type: "warn",
+            text: {
+              uz: "<b>SMS xabarlar narxi kiritilmagan.</b> Yuborilgan har bir xabar uchun to'lov aloqa operatori tarifi bo'yicha alohida hisoblanadi.",
+              ru: "<b>Стоимость SMS не включена.</b> Оплата за каждое отправленное сообщение считается отдельно по тарифу оператора связи.",
+            },
+          },
+        ],
+      },
+      {
+        id: "onetime",
+        label: { uz: "Bir martalik xarid", ru: "Разовая покупка" },
+        badge: { uz: "Uylar Sale", ru: "Uylar Sale" },
+        description: {
+          uz: "Tizimni to'liq sotib olish: o'z serveringizda ishlaydi, foydalanuvchilar va birliklar limiti paketga qarab beriladi.",
+          ru: "Полная покупка системы: работает на вашем сервере, лимит пользователей и единиц зависит от пакета.",
+        },
+        showMatrix: true,
+        matrixPlans: ["progress", "expert", "premium"],
+        plans: [
+          {
+            id: "progress",
+            name: { uz: "Progress", ru: "Progress" },
+            desc: {
+              uz: "1 obyekt · 4 uy · 200 birlikkacha · 5 xodim. Bitta majmuani sotayotgan kompaniya uchun.",
+              ru: "1 объект · 4 дома · до 200 единиц · 5 сотрудников. Для компании, продающей один комплекс.",
+            },
+            price: { amount: 8100, currency: "USD", period: { uz: "bir marotaba", ru: "единовременно" } },
+            highlights: [
+              { uz: "Yoki bo'lib to'lash: 3 000 USD × 3 oy", ru: "Или в рассрочку: 3 000 USD × 3 месяца" },
+              { uz: "Shaxmatka, bron, standart savdo", ru: "Шахматка, бронь, стандартная продажа" },
+              { uz: "Onlayn kassa va ko'p valyuta", ru: "Онлайн-касса и мультивалютность" },
+              { uz: "Mijozlar bazasi va arizalar", ru: "База клиентов и заявки" },
+            ],
+          },
+          {
+            id: "expert",
+            name: { uz: "Expert", ru: "Expert" },
+            badge: { uz: "Tavsiya etiladi", ru: "Рекомендуем" },
+            featured: true,
+            desc: {
+              uz: "2 obyekt · 20 uy · 1 000 birlikkacha · 10 xodim. Bo'lib to'lash va SMS ochiladi.",
+              ru: "2 объекта · 20 домов · до 1 000 единиц · 10 сотрудников. Открываются рассрочка и SMS.",
+            },
+            price: { amount: 10800, currency: "USD", period: { uz: "bir marotaba", ru: "единовременно" } },
+            highlights: [
+              { uz: "Yoki bo'lib to'lash: 3 000 USD × 4 oy", ru: "Или в рассрочку: 3 000 USD × 4 месяца" },
+              { uz: "Progress paketidagi barcha imkoniyatlar", ru: "Все возможности пакета Progress" },
+              { uz: "Bo'lib to'lash va uni avtomatik hisoblash", ru: "Рассрочка и её автоматический расчёт" },
+              { uz: "Qavat rejasi, interaktiv fasad va plitka", ru: "План этажа, интерактивный фасад и плитка" },
+              { uz: "Avtomatik SMS va push bildirishnomalar", ru: "Автоматические SMS и push-уведомления" },
+            ],
+          },
+          {
+            id: "premium",
+            name: { uz: "Premium", ru: "Premium" },
+            desc: {
+              uz: "4 obyekt · 30 uy · 3 000 birlikkacha · 30 xodim. Barcha modullar, cheklovsiz.",
+              ru: "4 объекта · 30 домов · до 3 000 единиц · 30 сотрудников. Все модули без ограничений.",
+            },
+            price: { amount: 13500, currency: "USD", period: { uz: "bir marotaba", ru: "единовременно" } },
+            highlights: [
+              { uz: "Yoki bo'lib to'lash: 3 000 USD × 5 oy", ru: "Или в рассрочку: 3 000 USD × 5 месяцев" },
+              { uz: "Expert paketidagi barcha imkoniyatlar", ru: "Все возможности пакета Expert" },
+              { uz: "Shartnoma va qo'shimcha kelishuv generatsiyasi", ru: "Генерация договоров и допсоглашений" },
+              { uz: "KPI, savdo bo'limi ko'rsatkichlari", ru: "KPI и показатели отдела продаж" },
+              { uz: "Obyektlar kesimidagi hisobotlar", ru: "Отчёты в разрезе объектов" },
+            ],
+          },
+        ],
+        priceTables: [
+          {
+            title: { uz: "Bir martalik xarid — narxlar jadvali", ru: "Разовая покупка — таблица цен" },
+            columns: [
+              { key: "name", label: { uz: "Paket", ru: "Пакет" } },
+              { key: "staff", label: { uz: "Xodimlar", ru: "Сотрудников" } },
+              { key: "scope", label: { uz: "Obyekt · uy · birlik", ru: "Объектов · домов · единиц" } },
+              { key: "installment", label: { uz: "Bo'lib to'lash", ru: "Рассрочка" } },
+              { key: "onceHtml", label: { uz: "Bir marotaba", ru: "Единовременно" }, strong: true, html: true },
+            ],
+            rows: [
+              {
+                name: "Progress",
+                staff: "5",
+                scope: "1 · 4 · 200",
+                installment: "3 000 USD × 3",
+                onceHtml: '8 100 USD <span class="cell-off">−10%</span>',
+              },
+              {
+                name: "Expert",
+                staff: "10",
+                scope: "2 · 20 · 1 000",
+                installment: "3 000 USD × 4",
+                onceHtml: '10 800 USD <span class="cell-off">−10%</span>',
+              },
+              {
+                name: "Premium",
+                staff: "30",
+                scope: "4 · 30 · 3 000",
+                installment: "3 000 USD × 5",
+                onceHtml: '13 500 USD <span class="cell-off">−10%</span>',
+              },
+            ],
+            foot: {
+              uz: "<b>Izoh:</b> «Bir marotaba» ustunidagi narxlar to'liq oldindan to'lovda 10% chegirma bilan ko'rsatilgan. Birinchi yil yangilanishlari bepul.",
+              ru: "<b>Примечание:</b> цены в колонке «Единовременно» указаны со скидкой 10% при полной предоплате. Обновления первого года бесплатны.",
+            },
+          },
+        ],
+        notes: [
+          {
+            type: "info",
+            text: {
+              uz: "<b>Qo'shimcha xizmatlar:</b> sayt bilan integratsiya, IP-telefoniya va SMS-shlyuz ulanishi paketga kirmaydi — alohida kelishiladi. Server va SMS xabarlar narxi ham alohida.",
+              ru: "<b>Дополнительные услуги:</b> интеграция с сайтом, IP-телефония и подключение SMS-шлюза в пакет не входят — согласовываются отдельно. Сервер и стоимость SMS также оплачиваются отдельно.",
+            },
+          },
+        ],
+      },
+    ],
+
+    /* ---------- Tariflar taqqoslash matritsasi ----------
+       plans kalitlari: start / standard (obuna) va
+       progress / expert / premium (bir martalik xarid).
+       Har bir rejim o'z ustunlarini matrixPlans orqali tanlaydi. */
+    matrixPlans: ["start", "standard"],
+    featureGroups: [
+      {
+        title: { uz: "Obyektlar va birliklar", ru: "Объекты и единицы" },
+        items: [
+          {
+            label: { uz: "Xonadon, ofis, savdo maydoni va parking", ru: "Квартиры, офисы, торговые помещения и машиноместа" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Genplan, ro'yxat va plitka ko'rinishlari", ru: "Генплан, список и плиточный вид" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Shaxmatka — bo'sh va band birliklar jadvali", ru: "Шахматка — таблица свободных и занятых единиц" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Filtrlar: xona soni, maydon, narx, holat", ru: "Фильтры: комнатность, площадь, цена, статус" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Planirovkalar va xonadon galereyasi", ru: "Планировки и галерея помещений" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Qavat rejasi va unda belgilash", ru: "План этажа с возможностью разметки" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Interaktiv fasad", ru: "Интерактивный фасад" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Interaktiv plitka va 3D katalog", ru: "Интерактивная плитка и 3D-каталог" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Bron va savdo", ru: "Бронь и продажа" },
+        items: [
+          {
+            label: { uz: "Uch qadamda bron yoki savdo rasmiylashtirish", ru: "Оформление брони или продажи в три шага" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Standart savdo shartlari", ru: "Стандартные условия продажи" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Mijozga taqdimot va tijorat taklifini chop etish", ru: "Презентация клиенту и печать коммерческого предложения" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Moslashuvchan savdo — individual shartlar", ru: "Гибкая продажа — индивидуальные условия" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Bo'lib to'lashga sotish", ru: "Продажа в рассрочку" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Bo'lib to'lash jadvalini avtomatik hisoblash", ru: "Автоматический расчёт графика рассрочки" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Shartnomani boshqa mijozga o'tkazish", ru: "Переоформление договора на другого клиента" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Kadastr qaroridan keyin qo'shimcha kelishuv", ru: "Допсоглашение после решения кадастра" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Hujjatlar", ru: "Документы" },
+        items: [
+          {
+            label: { uz: "Kompaniya hujjat aylanishi", ru: "Документооборот компании" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Shartnomani shablondan avtomatik shakllantirish", ru: "Автоматическое формирование договора из шаблона" },
+            plans: { start: false, standard: true, progress: false, expert: false, premium: true },
+          },
+          {
+            label: { uz: "Qo'shimcha kelishuv uchun alohida kassa", ru: "Отдельная касса для допсоглашений" },
+            plans: { start: false, standard: true, progress: false, expert: false, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Moliya va kassa", ru: "Финансы и касса" },
+        items: [
+          {
+            label: { uz: "Onlayn kassa va savdo hisobi", ru: "Онлайн-касса и учёт продаж" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Bir vaqtda bir necha kompaniya hisobi", ru: "Несколько счетов компании одновременно" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Ko'p valyutali rejim", ru: "Мультивалютный режим" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Pul aylanmasi nazorati", ru: "Контроль денежного оборота" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Muddati o'tgan to'lovlar ro'yxati", ru: "Список просроченных платежей" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Bo'lib to'lash bo'yicha to'lov qabul qilish", ru: "Приём оплаты по рассрочке" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Kutilayotgan to'lovlar", ru: "Ожидаемые платежи" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Bugungi qarzdorliklar", ru: "Задолженности на сегодня" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Mijozlar va arizalar", ru: "Клиенты и заявки" },
+        items: [
+          {
+            label: { uz: "Mijozlar bazasi va aloqa tarixi", ru: "База клиентов и история взаимодействий" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Arizalar: saytdan, qo'ng'iroqdan, vaqtinchalik bron", ru: "Заявки: с сайта, по звонку, на временную бронь" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Mijoz oqimi manbalari", ru: "Источники потока клиентов" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Sotuvdan keyingi ish (post-savdo)", ru: "Работа после продажи (пост-продажа)" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Bildirishnomalar", ru: "Уведомления" },
+        items: [
+          {
+            label: { uz: "To'lov sanasi yaqinlashgani haqida SMS", ru: "SMS о приближении даты платежа" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Muddati o'tgan to'lov haqida SMS", ru: "SMS о просроченном платеже" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Tug'ilgan kun va bayram tabriklari", ru: "Поздравления с днём рождения и праздниками" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Tizim ichidagi push bildirishnomalar", ru: "Push-уведомления внутри системы" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Hisobot va tahlil", ru: "Отчёты и аналитика" },
+        items: [
+          {
+            label: { uz: "Interaktiv dashboard", ru: "Интерактивный дашборд" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Oylik tushum va pul aylanmasi", ru: "Ежемесячный доход и денежный оборот" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Savdo bosqichlari bo'yicha hisobot", ru: "Отчёт по этапам продаж" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Sotilgan va sotilmagan birliklar ro'yxati", ru: "Список проданных и непроданных единиц" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Bo'lib to'lash to'lovlari hisoboti", ru: "Отчёт по платежам рассрочки" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Narx tahlili", ru: "Ценовая аналитика" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Yangi savdo rejasini tuzish", ru: "Создание нового плана продаж" },
+            plans: { start: false, standard: true, progress: false, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Savdo bo'limi ko'rsatkichlari", ru: "Показатели отдела продаж" },
+            plans: { start: false, standard: true, progress: false, expert: false, premium: true },
+          },
+          {
+            label: { uz: "Xodimlar KPI si", ru: "KPI сотрудников" },
+            plans: { start: false, standard: true, progress: false, expert: false, premium: true },
+          },
+          {
+            label: { uz: "Obyektlar kesimidagi hisobot", ru: "Отчёты в разрезе объектов" },
+            plans: { start: false, standard: true, progress: false, expert: false, premium: true },
+          },
+        ],
+      },
+      {
+        title: { uz: "Xodimlar va nazorat", ru: "Сотрудники и контроль" },
+        items: [
+          {
+            label: { uz: "Rollar bo'yicha ruxsatlarni taqsimlash", ru: "Распределение прав по ролям" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Xodimning shaxsiy kabineti", ru: "Личный кабинет сотрудника" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Harakatlar jurnali: kim, qachon, nima, IP manzil", ru: "Журнал действий: кто, когда, что, IP-адрес" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+          {
+            label: { uz: "Jurnal va hisobotlarni Excel'ga chiqarish", ru: "Выгрузка журнала и отчётов в Excel" },
+            plans: { start: true, standard: true, progress: true, expert: true, premium: true },
+          },
+        ],
+      },
+    ],
+  },
+  /* ==========================================================
+     6. SAYTLAR
      ========================================================== */
   {
     id: "websites",

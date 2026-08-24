@@ -111,7 +111,7 @@ window.SITE = {
         ru: "Персонал, склад, продажи и документы — в одной системе. Мы внедряем HR, ERP, CRM и складские решения для компаний Узбекистана: понятные тарифы, открытые цены, интеграция и поддержка.",
       },
       stats: [
-        { value: "5", label: { uz: "tayyor mahsulot", ru: "готовых продукта" } },
+        { value: "6", label: { uz: "tayyor mahsulot", ru: "готовых продукта" } },
         { value: "2", label: { uz: "til: uz / ru", ru: "языка: uz / ru" } },
         { value: "24/7", label: { uz: "tizim ishlashi", ru: "работа системы" } },
       ],

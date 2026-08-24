@@ -186,7 +186,11 @@
       .replace(/'/g, "&#39;");
   }
 
-  /** Sonni bo'shliq bilan ajratish: 1035000 → "1 035 000" */
+  /**
+   * Sonni uchtalab ajratish: 1035000 → "1 035 000".
+   * Ajratgich — uzilmas bo'shliq (U+00A0): raqam qator oxirida
+   * «1 035» va «000» bo'lib ikkiga bo'linib ketmaydi.
+   */
   function num(value) {
     return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
