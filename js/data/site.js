@@ -59,6 +59,11 @@ window.SITE = {
     perUserMonth: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" },
     included: { uz: "Tarifga kiritilgan", ru: "Входит в тариф" },
     notIncluded: { uz: "Ushbu tarifda mavjud emas", ru: "Недоступно в этом тарифе" },
+    soon: { uz: "Tez orada", ru: "Скоро" },
+    soonHint: {
+      uz: "Ishlab chiqilmoqda — tarifga kiritilgan, ishga tushgach avtomatik ochiladi",
+      ru: "В разработке — входит в тариф, откроется автоматически после запуска",
+    },
     allFeatures: { uz: "Barcha imkoniyatlar", ru: "Все возможности" },
     featureCompare: { uz: "Tariflarni taqqoslash", ru: "Сравнение тарифов" },
     priceTable: { uz: "Narxlar jadvali", ru: "Таблица цен" },

@@ -108,7 +108,9 @@
               return (
                 '<article class="card card--hover reveal">' +
                   '<span class="card__icon">' + icon(hasIcon(h.icon) ? h.icon : "sparkles") + "</span>" +
-                  '<h3 class="card__title">' + esc(t(h.title)) + "</h3>" +
+                  '<h3 class="card__title">' + esc(t(h.title)) +
+                    (h.soon ? " " + window.R.soonBadge() : "") +
+                  "</h3>" +
                   '<p class="card__text">' + esc(t(h.text)) + "</p>" +
                 "</article>"
               );
@@ -141,7 +143,13 @@
                   '<ul class="plan-card__list" style="border-top:0;padding-top:0">' +
                     group.items
                       .map(function (item) {
-                        return "<li>" + icon("check") + "<span>" + esc(t(item.label)) + "</span></li>";
+                        return (
+                          '<li' + (item.soon ? ' class="is-soon"' : "") + ">" +
+                          icon(item.soon ? "clock" : "check") +
+                          "<span>" + esc(t(item.label)) +
+                            (item.soon ? " " + window.R.soonBadge() : "") +
+                          "</span></li>"
+                        );
                       })
                       .join("") +
                   "</ul>" +

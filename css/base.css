@@ -69,6 +69,13 @@ svg {
   max-width: 100%;
 }
 
+/* width/height atributlari faqat proporsiyani bildirsin — o'lchovni CSS
+   belgilaydi. Busiz height="900" atributi aspect-ratio ni bosib ketadi. */
+img,
+video {
+  height: auto;
+}
+
 /* <picture> shunchaki o'rovchi — layout <img> ga tegishli bo'lib qolsin,
    shunda .card__media img kabi selektorlar o'zgarishsiz ishlaydi */
 picture {

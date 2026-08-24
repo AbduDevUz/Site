@@ -891,6 +891,24 @@ body.is-locked {
   opacity: 0.65;
 }
 
+/* Tarifga kiritilgan, lekin hali ishga tushmagan imkoniyat */
+.mark--soon {
+  background: rgba(248, 218, 0, 0.14);
+  color: var(--brand-yellow-400);
+}
+
+.badge--xs {
+  padding: 0.1rem 0.45rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.02em;
+  vertical-align: 1px;
+}
+
+.plan-card__list li.is-soon svg,
+.acc__row .is-soon svg {
+  color: var(--brand-yellow-400);
+}
+
 /* ------------------------------------------------------------
    Xususiyatlar matritsasi
    ------------------------------------------------------------ */

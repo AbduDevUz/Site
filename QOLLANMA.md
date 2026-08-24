@@ -59,6 +59,30 @@ featureGroups: [
 ]
 ```
 
+### «Tez orada» imkoniyati
+
+Hali ishga tushmagan, lekin tarifga kiritilgan imkoniyat uchun `soon: true`:
+
+```js
+{
+  label: { uz: "Telegram-bot orqali buyurtma", ru: "Заказы через Telegram-бот" },
+  plans: { basic: false, pro: true },
+  soon: true,          // ← ✓ o'rniga sariq soat belgisi + «Tez orada» yorlig'i
+}
+```
+
+Tarif kartasidagi ro'yxatda ham ishlaydi — faqat yozilishi boshqacha:
+
+```js
+highlights: [
+  { uz: "Oddiy qator", ru: "Обычная строка" },
+  { label: { uz: "Tez oradagi qator", ru: "Скорая строка" }, soon: true },
+]
+```
+
+Imkoniyat ishga tushgach — shunchaki `soon: true` ni o'chiring, boshqa hech narsa
+o'zgartirmaysiz.
+
 `plans` ichidagi kalitlar (`basic`, `pro`) — `plans[].id` bilan bir xil bo'lishi shart.
 Qaysi tariflar jadvalda ko'rsatilishini `matrixPlans` belgilaydi:
 
@@ -264,10 +288,38 @@ skrinshoti. Bosh sahifadagi «brauzer ramkasi» aynan shu uchun qilingan.
 
 ---
 
-## 11. Ma'lumot aniqligi haqida
+## 11. Tinch Ombor narxlari qayerdan olingan
+
+Tinch HR narxlari sizdan kelgan PDF'da tayyor edi. **Tinch Ombor narxlarini
+men qo'ydim** — O'zbekiston bozoridagi raqobatchilarga qarab:
+
+| Tizim | Oylik narxi (2026) |
+| --- | --- |
+| MoySklad UZ | Start 74 250 · Bazaviy 180 000 · Professional 510 000 · Korporativ 1 185 000 |
+| BILLZ | Start 299 000 · Advanced 499 000 · Pro 999 000 (+179 000 har qo'shimcha nuqta) |
+| **Tinch Ombor Basic** | **225 000** (5 foydalanuvchi × 45 000) |
+| **Tinch Ombor PRO** | **325 000** (5 foydalanuvchi × 65 000) |
+
+Mantiq: MoySklad Bazaviy'dan qimmat, chunki unda partiya + FEFO + agent + kredit
+limiti yo'q. BILLZ Start'dan arzon, chunki BILLZ chakana savdo (kassa, POS)
+uchun, Tinch Ombor esa distribyutsiya uchun. Narxni o'zgartirmoqchi bo'lsangiz —
+`products.js` → `warehouse` → `pricingModes[0].plans[].price.amount` va
+`priceTables[].rows`.
+
+---
+
+## 12. Ma'lumot aniqligi haqida
 
 `products.js` dagi Tinch HR ma'lumotlari **PDF'dan aynan ko'chirilgan**.
 Bitta joyni tekshirib qo'ying: narxlar jadvalida tarif nomi va xodimlar
 soni mos kelmaydi (`Basic 20` → 15 xodim, `Basic 50` → 45 xodim,
 `Basic 100` → 90 xodim). PDF'da shunday yozilgan, shuning uchun o'zgartirmadim.
 Agar bu xato bo'lsa — `priceTables[].rows[].employees` qiymatlarini tuzating.
+
+Tinch Ombor jadvalida bunday nomuvofiqlik yo'q: tarif nomidagi son
+foydalanuvchilar soniga aynan teng (`Basic 5` → 5 foydalanuvchi).
+
+**Telegram-bot** hujjatda yo'q edi — siz aytgan tavsif bo'yicha yozdim va
+`soon: true` bilan belgiladim (PRO tarifida, 6 ta imkoniyat). Ishga tushgach
+`soon` bayrog'ini o'chirasiz. Tavsif noto'g'ri bo'lsa —
+`products.js` → `warehouse` → «Telegram-bot orqali buyurtma» guruhini tuzating.

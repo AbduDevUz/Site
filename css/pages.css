@@ -233,7 +233,9 @@
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: clamp(2rem, 1rem + 4vw, 4rem);
-  align-items: center;
+  /* Rasm matn ustuni balandligiga moslashsin — mahsulot matni uzun-qisqa
+     bo'lishidan qat'i nazar ikkala ustun bir xil balandlikda tugaydi */
+  align-items: stretch;
   margin-top: var(--space-6);
 }
 
@@ -276,7 +278,9 @@
 
 .product-hero__media img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 100%;
+  min-height: 340px;
+  max-height: 620px;
   object-fit: cover;
 }
 
@@ -290,6 +294,13 @@
 @media (max-width: 900px) {
   .product-hero__grid {
     grid-template-columns: 1fr;
+  }
+  /* Bitta ustunda cho'zish uchun qator balandligi yo'q — proporsiyaga o'tamiz */
+  .product-hero__media img {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 16 / 10;
   }
 }
 

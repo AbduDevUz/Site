@@ -74,10 +74,35 @@
     );
   }
 
-  function mark(on) {
-    return on
-      ? '<span class="mark mark--yes" title="' + esc(t(S.ui.included)) + '">' + icon("check") + "</span>"
-      : '<span class="mark mark--no" title="' + esc(t(S.ui.notIncluded)) + '">' + icon("x") + "</span>";
+  /**
+   * ✓ / ✗ belgisi. soon=true bo'lsa — sariq soat belgisi:
+   * imkoniyat tarifga kiritilgan, lekin hali ishga tushmagan.
+   */
+  function mark(on, soon) {
+    if (!on) {
+      return '<span class="mark mark--no" title="' + esc(t(S.ui.notIncluded)) + '">' + icon("x") + "</span>";
+    }
+    if (soon) {
+      return '<span class="mark mark--soon" title="' + esc(t(S.ui.soonHint)) + '">' + icon("clock") + "</span>";
+    }
+    return '<span class="mark mark--yes" title="' + esc(t(S.ui.included)) + '">' + icon("check") + "</span>";
+  }
+
+  /** "Tez orada" yorlig'i */
+  function soonBadge() {
+    return '<span class="badge badge--yellow badge--xs">' + esc(t(S.ui.soon)) + "</span>";
+  }
+
+  /**
+   * Ro'yxat elementi { uz, ru } yoki { label: { uz, ru }, soon: true }
+   * ko'rinishida bo'lishi mumkin — ikkalasini ham qo'llab-quvvatlaymiz.
+   */
+  function entry(item) {
+    var isMeta = item && typeof item === "object" && item.label;
+    return {
+      label: isMeta ? item.label : item,
+      soon: !!(isMeta && item.soon),
+    };
   }
 
   /* ------------------------------------------------------------
@@ -140,7 +165,13 @@
 
     var list = (plan.highlights || [])
       .map(function (h) {
-        return "<li>" + icon("check") + "<span>" + esc(t(h)) + "</span></li>";
+        var e = entry(h);
+        return (
+          '<li' + (e.soon ? ' class="is-soon"' : "") + ">" +
+          icon(e.soon ? "clock" : "check") +
+          "<span>" + esc(t(e.label)) + (e.soon ? " " + soonBadge() : "") + "</span>" +
+          "</li>"
+        );
       })
       .join("");
 
@@ -197,9 +228,10 @@
       body +=
         '<tr class="matrix__group"><th colspan="' + (plans.length + 1) + '">' + esc(t(group.title)) + "</th></tr>";
       group.items.forEach(function (item) {
-        body += "<tr><th>" + esc(t(item.label)) + "</th>";
+        body +=
+          "<tr><th>" + esc(t(item.label)) + (item.soon ? " " + soonBadge() : "") + "</th>";
         plans.forEach(function (p) {
-          body += "<td>" + mark(!!item.plans[p.id]) + "</td>";
+          body += "<td>" + mark(!!item.plans[p.id], item.soon) + "</td>";
         });
         body += "</tr>";
       });
@@ -228,13 +260,15 @@
             group.items
               .map(function (item) {
                 return (
-                  '<div class="acc__row"><span>' + esc(t(item.label)) + "</span>" +
+                  '<div class="acc__row"><span>' + esc(t(item.label)) +
+                    (item.soon ? " " + soonBadge() : "") +
+                  "</span>" +
                   '<span class="acc__marks">' +
                     plans
                       .map(function (p) {
                         return (
                           '<span class="acc__mark-col">' +
-                            mark(!!item.plans[p.id]) +
+                            mark(!!item.plans[p.id], item.soon) +
                             "<small>" + esc(shortName(t(p.name))) + "</small>" +
                           "</span>"
                         );
@@ -447,6 +481,8 @@
     matrixMode: matrixMode,
     entryPrice: entryPrice,
     mark: mark,
+    soonBadge: soonBadge,
+    entry: entry,
     picture: picture,
     productCard: productCard,
     planCard: planCard,
