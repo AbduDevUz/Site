@@ -1597,37 +1597,51 @@ h1 .soon-ribbon {
 }
 
 /* ------------------------------------------------------------
-   Brend lentasi — nom ma'nosini tushuntiradigan blok
+   Brend kartasi — nom ma'nosini tushuntiradigan blok
+   ------------------------------------------------------------
+   Tuzilishi CTA banner bilan bir xil (.cta-band), farqi rangda:
+   CTA — indigo (harakatga chaqiradi), bu — sariq (brend rangi).
+   Ikkalasi bir sahifada turgani uchun ular bir-birini takrorlamasligi
+   kerak, aks holda ko'z qaysi biri muhimligini ajrata olmaydi.
    ------------------------------------------------------------ */
 
-.brand-strip {
-  padding: var(--space-8) 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.brand-band {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  padding: clamp(1.75rem, 1.1rem + 2.4vw, 2.75rem);
+  border: 1px solid rgba(248, 218, 0, 0.28);
+  border-radius: var(--r-xl);
   background:
-    radial-gradient(80% 140% at 50% 0%, rgba(91, 91, 245, 0.1) 0%, transparent 60%),
-    var(--bg-alt);
+    radial-gradient(70% 120% at 100% 0%, rgba(248, 218, 0, 0.1) 0%, transparent 60%),
+    linear-gradient(120deg, rgba(248, 218, 0, 0.07), rgba(248, 218, 0, 0.02)) var(--surface);
+  overflow: hidden;
 }
 
-.brand-strip__inner {
-  max-width: 62ch;
-  margin: 0 auto;
-  text-align: center;
+.brand-band__text {
+  max-width: 58ch;
 }
 
-.brand-strip__inner .lead {
-  margin-top: var(--space-4);
-}
-
-/* Shior — sahifadagi yagona sariq matn, shuning uchun ko'zga tashlanadi */
-.brand-strip__slogan {
-  margin-top: var(--space-6);
+/* Shior — sahifadagi yagona yirik sariq matn, shuning uchun ko'zga tashlanadi */
+.brand-band__slogan {
+  flex: none;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem);
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--brand-yellow-400);
+  white-space: nowrap;
+}
+
+/* Tor ekranda shior matn ostiga tushadi */
+@media (max-width: 640px) {
+  .brand-band__slogan {
+    white-space: normal;
+  }
 }
 
 /* Footerdagi shior — logotip ostida, kichikroq */

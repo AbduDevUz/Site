@@ -188,7 +188,8 @@ Nom `company.name` da bitta joyda turadi va sarlavhaga, footerga hamda
 Shior `company.slogan` da. U uch joyda ko'rinadi:
 
 1. Bosh sahifa hero'sining ustidagi kichik yozuv (`home.hero.eyebrow`)
-2. Brend lentasidagi yirik sariq matn (`index.html` → `.brand-strip`)
+2. Brend kartasidagi yirik sariq matn (`index.html` → `.brand-band`,
+   «Nega biz» bilan «4 qadam» orasida turadi)
 3. Footerda logotip ostida (`.brand-slogan`)
 
 Diqqat: 1-nuqta alohida maydon (`home.hero.eyebrow`), chunki u nuqtasiz
