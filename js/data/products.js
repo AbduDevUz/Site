@@ -126,7 +126,7 @@ window.PRODUCTS = [
               uz: "Bitta ombor: kirim, chiqim, partiya, muddat va qarz hisobi. Qog'oz daftardan tizimga o'tish uchun.",
               ru: "Один склад: приход, расход, партии, сроки и учёт долга. Для перехода с бумажной тетради в систему.",
             },
-            price: { amount: 45000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 42000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
             highlights: [
               { uz: "Kirim, chiqim, qaytarish, hisobdan chiqarish", ru: "Приход, расход, возврат, списание" },
               { uz: "Partiya, tannarx va yaroqlilik muddati", ru: "Партии, себестоимость и сроки годности" },
@@ -144,7 +144,7 @@ window.PRODUCTS = [
               uz: "Distribyutsiya uchun: bir necha ombor, agentlar, kredit limiti, qarzdorlik yoshi, foyda va Telegram-bot.",
               ru: "Для дистрибуции: несколько складов, агенты, кредитный лимит, возраст задолженности, прибыль и Telegram-бот.",
             },
-            price: { amount: 65000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 60000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
             highlights: [
               { uz: "Basic tarifidagi barcha imkoniyatlar", ru: "Все возможности тарифа Basic" },
               { uz: "Bir necha ombor va agentlar boshqaruvi", ru: "Несколько складов и управление агентами" },
@@ -164,9 +164,9 @@ window.PRODUCTS = [
               { key: "perUser", label: { uz: "Har bir foydalanuvchi", ru: "За пользователя" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch Ombor Basic 5", users: "5", total: "225 000 UZS", perUser: "45 000 UZS" },
               { name: "Tinch Ombor Basic 10", users: "10", total: "420 000 UZS", perUser: "42 000 UZS" },
               { name: "Tinch Ombor Basic 20", users: "20", total: "760 000 UZS", perUser: "38 000 UZS" },
+              { name: "Tinch Ombor Basic 40", users: "40", total: "1 400 000 UZS", perUser: "35 000 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",
@@ -182,9 +182,9 @@ window.PRODUCTS = [
               { key: "perUser", label: { uz: "Har bir foydalanuvchi", ru: "За пользователя" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch Ombor PRO 5", users: "5", total: "325 000 UZS", perUser: "65 000 UZS" },
               { name: "Tinch Ombor PRO 10", users: "10", total: "600 000 UZS", perUser: "60 000 UZS" },
               { name: "Tinch Ombor PRO 20", users: "20", total: "1 100 000 UZS", perUser: "55 000 UZS" },
+              { name: "Tinch Ombor PRO 40", users: "40", total: "2 000 000 UZS", perUser: "50 000 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",
@@ -203,8 +203,8 @@ window.PRODUCTS = [
           {
             type: "warn",
             text: {
-              uz: "<b>Uskunalar narxi kiritilmagan.</b> Shtrix-kod skaneri, TSD terminali va chek printeri alohida hisoblanadi — bitta ish o'rnini jihozlash <b>150 AQSh dollaridan</b> boshlanadi. 20 dan ortiq foydalanuvchi yoki 4 dan ortiq ombor bo'lsa, narx alohida kelishiladi.",
-              ru: "<b>Стоимость оборудования не включена.</b> Сканер штрих-кодов, ТСД и чековый принтер считаются отдельно — оснащение одного рабочего места <b>от 150 долларов США</b>. При более чем 20 пользователях или 4 складах цена согласовывается отдельно.",
+              uz: "<b>Uskunalar narxi kiritilmagan.</b> Shtrix-kod skaneri, TSD terminali va chek printeri alohida hisoblanadi — bitta ish o'rnini jihozlash <b>150 AQSh dollaridan</b> boshlanadi. 40 dan ortiq foydalanuvchi yoki 4 dan ortiq ombor bo'lsa, narx alohida kelishiladi.",
+              ru: "<b>Стоимость оборудования не включена.</b> Сканер штрих-кодов, ТСД и чековый принтер считаются отдельно — оснащение одного рабочего места <b>от 150 долларов США</b>. При более чем 40 пользователях или 4 складах цена согласовывается отдельно.",
             },
           },
         ],
@@ -522,9 +522,9 @@ window.PRODUCTS = [
               { key: "perEmployee", label: { uz: "Har bir xodim uchun", ru: "За сотрудника" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch HR Basic 20", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
-              { name: "Tinch HR Basic 50", employees: "45", total: "1 035 000 UZS", perEmployee: "25 000 UZS" },
-              { name: "Tinch HR Basic 100", employees: "90", total: "2 070 000 UZS", perEmployee: "23 000 UZS" },
+              { name: "Tinch HR Basic 15", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
+              { name: "Tinch HR Basic 45", employees: "45", total: "1 035 000 UZS", perEmployee: "25 000 UZS" },
+              { name: "Tinch HR Basic 90", employees: "90", total: "2 070 000 UZS", perEmployee: "23 000 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",
@@ -540,9 +540,9 @@ window.PRODUCTS = [
               { key: "perEmployee", label: { uz: "Har bir xodim uchun", ru: "За сотрудника" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch HR PRO 20", employees: "15", total: "525 000 UZS", perEmployee: "35 000 UZS" },
-              { name: "Tinch HR PRO 50", employees: "45", total: "1 485 000 UZS", perEmployee: "33 000 UZS" },
-              { name: "Tinch HR PRO 100", employees: "90", total: "2 700 000 UZS", perEmployee: "30 000 UZS" },
+              { name: "Tinch HR PRO 15", employees: "15", total: "525 000 UZS", perEmployee: "35 000 UZS" },
+              { name: "Tinch HR PRO 45", employees: "45", total: "1 485 000 UZS", perEmployee: "33 000 UZS" },
+              { name: "Tinch HR PRO 90", employees: "90", total: "2 700 000 UZS", perEmployee: "30 000 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",

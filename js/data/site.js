@@ -17,16 +17,19 @@ window.SITE = {
     phoneHref: "tel:+998948349555",
     email: "info@tinch.uz",
 
-    /* Ommaviy Telegram — saytdagi «Telegram orqali yozish» tugmasi */
-    telegram: "https://t.me/tinch_dev",
-    telegramHandle: "@tinch_dev",
+    /* Ommaviy Telegram — saytdagi «Telegram orqali yozish» tugmasi,
+       ijtimoiy tarmoq ikonkasi va SEO tavsiflarida ishlatiladi. */
+    telegram: "https://t.me/AbduDevUz",
+    telegramHandle: "@AbduDevUz",
 
-    /* So'rovlar tushadigan shaxsiy Telegram */
+    /* So'rovlar tushadigan Telegram — buyurtma formasi shu yerga yuboradi.
+       Hozir ommaviysi bilan bir xil. Keyinchalik alohida kanal ochsangiz,
+       yuqoridagini o'zgartirib, bu yerni o'z holicha qoldirasiz. */
     telegramDirect: "https://t.me/AbduDevUz",
     telegramDirectHandle: "@AbduDevUz",
 
     socials: [
-      { id: "telegram", href: "https://t.me/tinch_dev", label: "Telegram" },
+      { id: "telegram", href: "https://t.me/AbduDevUz", label: "Telegram" },
       { id: "instagram", href: "https://www.instagram.com/tinchsoft", label: "Instagram" },
       { id: "facebook", href: "https://www.facebook.com/tinchsoft", label: "Facebook" },
       { id: "youtube", href: "https://www.youtube.com/@tinchsoft", label: "YouTube" },
@@ -307,8 +310,8 @@ window.SITE = {
         ru: "Контакты: телефон, Telegram и адрес — TINCH SOFT",
       },
       description: {
-        uz: "TINCH SOFT bilan bog'laning: Toshkent, +998 (94) 834-95-55, info@tinch.uz, Telegram @tinch_dev.",
-        ru: "Свяжитесь с TINCH SOFT: Ташкент, +998 (94) 834-95-55, info@tinch.uz, Telegram @tinch_dev.",
+        uz: "TINCH SOFT bilan bog'laning: Toshkent, +998 (94) 834-95-55, info@tinch.uz, Telegram @AbduDevUz.",
+        ru: "Свяжитесь с TINCH SOFT: Ташкент, +998 (94) 834-95-55, info@tinch.uz, Telegram @AbduDevUz.",
       },
     },
     eyebrow: { uz: "Aloqa", ru: "Контакты" },

@@ -115,3 +115,39 @@ ErrorDocument 404 /404.html
 
 # Papka ichini ko'rsatmaslik
 Options -Indexes
+
+
+# ------------------------------------------------------------
+# 6. Xizmat fayllarini yopish
+#    Odatda serverga faqat kerakli fayllar yuklanadi, lekin
+#    adashib butun loyiha ko'chirilsa — bu blok himoya qiladi.
+#    .git ochiq qolsa, butun manba kod yuklab olinishi mumkin.
+# ------------------------------------------------------------
+RedirectMatch 404 /\.git(/|$)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(\.git|\.vscode|\.claude|\.omc)(/|$) - [F,L]
+</IfModule>
+
+# Nuqta bilan boshlanadigan fayllar (.env, .gitignore va h.k.)
+# va qo'llanma / sozlama fayllari.
+# IfModule shart: `Require` — Apache 2.4 sintaksisi. Eski 2.2 da
+# bu direktiva 500 xatosi beradi, shuning uchun himoyalab yozamiz.
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.">
+    Require all denied
+  </FilesMatch>
+
+  <FilesMatch "\.(md|json|lock|log|bak|sh|ps1)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+# Apache 2.2 uchun zaxira
+<IfModule !mod_authz_core.c>
+  <FilesMatch "^\.|\.(md|json|lock|log|bak|sh|ps1)$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>

@@ -32,7 +32,7 @@ Narx so'rov bo'yicha bo'lsa: `price: null`.
 
 ```js
 rows: [
-  { name: "Tinch HR Basic 20", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
+  { name: "Tinch HR Basic 15", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
 ]
 ```
 
@@ -379,13 +379,32 @@ almashtiring** — shaxmatka yoki interaktiv fasad ekrani eng mos keladi.
 ## 13. Ma'lumot aniqligi haqida
 
 `products.js` dagi Tinch HR ma'lumotlari **PDF'dan aynan ko'chirilgan**.
-Bitta joyni tekshirib qo'ying: narxlar jadvalida tarif nomi va xodimlar
-soni mos kelmaydi (`Basic 20` → 15 xodim, `Basic 50` → 45 xodim,
-`Basic 100` → 90 xodim). PDF'da shunday yozilgan, shuning uchun o'zgartirmadim.
-Agar bu xato bo'lsa — `priceTables[].rows[].employees` qiymatlarini tuzating.
 
-Tinch Ombor jadvalida bunday nomuvofiqlik yo'q: tarif nomidagi son
-foydalanuvchilar soniga aynan teng (`Basic 5` → 5 foydalanuvchi).
+PDF'da tarif nomi va xodimlar soni mos kelmasdi (`Basic 20` → 15 xodim,
+`Basic 50` → 45 xodim, `Basic 100` → 90 xodim). **2026-08-25 da tuzatildi:**
+endi nomdagi son xodimlar soniga aynan teng — `Basic 15 / 45 / 90` va
+`PRO 15 / 45 / 90`. Narxlar o'zgarmadi.
+
+Tinch Ombor jadvalida esa kirish tarifi ataylab `4` deb nomlangan, lekin
+foydalanuvchilar ustunida `5` turadi (`Basic 4` / `PRO 4` → 5 foydalanuvchi).
+Bu — egasining qarori, xato emas. Nomni foydalanuvchi soniga tenglashtirmoqchi
+bo'lsangiz, `priceTables[].rows[0].name` ni `... 5` ga qaytaring.
+
+### Tekshirilishi kerak bo'lgan arifmetika
+
+`Tinch HR Sale` jadvalida «Progress» qatori boshqalardan farq qiladi:
+
+| Tarif | Bo'lib to'lash | −10% bo'lsa | Jadvalda |
+| --- | --- | --- | --- |
+| Start | 1 500 × 3 = 4 500 | 4 050 | 4 050 ✅ |
+| **Progress** | **3 000 × 3 = 9 000** | **8 100** | **8 000** ⚠️ |
+| Expert | 3 000 × 4 = 12 000 | 10 800 | 10 800 ✅ |
+| Premium | 3 000 × 6 = 18 000 | 16 200 | 16 200 ✅ |
+
+Qolgan uchtasi aniq 10% chegirma, «Progress» esa 100 dollarga farq qiladi.
+PDF'da shunday yozilgani uchun o'zgartirilmadi. Bu maxsus chegirma bo'lsa —
+qoldiring; xato bo'lsa `8 000 USD` ni `8 100 USD` ga tuzating
+(`products.js` → `hr` → `onetime` → `priceTables[0].rows[1].onceHtml`).
 
 **Telegram-bot** hujjatda yo'q edi — siz aytgan tavsif bo'yicha yozdim va
 `soon: true` bilan belgiladim (PRO tarifida, 6 ta imkoniyat). Ishga tushgach
