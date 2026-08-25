@@ -91,13 +91,22 @@ AddType image/svg+xml .svg
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # HTTPS ga majburiy o'tkazish (sertifikat o'rnatilgandan keyin)
-  # RewriteCond %{HTTPS} !=on
-  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  # DIQQAT: quyidagi ikki qoidaning TARTIBI muhim.
+  # www qoidasi birinchi turadi va darhol https ga olib o'tadi —
+  # shunda http://www.tinch.uz bitta sakrashda manzilga yetadi.
+  # Teskari tartibda ikkita 301 bo'lardi (http://www -> https://www
+  # -> https://tinch.uz), bu esa sekinroq va SEO uchun yomonroq.
 
-  # www siz variantga birlashtirish
+  # 1) www + istalgan protokol  ->  https://tinch.uz
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # 2) www siz http  ->  https
+  # Let's Encrypt sertifikati 2026-08-25 da o'rnatildi (tinch.uz,
+  # www.tinch.uz, mail.tinch.uz). Sertifikat yo'q serverda bu blokni
+  # yoqmang — sayt cheksiz yo'naltirishga tushadi.
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
   # /index.html → /
   RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
