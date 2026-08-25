@@ -30,7 +30,8 @@
       return (
         '<a href="#' + p.id + '" data-product="' + p.id + '" role="tab"' +
         (p.id === activeId ? ' class="is-active" aria-selected="true"' : ' aria-selected="false"') +
-        ">" + icon(p.icon) + esc(t(p.name)) + "</a>"
+        ">" + icon(p.icon) + esc(t(p.name)) +
+        (p.soon ? " " + window.R.soonBadge() : "") + "</a>"
       );
     }).join("");
 

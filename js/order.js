@@ -43,7 +43,11 @@
     productSel.innerHTML =
       '<option value="">' + esc(t(S.order.fields.any)) + "</option>" +
       window.PRODUCTS.map(function (p) {
-        return '<option value="' + p.id + '">' + esc(t(p.name)) + "</option>";
+        return (
+          '<option value="' + p.id + '">' +
+          esc(t(p.name)) + (p.soon ? " — " + esc(t(S.ui.soon)) : "") +
+          "</option>"
+        );
       }).join("");
 
     if (chosen && window.R.byId(chosen)) productSel.value = chosen;

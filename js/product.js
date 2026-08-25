@@ -38,8 +38,11 @@
       '<div class="product-switch">' +
       window.PRODUCTS.map(function (p) {
         return (
-          '<a href="product.html?id=' + p.id + '"' + (p.id === product.id ? ' class="is-active"' : "") + ">" +
+          '<a href="product.html?id=' + p.id + '"' +
+            (p.id === product.id ? ' class="is-active"' : "") +
+            (p.soon ? ' data-soon="1"' : "") + ">" +
           icon(p.icon) + esc(t(p.name)) +
+          (p.soon ? " " + window.R.soonBadge() : "") +
           "</a>"
         );
       }).join("") +
@@ -61,15 +64,22 @@
             '<span class="product-hero__badge"><span class="ic">' + icon(product.icon) + "</span>" +
               esc(t(product.tagline)) +
             "</span>" +
-            '<h1 class="h1">' + esc(t(product.name)) + "</h1>" +
+            '<h1 class="h1">' + esc(t(product.name)) +
+              (product.soon ? " " + window.R.soonRibbon() : "") +
+            "</h1>" +
             '<p class="lead" style="max-width:60ch">' + esc(t(product.intro)) + "</p>" +
+            (product.soon
+              ? '<p class="note note--soon">' + icon("clock") + "<span>" + esc(t(S.ui.soonNote)) + "</span></p>"
+              : "") +
             '<div class="row">' +
               '<a class="btn btn--primary btn--lg" href="order.html?product=' + product.id + '">' +
-                esc(t(S.ui.orderCta)) +
+                esc(t(product.soon ? S.ui.notifyCta : S.ui.orderCta)) +
               "</a>" +
               '<a class="btn btn--ghost btn--lg" href="#pricing">' + esc(t(S.ui.tariffsCta)) + "</a>" +
             "</div>" +
-            '<p class="dim" style="font-size:var(--fs-sm)">' + priceLine + "</p>" +
+            '<p class="dim" style="font-size:var(--fs-sm)">' +
+              (product.soon ? esc(t(S.ui.soon)) : priceLine) +
+            "</p>" +
           "</div>" +
           '<div class="product-hero__media reveal">' +
             window.R.picture(product.image, t(product.name) + " — " + t(product.tagline), {

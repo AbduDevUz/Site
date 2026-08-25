@@ -100,6 +100,13 @@
     return '<span class="badge badge--yellow badge--xs">' + esc(t(S.ui.soon)) + "</span>";
   }
 
+  /** Mahsulot hali ishga tushmagan bo'lsa — kartochka/sarlavha uchun yorliq */
+  function soonRibbon() {
+    return (
+      '<span class="soon-ribbon">' + icon("clock") + esc(t(S.ui.soon)) + "</span>"
+    );
+  }
+
   /**
    * Ro'yxat elementi { uz, ru } yoki { label: { uz, ru }, soon: true }
    * ko'rinishida bo'lishi mumkin — ikkalasini ham qo'llab-quvvatlaymiz.
@@ -131,10 +138,11 @@
       .join("");
 
     return (
-      '<article class="card card--hover product-card reveal">' +
+      '<article class="card card--hover product-card reveal' + (product.soon ? " is-soon" : "") + '">' +
         '<a class="product-card__media" href="product.html?id=' + product.id + '" aria-label="' + esc(t(product.name)) + '">' +
           picture(product.image, t(product.name) + " — " + t(product.tagline), { width: 1200, height: 675 }) +
           '<span class="product-card__glyph">' + icon(product.icon) + "</span>" +
+          (product.soon ? soonRibbon() : "") +
         "</a>" +
         '<div class="product-card__body">' +
           '<h3 class="card__title"><a href="product.html?id=' + product.id + '">' + esc(t(product.name)) + "</a></h3>" +
@@ -143,7 +151,9 @@
           '<div class="product-card__tags">' + tags + "</div>" +
         "</div>" +
         '<div class="product-card__foot">' +
-          priceHtml +
+          (product.soon
+            ? '<div class="product-card__price"><b>' + esc(t(S.ui.soon)) + "</b></div>"
+            : priceHtml) +
           '<a class="link-arrow" href="product.html?id=' + product.id + '">' + esc(t(S.ui.detailsCta)) + "</a>" +
         "</div>" +
       "</article>"
@@ -496,6 +506,7 @@
     entryPrice: entryPrice,
     mark: mark,
     soonBadge: soonBadge,
+    soonRibbon: soonRibbon,
     entry: entry,
     picture: picture,
     productCard: productCard,

@@ -82,6 +82,11 @@ window.SITE = {
       uz: "Ishlab chiqilmoqda — tarifga kiritilgan, ishga tushgach avtomatik ochiladi",
       ru: "В разработке — входит в тариф, откроется автоматически после запуска",
     },
+    soonNote: {
+      uz: "Bu mahsulot hozir ishlab chiqilmoqda. Ariza qoldiring — ishga tushishi bilan birinchilardan bo'lib xabar beramiz.",
+      ru: "Этот продукт сейчас в разработке. Оставьте заявку — сообщим о запуске одними из первых.",
+    },
+    notifyCta: { uz: "Ishga tushganda xabar berish", ru: "Сообщить о запуске" },
     allFeatures: { uz: "Barcha imkoniyatlar", ru: "Все возможности" },
     featureCompare: { uz: "Tariflarni taqqoslash", ru: "Сравнение тарифов" },
     priceTable: { uz: "Narxlar jadvali", ru: "Таблица цен" },
@@ -115,8 +120,8 @@ window.SITE = {
         ru: "TINCH SOFT — автоматизация бизнеса: HR, ERP, CRM, склад и сайты",
       },
       description: {
-        uz: "TINCH SOFT — Toshkentda biznes jarayonlarini avtomatlashtirish: Tinch HR, ERP, CRM, ombor hisobi va korporativ saytlar. Ochiq tariflar va narxlar.",
-        ru: "TINCH SOFT — автоматизация бизнес-процессов в Ташкенте: Tinch HR, ERP, CRM, складской учёт и корпоративные сайты. Открытые тарифы и цены.",
+        uz: "TINCH SOFT — Toshkentda biznes jarayonlarini avtomatlashtirish: Tinch Ombor, Tinch HR, Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
+        ru: "TINCH SOFT — автоматизация бизнес-процессов в Ташкенте: Tinch Ombor, Tinch HR, Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
       },
     },
     hero: {
@@ -282,8 +287,8 @@ window.SITE = {
         ru: "Тарифы и цены — TINCH SOFT",
       },
       description: {
-        uz: "TINCH SOFT mahsulotlarining tariflari va narxlari: Tinch HR Basic, PRO va bir martalik Sale paketlari. Har bir tarifga nimalar kirishi batafsil.",
-        ru: "Тарифы и цены продуктов TINCH SOFT: Tinch HR Basic, PRO и разовые пакеты Sale. Подробно о том, что входит в каждый тариф.",
+        uz: "TINCH SOFT mahsulotlarining tariflari va narxlari: Tinch Ombor, Tinch HR va Tinch Uylar uchun Basic, PRO va bir martalik Sale paketlari. Har bir tarifga nimalar kirishi batafsil.",
+        ru: "Тарифы и цены продуктов TINCH SOFT: Tinch Ombor, Tinch HR и Tinch Uylar — Basic, PRO и разовые пакеты Sale. Подробно о том, что входит в каждый тариф.",
       },
     },
     eyebrow: { uz: "Tariflar va narxlar", ru: "Тарифы и цены" },

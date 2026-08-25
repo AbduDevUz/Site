@@ -1520,3 +1520,82 @@ body.is-locked {
     background-position: 0 50%;
   }
 }
+
+/* ------------------------------------------------------------
+   "Tez orada" — hali ishga tushmagan mahsulotlar
+   ------------------------------------------------------------ */
+
+.soon-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 218, 0, 0.4);
+  background: rgba(248, 218, 0, 0.14);
+  color: var(--brand-yellow-400);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.soon-ribbon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Kartochka rasmidagi burchak yorlig'i */
+.product-card__media .soon-ribbon {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 2;
+  background: rgba(10, 16, 38, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.product-card.is-soon .product-card__media img {
+  filter: saturate(0.6);
+}
+
+.product-card.is-soon .product-card__price b {
+  color: var(--brand-yellow-400);
+}
+
+/* Mahsulot sahifasidagi sarlavha yonidagi yorliq */
+h1 .soon-ribbon {
+  font-size: var(--fs-sm);
+  vertical-align: 0.35em;
+  margin-left: 0.4em;
+}
+
+/* Hero ostidagi izoh */
+.note--soon {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  max-width: 60ch;
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--r-md);
+  border: 1px solid rgba(248, 218, 0, 0.28);
+  background: rgba(248, 218, 0, 0.08);
+  color: var(--text-muted, inherit);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+.note--soon svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--brand-yellow-400);
+}
+
+/* Mahsulotlar almashtirgichidagi yorliq */
+.product-switch a[data-soon] {
+  opacity: 0.85;
+}
