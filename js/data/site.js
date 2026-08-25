@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Sayt darajasidagi kontent (uz / ru)
+   Tinch — Sayt darajasidagi kontent (uz / ru)
    ------------------------------------------------------------
    QOIDA: har bir tarjima qilinadigan qiymat { uz, ru } obyekti.
    Yangi til qo'shish uchun shu obyektlarga kalit qo'shiladi
@@ -9,8 +9,12 @@
 window.SITE = {
   /* ---------- Kompaniya rekvizitlari (tarjimasiz) ---------- */
   company: {
-    name: "TINCH SOFT",
-    legalName: "TINCH SOFT",
+    name: "Tinch",
+    legalName: "Tinch",
+
+    /* Asosiy shior. Ikki ma'noli: «xotirjam ishlang» va «Tinch bilan
+       ishlang». Sarlavha ostida, brend lentasida va footerda chiqadi. */
+    slogan: { uz: "Tinch ishlang.", ru: "Работайте спокойно." },
     url: "https://tinch.uz",
     logo: "./images/logo2.png",
     phone: "+998 (94) 834-95-55",
@@ -119,16 +123,16 @@ window.SITE = {
   home: {
     meta: {
       title: {
-        uz: "TINCH SOFT — biznesni avtomatlashtirish: HR, ERP, CRM, ombor va saytlar",
-        ru: "TINCH SOFT — автоматизация бизнеса: HR, ERP, CRM, склад и сайты",
+        uz: "Tinch — biznesni avtomatlashtirish: HR, ERP, CRM, ombor va saytlar",
+        ru: "Tinch — автоматизация бизнеса: HR, ERP, CRM, склад и сайты",
       },
       description: {
-        uz: "TINCH SOFT — Toshkentda biznes jarayonlarini avtomatlashtirish: Tinch Ombor, Tinch HR, Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
-        ru: "TINCH SOFT — автоматизация бизнес-процессов в Ташкенте: Tinch Ombor, Tinch HR, Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
+        uz: "Tinch — Toshkentda biznes jarayonlarini avtomatlashtirish: Tinch Ombor, Tinch HR, Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
+        ru: "Tinch — автоматизация бизнес-процессов в Ташкенте: Tinch Ombor, Tinch HR, Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
       },
     },
     hero: {
-      eyebrow: { uz: "Biznesni avtomatlashtirish", ru: "Автоматизация бизнеса" },
+      eyebrow: { uz: "Tinch ishlang", ru: "Работайте спокойно" },
       titleLead: { uz: "Korxonangizni", ru: "Переведите бизнес" },
       titleAccent: { uz: "raqamli", ru: "в цифровое" },
       titleTail: { uz: "boshqaruvga o'tkazing", ru: "управление" },
@@ -142,6 +146,17 @@ window.SITE = {
         { value: "24/7", label: { uz: "tizim ishlashi", ru: "работа системы" } },
       ],
     },
+    /* Nom ma'nosini tushuntiradigan qisqa blok — hero bilan
+       mahsulotlar orasida turadi. Ruscha matnda so'zning tarjimasi
+       ham beriladi, aks holda o'yin tushunarsiz qoladi. */
+    brandStrip: {
+      title: { uz: "Nega «Tinch»?", ru: "Почему «Tinch»?" },
+      text: {
+        uz: "Chunki tizim o'rnatilgandan keyin korxonada shovqin tugaydi. Qarz qo'lda hisoblanmaydi, hujjat yo'qolmaydi, hisobot kutilmaydi, qoldiq bahsga aylanmaydi. Ish o'z-o'zidan yuradi — siz esa nihoyat tinchlanasiz.",
+        ru: "«Tinch» по-узбекски — «спокойный». После внедрения системы на предприятии заканчивается шум: долг не считают вручную, документы не теряются, отчёта не ждут, остаток не становится предметом спора. Работа идёт сама — а вы наконец спокойны.",
+      },
+    },
+
     productsSection: {
       eyebrow: { uz: "Mahsulotlar", ru: "Продукты" },
       title: {
@@ -154,7 +169,7 @@ window.SITE = {
       },
     },
     whySection: {
-      eyebrow: { uz: "Nega TINCH SOFT", ru: "Почему TINCH SOFT" },
+      eyebrow: { uz: "Nega Tinch", ru: "Почему Tinch" },
       title: {
         uz: "Dastur emas — ishlaydigan jarayon topshiramiz",
         ru: "Мы сдаём не программу, а работающий процесс",
@@ -286,12 +301,12 @@ window.SITE = {
   pricing: {
     meta: {
       title: {
-        uz: "Tariflar va narxlar — TINCH SOFT",
-        ru: "Тарифы и цены — TINCH SOFT",
+        uz: "Tariflar va narxlar — Tinch",
+        ru: "Тарифы и цены — Tinch",
       },
       description: {
-        uz: "TINCH SOFT mahsulotlarining tariflari va narxlari: Tinch Ombor, Tinch HR va Tinch Uylar uchun Basic, PRO va bir martalik Sale paketlari. Har bir tarifga nimalar kirishi batafsil.",
-        ru: "Тарифы и цены продуктов TINCH SOFT: Tinch Ombor, Tinch HR и Tinch Uylar — Basic, PRO и разовые пакеты Sale. Подробно о том, что входит в каждый тариф.",
+        uz: "Tinch mahsulotlarining tariflari va narxlari: Tinch Ombor, Tinch HR va Tinch Uylar uchun Basic, PRO va bir martalik Sale paketlari. Har bir tarifga nimalar kirishi batafsil.",
+        ru: "Тарифы и цены продуктов Tinch: Tinch Ombor, Tinch HR и Tinch Uylar — Basic, PRO и разовые пакеты Sale. Подробно о том, что входит в каждый тариф.",
       },
     },
     eyebrow: { uz: "Tariflar va narxlar", ru: "Тарифы и цены" },
@@ -306,12 +321,12 @@ window.SITE = {
   contacts: {
     meta: {
       title: {
-        uz: "Aloqa: telefon, Telegram va manzil — TINCH SOFT",
-        ru: "Контакты: телефон, Telegram и адрес — TINCH SOFT",
+        uz: "Aloqa: telefon, Telegram va manzil — Tinch",
+        ru: "Контакты: телефон, Telegram и адрес — Tinch",
       },
       description: {
-        uz: "TINCH SOFT bilan bog'laning: Toshkent, +998 (94) 834-95-55, info@tinch.uz, Telegram @AbduDevUz.",
-        ru: "Свяжитесь с TINCH SOFT: Ташкент, +998 (94) 834-95-55, info@tinch.uz, Telegram @AbduDevUz.",
+        uz: "Tinch bilan bog'laning: Toshkent, +998 (94) 834-95-55, info@tinch.uz, Telegram @AbduDevUz.",
+        ru: "Свяжитесь с Tinch: Ташкент, +998 (94) 834-95-55, info@tinch.uz, Telegram @AbduDevUz.",
       },
     },
     eyebrow: { uz: "Aloqa", ru: "Контакты" },
@@ -325,10 +340,10 @@ window.SITE = {
   /* ---------- Buyurtma sahifasi ---------- */
   order: {
     meta: {
-      title: { uz: "Buyurtma berish — TINCH SOFT", ru: "Оставить заявку — TINCH SOFT" },
+      title: { uz: "Buyurtma berish — Tinch", ru: "Оставить заявку — Tinch" },
       description: {
-        uz: "TINCH SOFT mahsulotlariga buyurtma va bepul konsultatsiya so'rovi.",
-        ru: "Заявка на продукты TINCH SOFT и запрос бесплатной консультации.",
+        uz: "Tinch mahsulotlariga buyurtma va bepul konsultatsiya so'rovi.",
+        ru: "Заявка на продукты Tinch и запрос бесплатной консультации.",
       },
     },
     eyebrow: { uz: "Buyurtma", ru: "Заявка" },
@@ -389,7 +404,7 @@ window.SITE = {
   /* ---------- 404 sahifasi ---------- */
   notFound: {
     meta: {
-      title: { uz: "Sahifa topilmadi — TINCH SOFT", ru: "Страница не найдена — TINCH SOFT" },
+      title: { uz: "Sahifa topilmadi — Tinch", ru: "Страница не найдена — Tinch" },
       description: {
         uz: "So'ralgan sahifa mavjud emas yoki boshqa manzilga ko'chirilgan. Bosh sahifaga qayting yoki mahsulotlar ro'yxatidan kerakligini tanlang.",
         ru: "Запрошенная страница не существует или была перемещена. Вернитесь на главную или выберите нужный продукт из списка.",
@@ -404,8 +419,8 @@ window.SITE = {
   /* ---------- Footer ---------- */
   footer: {
     about: {
-      uz: "TINCH SOFT — Toshkentdagi dasturiy ta'minot kompaniyasi. 2019-yildan beri O'zbekiston korxonalari uchun HR, ERP, CRM va ombor tizimlarini ishlab chiqamiz va joriy qilamiz.",
-      ru: "TINCH SOFT — компания по разработке ПО в Ташкенте. С 2019 года разрабатываем и внедряем HR, ERP, CRM и складские системы для предприятий Узбекистана.",
+      uz: "Tinch — Toshkentdagi dasturiy ta'minot kompaniyasi. 2019-yildan beri O'zbekiston korxonalari uchun HR, ERP, CRM va ombor tizimlarini ishlab chiqamiz va joriy qilamiz.",
+      ru: "Tinch — компания по разработке ПО в Ташкенте. С 2019 года разрабатываем и внедряем HR, ERP, CRM и складские системы для предприятий Узбекистана.",
     },
     colProducts: { uz: "Mahsulotlar", ru: "Продукты" },
     colCompany: { uz: "Kompaniya", ru: "Компания" },

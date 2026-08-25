@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Umumiy sahifa qobig'i
+   Tinch — Umumiy sahifa qobig'i
    Header, mobil menyu, til almashtirgich, footer, scroll effektlari.
    Har bir sahifada shu fayl ulanadi.
    ============================================================ */
@@ -64,9 +64,9 @@
     host.className = "site-header";
     host.innerHTML =
       '<div class="container site-header__inner">' +
-        '<a class="brand-logo" href="index.html" aria-label="TINCH SOFT">' +
+        '<a class="brand-logo" href="index.html" aria-label="' + esc(S.company.name) + '">' +
           '<img src="' + S.company.logo + '" alt="" width="34" height="34" />' +
-          '<span class="brand-logo__text">TINCH<span>SOFT</span></span>' +
+          '<span class="brand-logo__text">' + esc(S.company.name) + "</span>" +
         "</a>" +
         '<nav class="site-nav" aria-label="' + esc(t(S.ui.products)) + '">' + navLinks() + "</nav>" +
         '<div class="header-actions">' +
@@ -162,10 +162,11 @@
       '<div class="container">' +
         '<div class="site-footer__grid">' +
           "<div>" +
-            '<a class="brand-logo" href="index.html" style="margin-bottom:var(--space-4)">' +
+            '<a class="brand-logo" href="index.html">' +
               '<img src="' + S.company.logo + '" alt="" width="34" height="34" />' +
-              '<span class="brand-logo__text">TINCH<span>SOFT</span></span>' +
+              '<span class="brand-logo__text">' + esc(S.company.name) + "</span>" +
             "</a>" +
+            '<p class="brand-slogan">' + esc(t(S.company.slogan)) + "</p>" +
             '<p class="card__text" style="max-width:40ch">' + esc(t(S.footer.about)) + "</p>" +
             '<div class="socials" style="margin-top:var(--space-6)">' + socials + "</div>" +
           "</div>" +

@@ -1,4 +1,4 @@
-# TINCH SOFT sayti — tahrirlash qo'llanmasi
+# Tinch sayti — tahrirlash qo'llanmasi
 
 ## Asosiy qoida
 
@@ -159,9 +159,10 @@ Yangi ikonka `js/icons.js` dagi `PATHS` obyektiga qo'shiladi (24×24 SVG path).
 
 | Bo'lim               | Nima                                        |
 | -------------------- | ------------------------------------------- |
-| `company`            | Telefon, email, Telegram, ijtimoiy tarmoqlar |
+| `company`            | Nom, shior, telefon, email, Telegram, tarmoqlar |
 | `nav`                | Yuqoridagi menyu                             |
 | `home.hero`          | Bosh sahifa sarlavhasi va statistika         |
+| `home.brandStrip`    | «Nega Tinch?» bloki                          |
 | `home.whySection`    | «Nega biz» kartalari                         |
 | `home.processSection`| 4 qadam                                      |
 | `product`            | Mahsulot sahifasi sarlavhalari               |
@@ -178,6 +179,24 @@ HTML'da matn kerak bo'lsa, `data-i18n` atributidan foydalaning:
 
 Qiymat `site.js` dagi nuqtali yo'l bo'yicha topiladi. **`i18n.js` ga hech
 narsa qo'shish kerak emas** — eski versiyadan asosiy farqi shu.
+
+### Kompaniya nomi va shior
+
+Nom `company.name` da bitta joyda turadi va sarlavhaga, footerga hamda
+`aria-label` ga o'sha yerdan tushadi — `app.js` ga qo'l tegizish shart emas.
+
+Shior `company.slogan` da. U uch joyda ko'rinadi:
+
+1. Bosh sahifa hero'sining ustidagi kichik yozuv (`home.hero.eyebrow`)
+2. Brend lentasidagi yirik sariq matn (`index.html` → `.brand-strip`)
+3. Footerda logotip ostida (`.brand-slogan`)
+
+Diqqat: 1-nuqta alohida maydon (`home.hero.eyebrow`), chunki u nuqtasiz
+yoziladi. Shiorni o'zgartirsangiz ikkalasini ham yangilang.
+
+> SEO sarlavhalarida nom `.html` fayllarning `<head>` qismida qo'lda
+> yozilgan (`<title>` va `og:site_name`). Nomni o'zgartirsangiz — ularni
+> ham qidirib almashtiring.
 
 ---
 

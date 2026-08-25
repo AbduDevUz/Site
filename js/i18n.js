@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — i18n
+   Tinch — i18n
    ------------------------------------------------------------
    Eski versiya DOM indeksiga bog'langan edi (tab_item[3] va h.k.),
    shuning uchun har bir yangi blok tarjimani buzardi.

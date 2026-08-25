@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Aloqa ma'lumotlari bloki
+   Tinch — Aloqa ma'lumotlari bloki
    order.html va contacts.html sahifalarida ishlatiladi:
    <div class="contact-list" id="contactList"></div>
    ============================================================ */

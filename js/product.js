@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Mahsulot sahifasi
+   Tinch — Mahsulot sahifasi
    URL: product.html?id=hr
    ============================================================ */
 
@@ -260,8 +260,8 @@
   function seo(product) {
     window.I18N.applyMeta({
       title: {
-        uz: t(product.name) + " — " + t(product.tagline) + " | TINCH SOFT",
-        ru: t(product.name) + " — " + t(product.tagline) + " | TINCH SOFT",
+        uz: t(product.name) + " — " + t(product.tagline) + " | Tinch",
+        ru: t(product.name) + " — " + t(product.tagline) + " | Tinch",
       },
       description: product.short,
     });

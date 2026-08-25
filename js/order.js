@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Buyurtma formasi
+   Tinch — Buyurtma formasi
    URL: order.html?product=hr&plan=pro
    ------------------------------------------------------------
    Yuborish: SITE.forms.endpoint bo'lsa — JSON POST.
@@ -211,7 +211,7 @@
   }
 
   function subjectOf(data) {
-    return "TINCH SOFT — " + (data.product || "so'rov") + (data.plan ? " / " + data.plan : "");
+    return "Tinch — " + (data.product || "so'rov") + (data.plan ? " / " + data.plan : "");
   }
 
   function mailtoHref(data) {

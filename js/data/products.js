@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Mahsulotlar va tariflar bazasi
+   Tinch — Mahsulotlar va tariflar bazasi
    ------------------------------------------------------------
    Bu fayl saytdagi BARCHA mahsulot kontentining yagona manbasi.
    HTML fayllarga hech qanday matn yozilmaydi — hammasi shu yerdan.

@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — 404 sahifasi
+   Tinch — 404 sahifasi
    Foydalanuvchi adashib qolmasin: mahsulotlar ro'yxatini ko'rsatamiz.
    ============================================================ */
 

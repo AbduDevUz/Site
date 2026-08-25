@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Tariflar sahifasi
+   Tinch — Tariflar sahifasi
    URL: pricing.html?product=hr   (ixtiyoriy)
    ============================================================ */
 

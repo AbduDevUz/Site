@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Bosh sahifa
+   Tinch — Bosh sahifa
    Barcha bloklar SITE va PRODUCTS ma'lumotlaridan quriladi.
    ============================================================ */
 

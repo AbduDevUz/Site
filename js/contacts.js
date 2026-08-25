@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Aloqa sahifasi
+   Tinch — Aloqa sahifasi
    Forma mantig'i order.js dan keladi; bu yerda faqat sahifaga
    xos meta va ijtimoiy tarmoq tugmalari.
    ============================================================ */

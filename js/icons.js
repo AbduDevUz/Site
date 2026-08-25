@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Inline SVG ikonkalar
+   Tinch — Inline SVG ikonkalar
    ------------------------------------------------------------
    Font Awesome CDN o'rniga: tashqi so'rov yo'q, rang currentColor
    orqali meros oladi, o'lchov CSS bilan boshqariladi.

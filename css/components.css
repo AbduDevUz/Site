@@ -390,9 +390,9 @@
   height: auto;
 }
 
-/* Sariq — faqat belgida qoladi. Matn ham sariq bo'lsa, rang ikki marta
-   takrorlanib, navy fonda haddan tashqari qichqiradi va aksent kuchini
-   yo'qotadi. Shuning uchun: TINCH — oq, SOFT — indigo. */
+/* Sariq — faqat kub belgisida qoladi. Matn ham sariq bo'lsa, rang ikki
+   marta takrorlanib, navy fonda haddan tashqari qichqiradi va aksent
+   kuchini yo'qotadi. Shuning uchun brend matni oq. */
 .brand-logo__text {
   font-family: var(--font-display);
   font-size: 1.15rem;
@@ -403,10 +403,6 @@
   white-space: nowrap;
 }
 
-.brand-logo__text span {
-  color: var(--brand-indigo-300);
-  font-weight: 700;
-}
 
 /* Belgi ustidagi nozik sariq nur — logotipni fondan ajratadi */
 .brand-logo img {
@@ -1598,4 +1594,48 @@ h1 .soon-ribbon {
 /* Mahsulotlar almashtirgichidagi yorliq */
 .product-switch a[data-soon] {
   opacity: 0.85;
+}
+
+/* ------------------------------------------------------------
+   Brend lentasi — nom ma'nosini tushuntiradigan blok
+   ------------------------------------------------------------ */
+
+.brand-strip {
+  padding: var(--space-8) 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(80% 140% at 50% 0%, rgba(91, 91, 245, 0.1) 0%, transparent 60%),
+    var(--bg-alt);
+}
+
+.brand-strip__inner {
+  max-width: 62ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.brand-strip__inner .lead {
+  margin-top: var(--space-4);
+}
+
+/* Shior — sahifadagi yagona sariq matn, shuning uchun ko'zga tashlanadi */
+.brand-strip__slogan {
+  margin-top: var(--space-6);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--brand-yellow-400);
+}
+
+/* Footerdagi shior — logotip ostida, kichikroq */
+.brand-slogan {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--brand-yellow-400);
 }

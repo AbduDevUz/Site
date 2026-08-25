@@ -1,5 +1,5 @@
 /* ============================================================
-   TINCH SOFT — Umumiy render funksiyalari
+   Tinch — Umumiy render funksiyalari
    ------------------------------------------------------------
    Mahsulot kartasi, tarif kartalari, taqqoslash matritsasi va
    narxlar jadvali bir necha sahifada ishlatiladi — shuning uchun
