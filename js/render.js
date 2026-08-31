@@ -376,7 +376,12 @@
   function toUzs(amountUsd) {
     var rate = S.usdRate;
     if (!rate || !amountUsd) return "";
-    var v = Math.round((amountUsd * rate) / 10000) * 10000;
+    var v = amountUsd * rate;
+    // Yirik summada yaxlitlash ham yirikroq bo'lishi kerak:
+    // "115 537 500" soxta aniqlik beradi, "115 500 000" esa
+    // taxminiy ekanini ochiq aytadi.
+    var step = v >= 10000000 ? 100000 : 50000;
+    v = Math.round(v / step) * step;
     return "≈ " + window.I18N.num(v) + " " + t(S.ui.sum);
   }
 

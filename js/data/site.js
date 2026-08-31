@@ -53,7 +53,7 @@ window.SITE = {
      Noto'g'ri kurs ko'rsatgandan ko'ra hech narsa ko'rsatmagan
      yaxshiroq, shuning uchun shunday qilingan.
      ------------------------------------------------------------ */
-  usdRate: 12800,
+  usdRate: 11850,
 
   /* ------------------------------------------------------------
      Forma yuborish sozlamasi

@@ -207,13 +207,13 @@ Dollarda ko'rsatilgan narxlar yoniga taxminiy so'm yoziladi:
 
 ```
 350 USD
-~ 4 480 000 so'm
+~ 4 150 000 so'm
 ```
 
 Kurs `js/data/site.js` ning boshida, bitta joyda:
 
 ```js
-usdRate: 12800,
+usdRate: 11850,
 ```
 
 **Kurs o'zgarganda faqat shu raqamni almashtirasiz** — mahsulot
@@ -224,8 +224,16 @@ hisoblanadi.
 Noto'g'ri kurs ko'rsatgandan ko'ra hech narsa ko'rsatmagan yaxshiroq,
 shuning uchun shunday qilingan.
 
-So'm 10 000 gacha yaxlitlanadi — `4 480 000` ko'rinishi `4 483 217` dan
-ishonchliroq va u baribir taxminiy raqam.
+So'm yaxlitlanadi, chunki u baribir taxminiy raqam. Yaxlitlash qadami
+summaga qarab o'zgaradi:
+
+| Summa | Qadam | Misol |
+| --- | --- | --- |
+| 10 mln gacha | 50 000 | 4 147 500 → **4 150 000** |
+| 10 mln dan yuqori | 100 000 | 115 537 500 → **115 500 000** |
+
+Yirik summada mayda yaxlitlash soxta aniqlik beradi: `115 537 500` degan
+raqam kursga qarab ertaga o'zgaradi, lekin mijoz uni aniq narx deb o'qiydi.
 
 > Obuna narxlari (Ombor, HR, Uylar) allaqachon so'mda — ularga bu
 > qoida tegishli emas.
