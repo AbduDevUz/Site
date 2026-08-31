@@ -125,7 +125,8 @@
 
   function productCard(product) {
     var price = entryPrice(product);
-    var priceUzs = price && price.currency === "USD" ? toUzs(price.amount) : "";
+    var priceUzs =
+      product.showUzs && price && price.currency === "USD" ? toUzs(price.amount) : "";
     var priceHtml = price
       ? '<div class="product-card__price">' + esc(t(S.ui.from)) +
         "<b>" + window.I18N.num(price.amount) + " " + price.currency + "</b>" +
@@ -180,7 +181,7 @@
         amount = Math.round(plan.promoFull * (1 - S.promo.percent / 100));
       }
       var uzsLine =
-        plan.price.currency === "USD" ? toUzs(amount) : "";
+        product.showUzs && plan.price.currency === "USD" ? toUzs(amount) : "";
 
       priceHtml =
         '<div class="plan-card__price">' +
@@ -368,10 +369,15 @@
 
   /**
    * Dollardan taxminiy so'm.
+   *
+   * Faqat `showUzs: true` qo'yilgan mahsulotda chiqadi. Sababi:
+   * yirik summada so'mdagi raqam mijozni qo'rqitadi. "9 750 USD" va
+   * "115 500 000 so'm" bir xil pul, lekin ikkinchisi og'irroq o'qiladi.
+   * Bundan tashqari u obuna narxi (600 000/oy) yonida turganda
+   * arendani arzondek ko'rsatib, sotib olishga xalaqit berardi.
+   *
    * Kurs qo'yilmagan bo'lsa bo'sh qaytaradi — noto'g'ri raqam
    * ko'rsatgandan ko'ra hech narsa ko'rsatmagan yaxshiroq.
-   * Yaxlitlash: 10 000 so'mgacha, aks holda "4 551 372" kabi
-   * soxta aniqlik paydo bo'ladi.
    */
   function toUzs(amountUsd) {
     var rate = S.usdRate;
@@ -396,24 +402,12 @@
    * Yoqilgan bo'lsa — `full` dan hisoblanadi, eski narx chizib tashlanadi.
    */
   function onceCell(row) {
-    var uzs = "";
-    if (!promoOn() || !row.full) {
-      // Aksiya yo'q — jadvaldagi tayyor matn, so'mni undagi raqamdan olamiz
-      var plain = String(row.onceHtml || "").replace(/<span[\s\S]*?<\/span>/g, "");
-      var num = parseInt(plain.replace(/[^\d]/g, ""), 10);
-      uzs = toUzs(num);
-      return (
-        String(row.onceHtml || "") +
-        (uzs ? '<span class="cell-uzs">' + esc(uzs) + "</span>" : "")
-      );
-    }
+    if (!promoOn() || !row.full) return String(row.onceHtml || "");
     var price = Math.round(row.full * (1 - S.promo.percent / 100));
-    uzs = toUzs(price);
     return (
       '<s class="cell-was">' + esc(String(row.onceHtml || "").replace(/<span[\s\S]*?<\/span>/g, "").trim()) + "</s> " +
       '<b class="cell-promo">' + usd(price) + "</b> " +
-      '<span class="cell-off cell-off--promo">−' + S.promo.percent + "%</span>" +
-      (uzs ? '<span class="cell-uzs">' + esc(uzs) + "</span>" : "")
+      '<span class="cell-off cell-off--promo">−' + S.promo.percent + "%</span>"
     );
   }
 

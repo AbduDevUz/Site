@@ -235,8 +235,36 @@ summaga qarab o'zgaradi:
 Yirik summada mayda yaxlitlash soxta aniqlik beradi: `115 537 500` degan
 raqam kursga qarab ertaga o'zgaradi, lekin mijoz uni aniq narx deb o'qiydi.
 
+### Qaysi mahsulotda ko'rinadi
+
+So'm **faqat `showUzs: true` qo'yilgan mahsulotda** chiqadi. Hozir bu
+faqat **Tinch Savdo**:
+
+```js
+{
+  id: "savdo",
+  showUzs: true,
+  ...
+}
+```
+
+Nega hammasida emas: `9 750 USD` va `115 500 000 so'm` bir xil pul, lekin
+ikkinchisi ancha og'irroq o'qiladi va mijozni qo'rqitadi. Bundan tashqari
+u obuna narxi yonida turganda sotib olishga xalaqit berardi:
+
+```
+Obuna:        600 000 so'm / oy
+Sotib olish:  ~ 23 100 000 so'm     <- arenda arzondek ko'rinadi
+```
+
+Tinch Savdoda esa summa kichik (4-6 mln), so'mda yozilsa aksincha
+yaqinroq tuyuladi.
+
+Boshqa mahsulotda ham kerak bo'lsa — o'sha mahsulotga `showUzs: true`
+qatorini qo'shasiz, boshqa hech narsa qilish shart emas.
+
 > Obuna narxlari (Ombor, HR, Uylar) allaqachon so'mda — ularga bu
-> qoida tegishli emas.
+> qoida umuman tegishli emas.
 
 ---
 

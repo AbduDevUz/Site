@@ -707,6 +707,10 @@ window.PRODUCTS = [
   {
     id: "savdo",
     icon: "cart",
+    /* Narx yoniga taxminiy so'm yoziladi. Faqat shu mahsulotda —
+       summasi kichik (4-6 mln) va so'mda ko'rsatilsa yaqinroq
+       tuyuladi. Yirik mahsulotlarda so'm aksincha qo'rqitadi. */
+    showUzs: true,
     /* Vaqtinchalik grafika. Tizimning haqiqiy skrinshoti bilan
        almashtiring - sotuvlar jadvali yoki qarzlar sahifasi mos keladi. */
     image: "./images/opt/savdo.svg",
