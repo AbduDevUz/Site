@@ -125,10 +125,13 @@
 
   function productCard(product) {
     var price = entryPrice(product);
+    var priceUzs = price && price.currency === "USD" ? toUzs(price.amount) : "";
     var priceHtml = price
       ? '<div class="product-card__price">' + esc(t(S.ui.from)) +
         "<b>" + window.I18N.num(price.amount) + " " + price.currency + "</b>" +
-        '<span>' + esc(t(price.period)) + "</span></div>"
+        '<span>' + esc(t(price.period)) + "</span>" +
+        (priceUzs ? '<span class="product-card__uzs">' + esc(priceUzs) + "</span>" : "") +
+        "</div>"
       : '<div class="product-card__price"><b>' + esc(t(S.ui.priceOnRequest)) + "</b></div>";
 
     var tags = (product.tags || [])
@@ -176,6 +179,9 @@
           esc(plan.price.currency) + "</span>";
         amount = Math.round(plan.promoFull * (1 - S.promo.percent / 100));
       }
+      var uzsLine =
+        plan.price.currency === "USD" ? toUzs(amount) : "";
+
       priceHtml =
         '<div class="plan-card__price">' +
           wasHtml +
@@ -184,6 +190,7 @@
           (plan.price.period
             ? '<span class="plan-card__period">/ ' + esc(t(plan.price.period)) + "</span>"
             : "") +
+          (uzsLine ? '<span class="plan-card__uzs">' + esc(uzsLine) + "</span>" : "") +
         "</div>";
     } else {
       priceHtml =
@@ -359,6 +366,20 @@
     return true;
   }
 
+  /**
+   * Dollardan taxminiy so'm.
+   * Kurs qo'yilmagan bo'lsa bo'sh qaytaradi — noto'g'ri raqam
+   * ko'rsatgandan ko'ra hech narsa ko'rsatmagan yaxshiroq.
+   * Yaxlitlash: 10 000 so'mgacha, aks holda "4 551 372" kabi
+   * soxta aniqlik paydo bo'ladi.
+   */
+  function toUzs(amountUsd) {
+    var rate = S.usdRate;
+    if (!rate || !amountUsd) return "";
+    var v = Math.round((amountUsd * rate) / 10000) * 10000;
+    return "≈ " + window.I18N.num(v) + " " + t(S.ui.sum);
+  }
+
   /** 12345 -> "12 345" */
   function usd(n) {
     return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " USD";
@@ -370,12 +391,24 @@
    * Yoqilgan bo'lsa — `full` dan hisoblanadi, eski narx chizib tashlanadi.
    */
   function onceCell(row) {
-    if (!promoOn() || !row.full) return String(row.onceHtml || "");
+    var uzs = "";
+    if (!promoOn() || !row.full) {
+      // Aksiya yo'q — jadvaldagi tayyor matn, so'mni undagi raqamdan olamiz
+      var plain = String(row.onceHtml || "").replace(/<span[\s\S]*?<\/span>/g, "");
+      var num = parseInt(plain.replace(/[^\d]/g, ""), 10);
+      uzs = toUzs(num);
+      return (
+        String(row.onceHtml || "") +
+        (uzs ? '<span class="cell-uzs">' + esc(uzs) + "</span>" : "")
+      );
+    }
     var price = Math.round(row.full * (1 - S.promo.percent / 100));
+    uzs = toUzs(price);
     return (
       '<s class="cell-was">' + esc(String(row.onceHtml || "").replace(/<span[\s\S]*?<\/span>/g, "").trim()) + "</s> " +
       '<b class="cell-promo">' + usd(price) + "</b> " +
-      '<span class="cell-off cell-off--promo">−' + S.promo.percent + "%</span>"
+      '<span class="cell-off cell-off--promo">−' + S.promo.percent + "%</span>" +
+      (uzs ? '<span class="cell-uzs">' + esc(uzs) + "</span>" : "")
     );
   }
 

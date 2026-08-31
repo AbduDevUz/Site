@@ -41,6 +41,21 @@ window.SITE = {
   },
 
   /* ------------------------------------------------------------
+     DOLLAR KURSI
+     ------------------------------------------------------------
+     Dollarda ko'rsatilgan narxlar yoniga taxminiy so'm miqdori
+     yoziladi (masalan: 350 USD  ~ 4 550 000 so'm).
+
+     Kurs o'zgarganda FAQAT SHU RAQAMNI almashtirasiz — barcha
+     sahifalarda so'm o'zi qayta hisoblanadi.
+
+     0 qo'ysangiz so'm umuman ko'rsatilmaydi (faqat dollar qoladi).
+     Noto'g'ri kurs ko'rsatgandan ko'ra hech narsa ko'rsatmagan
+     yaxshiroq, shuning uchun shunday qilingan.
+     ------------------------------------------------------------ */
+  usdRate: 12800,
+
+  /* ------------------------------------------------------------
      Forma yuborish sozlamasi
      ------------------------------------------------------------
      endpoint — POST qabul qiladigan manzil. To'ldirilsa, forma
@@ -118,6 +133,11 @@ window.SITE = {
     writeTelegram: { uz: "Telegram orqali yozish", ru: "Написать в Telegram" },
     priceOnRequest: { uz: "Narx so'rov bo'yicha", ru: "Цена по запросу" },
     from: { uz: "dan", ru: "от" },
+    sum: { uz: "so'm", ru: "сум" },
+    rateNote: {
+      uz: "So'mdagi miqdor joriy kurs bo'yicha taxminiy",
+      ru: "Сумма в сумах — ориентировочно по текущему курсу",
+    },
     perUserMonth: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" },
     included: { uz: "Tarifga kiritilgan", ru: "Входит в тариф" },
     notIncluded: { uz: "Ushbu tarifda mavjud emas", ru: "Недоступно в этом тарифе" },

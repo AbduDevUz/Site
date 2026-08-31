@@ -201,6 +201,37 @@ yoziladi. Shiorni o'zgartirsangiz ikkalasini ham yangilang.
 
 ---
 
+## 5.0. Dollar kursi
+
+Dollarda ko'rsatilgan narxlar yoniga taxminiy so'm yoziladi:
+
+```
+350 USD
+~ 4 480 000 so'm
+```
+
+Kurs `js/data/site.js` ning boshida, bitta joyda:
+
+```js
+usdRate: 12800,
+```
+
+**Kurs o'zgarganda faqat shu raqamni almashtirasiz** — mahsulot
+kartochkalari, tarif kartochkalari va narxlar jadvallari o'zi qayta
+hisoblanadi.
+
+`usdRate: 0` qo'ysangiz so'm umuman ko'rsatilmaydi, faqat dollar qoladi.
+Noto'g'ri kurs ko'rsatgandan ko'ra hech narsa ko'rsatmagan yaxshiroq,
+shuning uchun shunday qilingan.
+
+So'm 10 000 gacha yaxlitlanadi — `4 480 000` ko'rinishi `4 483 217` dan
+ishonchliroq va u baribir taxminiy raqam.
+
+> Obuna narxlari (Ombor, HR, Uylar) allaqachon so'mda — ularga bu
+> qoida tegishli emas.
+
+---
+
 ## 5.1. Aksiya (vaqtinchalik chegirma)
 
 Barcha aksiya sozlamalari `js/data/site.js` → `promo` obyektida.

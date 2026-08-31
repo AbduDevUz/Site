@@ -1816,3 +1816,39 @@ h1 .soon-ribbon {
   font-size: var(--fs-sm);
   text-decoration: line-through;
 }
+
+/* ------------------------------------------------------------
+   Dollar narxi yonidagi taxminiy so'm
+   ------------------------------------------------------------
+   Asosiy raqam dollarda qoladi, so'm esa yordamchi — shuning
+   uchun kichikroq va xiraroq. Ikkalasi bir xil vaznda bo'lsa
+   ko'z qaysi biri asosiy ekanini ajrata olmaydi.
+   ------------------------------------------------------------ */
+
+.plan-card__uzs {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.product-card__uzs {
+  display: block;
+  width: 100%;
+  margin-top: 0.1rem;
+  color: var(--text-dim);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+}
+
+.cell-uzs {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--text-dim);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
