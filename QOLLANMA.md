@@ -397,6 +397,37 @@ uchun, Tinch Ombor esa distribyutsiya uchun. Narxni o'zgartirmoqchi bo'lsangiz �
 
 ---
 
+## 11.1. Tinch Savdo: manba va farqi
+
+Mahsulot `C:\OSPanel\domains\Sement` dagi Laravel loyihasidan kelib
+chiqib yozildi. Matnlar tasavvurdan emas, koddan olingan:
+
+| Saytdagi da'vo | Koddagi asos |
+| --- | --- |
+| Foyda avtomatik | `FinanceController`: `kg * sell - kg * buy` |
+| Qarz ikki tomonlama | `Client::where('balans','<',0)` va `>0` |
+| Kassa balansni tuzatadi | `CashierController::store` balansni yangilaydi |
+| Muddati kelgan to'lovlar | `SaleController::debt` — `refund_date <= bugun` |
+| Mijoz kod bilan ulanadi | `clients.code` (8 belgi) + `telegram_chat_id` |
+| Mijoz tasdiqlaydi | `sale_accept_{id}` / `sale_reject_{id}` callback |
+| Ommaviy xabar | `telegram_messages` jadvali va `sendBroadcastMessage` |
+
+**Ombordan farqi:** rol tizimi yo'q (bitta foydalanuvchi), ombor qoldig'i,
+partiya va yaroqlilik muddati yo'q. Bu — vositachi savdo daftari.
+
+**Narxlar:** Start 350 USD (1 oy qo'llab-quvvatlash), PRO 550 USD
+(1 yil qo'llab-quvvatlash + Telegram-bot). Bir martalik, obuna yo'q.
+
+**Aksiya tegmaydi.** `pricingModes[0].promoExclude: true` — narx allaqachon
+past bo'lgani uchun 35% chegirma qo'llanmaydi. Kerak bo'lsa shu qatorni
+o'chirasiz.
+
+**Rasm:** `images/opt/savdo.svg` — vaqtinchalik grafika (sotuvlar jadvali
+va Telegram tasdig'i). Haqiqiy skrinshot bilan almashtiring. Boshqa
+mahsulotlardan farqli, bu SVG — `image` maydoni obyekt emas, oddiy satr.
+
+---
+
 ## 12. Tinch Uylar: narxlar va manba haqida
 
 Ma'lumot raqobatchining (GOHOUSE) taqdimotidan olingan. **Undan faqat

@@ -452,7 +452,7 @@
    * qilish mantiqsiz bo'lardi.
    */
   function promoApplies(product, mode) {
-    if (!promoOn() || product.soon) return false;
+    if (!promoOn() || product.soon || mode.promoExclude) return false;
     return mode.id === "onetime" || mode.id === "project";
   }
 
