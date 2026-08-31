@@ -64,6 +64,43 @@ window.SITE = {
     fallbackEmail: "info@tinch.uz",
   },
 
+  /* ------------------------------------------------------------
+     AKSIYA — vaqtinchalik chegirma
+     ------------------------------------------------------------
+     O'CHIRISH: `active` ni false qiling — tamom. Banner yo'qoladi,
+     narxlar jadvallari odatdagi −10% ga qaytadi, tarif kartochkalari
+     ham eski narxni ko'rsatadi. Boshqa hech qayerga tegish shart emas.
+
+     percent — bir martalik to'lovdagi chegirma foizi. Odatdagi holat
+     10%, aksiya davrida 35%. Narxlar `products.js` dagi `full`
+     qiymatidan avtomatik hisoblanadi, qo'lda yozilmaydi.
+     ------------------------------------------------------------ */
+  promo: {
+    active: true,
+    percent: 35,
+    until: "2026-09-30",
+    untilLabel: { uz: "30-sentyabr", ru: "30 сентября" },
+
+    badge: { uz: "−35%", ru: "−35%" },
+    title: {
+      uz: "Bir martalik xaridda 35% chegirma",
+      ru: "Скидка 35% при разовой покупке",
+    },
+    text: {
+      uz: "Tizimni butunlay sotib olsangiz — narxdan 35% chegirma va ustiga 1 yillik server xizmati bepul. Keyin tizim butunlay sizniki bo'ladi, oylik to'lov yo'q.",
+      ru: "При полной покупке системы — скидка 35% и вдобавок 1 год серверного обслуживания бесплатно. Дальше система полностью ваша, ежемесячных платежей нет.",
+    },
+    deadline: {
+      uz: "Chegirma 30-sentyabrgacha amal qiladi",
+      ru: "Скидка действует до 30 сентября",
+    },
+    serverNote: {
+      uz: "<b>1 yillik server xizmati bepul.</b> Birinchi yil hosting, zaxira nusxa va yangilanishlar biz tomondan. Ikkinchi yildan qo'llab-quvvatlash shartnomasi alohida rasmiylashtiriladi.",
+      ru: "<b>1 год серверного обслуживания бесплатно.</b> Хостинг, резервные копии и обновления в первый год — за наш счёт. Со второго года договор поддержки оформляется отдельно.",
+    },
+    cta: { uz: "Chegirmadan foydalanish", ru: "Воспользоваться скидкой" },
+  },
+
   /* ---------- Umumiy UI matnlari ---------- */
   ui: {
     address: { uz: "Toshkent, O'zbekiston", ru: "Ташкент, Узбекистан" },

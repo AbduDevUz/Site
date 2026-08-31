@@ -201,6 +201,56 @@ yoziladi. Shiorni o'zgartirsangiz ikkalasini ham yangilang.
 
 ---
 
+## 5.1. Aksiya (vaqtinchalik chegirma)
+
+Barcha aksiya sozlamalari `js/data/site.js` → `promo` obyektida.
+
+### O'chirish
+
+```js
+promo: {
+  active: false,   // <- shu bitta qator
+```
+
+Tamom. Sarlavha ustidagi lenta yo'qoladi, tariflardagi aksiya kartasi
+ketadi, narxlar jadvali va tarif kartochkalari odatdagi **−10%** ga
+qaytadi. Boshqa hech qayerga tegish shart emas.
+
+### O'zi o'chadi
+
+`until: "2026-09-30"` sanasi o'tgach aksiya **avtomatik o'chadi** —
+`active: true` qolib ketsa ham. Ya'ni unutib qo'ysangiz ham sayt eski
+narxlarni ko'rsatadi. Sanani uzaytirish uchun `until` va `untilLabel`
+ni birga yangilang.
+
+### Foizni o'zgartirish
+
+```js
+percent: 35,
+```
+
+Narxlar **qo'lda yozilmaydi** — `products.js` dagi `full` qiymatidan
+hisoblanadi. `full` — chegirmasiz to'liq narx (bo'lib to'lash summasi:
+`1 000 USD × 3` → `full: 3000`).
+
+### Qayerda ko'rinadi
+
+| Joy | Nima |
+| --- | --- |
+| Sarlavha ustida | Ingichka sariq lenta, tariflar sahifasiga havola |
+| Tariflar bloki | Aksiya kartasi (matn + server izohi + muddat) |
+| Rejim tugmasi | `−35%` nishoni |
+| Narxlar jadvali | Eski narx chizilgan, yangisi sariq |
+| Tarif kartochkasi | Uylar bir martalik tariflarida eski narx ustida |
+
+### Kimga tegmaydi
+
+- **Obuna** (`subscription`) rejimiga — chegirma faqat sotib olishga
+- **`soon: true`** mahsulotlarga (CRM, ERP) — hali chiqmagan mahsulotga
+  chegirma e'lon qilish mantiqsiz
+
+---
+
 ## 6. Buyurtma formasi qayerga tushadi
 
 Hozir forma **Telegram** orqali ishlaydi: mijoz «Yuborish» ni bosganda

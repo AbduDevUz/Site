@@ -57,12 +57,29 @@
     );
   }
 
+  /**
+   * Aksiya lentasi — sarlavha ustidagi ingichka qator.
+   * SITE.promo.active = false bo'lsa umuman chiqmaydi.
+   */
+  function promoBar() {
+    if (!window.R || !window.R.promoOn || !window.R.promoOn()) return "";
+    var p = S.promo;
+    return (
+      '<a class="promo-bar" href="pricing.html">' +
+        '<span class="promo-bar__badge">' + esc(t(p.badge)) + "</span>" +
+        '<span class="promo-bar__text">' + esc(t(p.title)) + "</span>" +
+        '<span class="promo-bar__until">' + esc(t(p.deadline)) + "</span>" +
+      "</a>"
+    );
+  }
+
   function renderHeader() {
     var host = document.getElementById("siteHeader");
     if (!host) return;
 
     host.className = "site-header";
     host.innerHTML =
+      promoBar() +
       '<div class="container site-header__inner">' +
         '<a class="brand-logo" href="index.html" aria-label="' + esc(S.company.name) + '">' +
           '<img src="' + S.company.logo + '" alt="" width="34" height="34" />' +

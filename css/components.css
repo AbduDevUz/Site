@@ -1653,3 +1653,166 @@ h1 .soon-ribbon {
   letter-spacing: 0.01em;
   color: var(--brand-yellow-400);
 }
+
+/* ------------------------------------------------------------
+   AKSIYA — vaqtinchalik chegirma
+   ------------------------------------------------------------
+   Rang: sariq (brend rangi). Indigo CTA tugmalari uchun qolgan,
+   aks holda sahifada ikkita bir xil "meni bosing" signali bo'lardi.
+   SITE.promo.active = false bo'lsa bularning hech biri chizilmaydi.
+   ------------------------------------------------------------ */
+
+/* Sarlavha ustidagi ingichka lenta */
+.promo-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: 0.55rem var(--space-5);
+  background: linear-gradient(90deg, rgba(248, 218, 0, 0.16), rgba(248, 218, 0, 0.09));
+  border-bottom: 1px solid rgba(248, 218, 0, 0.24);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: background var(--dur) var(--ease-out);
+}
+
+.promo-bar:hover {
+  background: linear-gradient(90deg, rgba(248, 218, 0, 0.24), rgba(248, 218, 0, 0.14));
+}
+
+.promo-bar__badge {
+  flex: none;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--brand-yellow-400);
+  color: var(--navy-900);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+}
+
+.promo-bar__text {
+  font-weight: 600;
+}
+
+.promo-bar__until {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+/* Tor ekranda muddat pastga tushadi */
+@media (max-width: 560px) {
+  .promo-bar__until {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Rejim almashtirgichdagi kichik nishon */
+.segmented__promo {
+  margin-left: 0.4em;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: var(--brand-yellow-400);
+  color: var(--navy-900);
+  font-size: 0.68rem;
+  font-weight: 800;
+  vertical-align: 1px;
+}
+
+/* Tariflar ichidagi aksiya kartasi */
+.promo-card {
+  padding: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+  border: 1px solid rgba(248, 218, 0, 0.32);
+  border-radius: var(--r-lg, 20px);
+  background:
+    radial-gradient(70% 130% at 100% 0%, rgba(248, 218, 0, 0.12) 0%, transparent 60%),
+    linear-gradient(120deg, rgba(248, 218, 0, 0.08), rgba(248, 218, 0, 0.02)) var(--surface);
+}
+
+.promo-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.promo-card__badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--brand-yellow-400);
+  color: var(--navy-900);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.promo-card__text {
+  max-width: 62ch;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.promo-card__note {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.promo-card__note b {
+  color: var(--text);
+}
+
+.promo-card__deadline {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: var(--space-4);
+  color: var(--brand-yellow-400);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+}
+
+.promo-card__deadline svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Jadvaldagi eski narx va yangi narx */
+.cell-was {
+  color: var(--text-muted);
+  opacity: 0.7;
+  margin-right: 0.35em;
+  white-space: nowrap;
+}
+
+.cell-promo {
+  color: var(--brand-yellow-400);
+  white-space: nowrap;
+}
+
+.cell-off--promo {
+  background: rgba(248, 218, 0, 0.16);
+  color: var(--brand-yellow-400);
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* Tarif kartochkasidagi eski narx */
+.plan-card__was {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+  font-size: var(--fs-sm);
+  text-decoration: line-through;
+}

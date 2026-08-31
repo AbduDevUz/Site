@@ -167,11 +167,23 @@
   function planCard(product, plan) {
     var priceHtml;
     if (plan.price) {
+      // Aksiya davrida bir martalik tariflar narxi promoFull dan qayta hisoblanadi
+      var amount = plan.price.amount;
+      var wasHtml = "";
+      if (promoOn() && plan.promoFull) {
+        wasHtml =
+          '<span class="plan-card__was">' + window.I18N.num(amount) + " " +
+          esc(plan.price.currency) + "</span>";
+        amount = Math.round(plan.promoFull * (1 - S.promo.percent / 100));
+      }
       priceHtml =
         '<div class="plan-card__price">' +
-          '<span class="plan-card__amount">' + window.I18N.num(plan.price.amount) + "</span>" +
+          wasHtml +
+          '<span class="plan-card__amount">' + window.I18N.num(amount) + "</span>" +
           '<span class="plan-card__currency">' + esc(plan.price.currency) + "</span>" +
-          '<span class="plan-card__period">/ ' + esc(t(plan.price.period)) + "</span>" +
+          (plan.price.period
+            ? '<span class="plan-card__period">/ ' + esc(t(plan.price.period)) + "</span>"
+            : "") +
         "</div>";
     } else {
       priceHtml =
@@ -331,6 +343,42 @@
      Narxlar jadvali
      ------------------------------------------------------------ */
 
+  /* ------------------------------------------------------------
+     Aksiya (vaqtinchalik chegirma)
+     ------------------------------------------------------------ */
+
+  /** Aksiya yoqilganmi va muddati o'tmaganmi */
+  function promoOn() {
+    var p = S.promo;
+    if (!p || !p.active) return false;
+    if (p.until) {
+      // Muddati o'tgan bo'lsa — o'zi o'chadi, qo'lda tuzatish shart emas
+      var end = new Date(p.until + "T23:59:59");
+      if (!isNaN(end) && new Date() > end) return false;
+    }
+    return true;
+  }
+
+  /** 12345 -> "12 345" */
+  function usd(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " USD";
+  }
+
+  /**
+   * Bir martalik to'lov katagi.
+   * Aksiya o'chiq bo'lsa — jadvaldagi tayyor matn (odatdagi −10%).
+   * Yoqilgan bo'lsa — `full` dan hisoblanadi, eski narx chizib tashlanadi.
+   */
+  function onceCell(row) {
+    if (!promoOn() || !row.full) return String(row.onceHtml || "");
+    var price = Math.round(row.full * (1 - S.promo.percent / 100));
+    return (
+      '<s class="cell-was">' + esc(String(row.onceHtml || "").replace(/<span[\s\S]*?<\/span>/g, "").trim()) + "</s> " +
+      '<b class="cell-promo">' + usd(price) + "</b> " +
+      '<span class="cell-off cell-off--promo">−' + S.promo.percent + "%</span>"
+    );
+  }
+
   function priceTable(table) {
     var head =
       "<thead><tr>" +
@@ -350,7 +398,9 @@
             table.columns
               .map(function (c) {
                 var raw = row[c.key];
-                var value = c.html ? String(raw || "") : esc(t(raw));
+                var value =
+                  c.key === "onceHtml" ? onceCell(row) :
+                  c.html ? String(raw || "") : esc(t(raw));
                 var cls = c.strong ? ' class="cell-strong"' : c.quiet ? ' class="cell-quiet"' : "";
                 return "<td" + cls + ">" + value + "</td>";
               })
@@ -395,6 +445,34 @@
      To'liq tarif bloki (rejim almashtirgich bilan)
      ------------------------------------------------------------ */
 
+  /**
+   * Aksiya shu mahsulot va shu rejimga tegishlimi.
+   * Faqat sotib olish rejimlariga (onetime / project) va faqat ishga
+   * tushgan mahsulotlarga — hali chiqmagan CRM/ERP ga chegirma e'lon
+   * qilish mantiqsiz bo'lardi.
+   */
+  function promoApplies(product, mode) {
+    if (!promoOn() || product.soon) return false;
+    return mode.id === "onetime" || mode.id === "project";
+  }
+
+  /** Tariflar ichidagi aksiya kartasi */
+  function promoCard() {
+    var p = S.promo;
+    return (
+      '<div class="promo-card">' +
+        '<div class="promo-card__head">' +
+          '<span class="promo-card__badge">' + esc(t(p.badge)) + "</span>" +
+          '<h3 class="h4">' + esc(t(p.title)) + "</h3>" +
+        "</div>" +
+        '<p class="promo-card__text">' + esc(t(p.text)) + "</p>" +
+        '<p class="promo-card__note">' + t(p.serverNote) + "</p>" +
+        '<p class="promo-card__deadline">' + icon("clock") + "<span>" +
+          esc(t(p.deadline)) + "</span></p>" +
+      "</div>"
+    );
+  }
+
   function pricingBlock(product, opts) {
     opts = opts || {};
     var modes = product.pricingModes || [];
@@ -408,7 +486,11 @@
             return (
               '<button type="button" role="tab" data-mode="' + m.id + '"' +
               (i === 0 ? ' class="is-active" aria-selected="true"' : ' aria-selected="false"') +
-              ">" + esc(t(m.label)) + "</button>"
+              ">" + esc(t(m.label)) +
+              (promoApplies(product, m)
+                ? '<span class="segmented__promo">' + esc(t(S.promo.badge)) + "</span>"
+                : "") +
+              "</button>"
             );
           })
           .join("") +
@@ -418,6 +500,8 @@
     var panels = modes
       .map(function (m, i) {
         var inner = '<div class="stack stack-8">';
+
+        if (promoApplies(product, m)) inner += promoCard();
 
         if (m.description) {
           inner += '<p class="lead" style="max-width:60ch">' + esc(t(m.description)) + "</p>";
@@ -507,6 +591,7 @@
     mark: mark,
     soonBadge: soonBadge,
     soonRibbon: soonRibbon,
+    promoOn: promoOn,
     entry: entry,
     picture: picture,
     productCard: productCard,
