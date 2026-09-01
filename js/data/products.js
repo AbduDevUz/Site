@@ -9,7 +9,9 @@
      2. Tamom. Bosh sahifa, tariflar, buyurtma sahifasi avtomatik yangilanadi.
 
    TARTIB: saytdagi ko'rinish tartibi = shu massivdagi tartib.
-     Ishga tushgan mahsulotlar oldinda, `soon: true` bo'lganlari oxirida.
+     Umumiy qoida — ishga tushgan mahsulotlar oldinda, `soon: true`
+     bo'lganlari oxirida. Istisno: Call Center ataylab Savdodan keyin
+     turibdi, garchi hali chiqmagan bo'lsa ham (egasining qarori).
 
    MAHSULOT OBYEKTI:
      id            — URL kaliti: product.html?id=hr
@@ -906,7 +908,116 @@ window.PRODUCTS = [
   },
 
   /* ==========================================================
-     4. TINCH UYLAR (ko'chmas mulk savdosi)
+     4. TINCH CALL CENTER  —  tez orada
+     ----------------------------------------------------------
+     DIQQAT: modullar va narxlar hali aniqlanmagan. Quyidagi matn
+     Asterisk asosidagi call-markazlar odatda nima qilishiga qarab
+     yozilgan — ya'ni o'rinbosar. Tizim tayyor bo'lgach:
+       1. highlights ni haqiqiy modullarga moslang
+       2. pricingModes ga tariflarni qo'shing
+       3. `soon: true` ni o'chiring
+       4. image ni haqiqiy skrinshotga almashtiring
+     ========================================================== */
+  {
+    id: "callcenter",
+    icon: "headset",
+    soon: true,
+    /* Vaqtinchalik grafika. Tizimning haqiqiy skrinshoti bilan
+       almashtiring — qo'ng'iroqlar navbati ekrani mos keladi. */
+    image: "./images/opt/callcenter.svg",
+    name: { uz: "Tinch Call Center", ru: "Tinch Call Center" },
+    tagline: {
+      uz: "Kichik va o'rta biznes uchun call-markaz",
+      ru: "Колл-центр для малого и среднего бизнеса",
+    },
+    short: {
+      uz: "Asterisk asosidagi IP-telefoniya: qo'ng'iroqlar navbati, suhbatlarni yozib olish, o'tkazib yuborilganlarni nazorat qilish va operatorlar statistikasi.",
+      ru: "IP-телефония на базе Asterisk: очередь звонков, запись разговоров, контроль пропущенных и статистика по операторам.",
+    },
+    intro: {
+      uz: "Tinch Call Center — ochiq Asterisk platformasida quriladigan telefoniya tizimi. Kichik korxonada eng ko'p uchraydigan yo'qotish shu: mijoz qo'ng'iroq qiladi, liniya band chiqadi yoki hech kim ko'tarmaydi — u boshqa joyga ketadi, siz esa buni bilmay ham qolasiz. Tizim har bir qo'ng'iroqni qayd qiladi: kim qo'ng'iroq qildi, qancha kutdi, kim javob berdi, javobsiz qolgan bo'lsa — kim qayta aloqaga chiqishi kerak.",
+      ru: "Tinch Call Center — система телефонии на открытой платформе Asterisk. Самая частая потеря в небольшой компании выглядит так: клиент звонит, линия занята или никто не берёт трубку — и он уходит к другим, а вы даже не узнаёте об этом. Система фиксирует каждый звонок: кто звонил, сколько ждал, кто ответил, а если звонок пропущен — кто должен перезвонить.",
+    },
+    tags: [
+      { uz: "Asterisk", ru: "Asterisk" },
+      { uz: "IP-telefoniya", ru: "IP-телефония" },
+      { uz: "Qo'ng'iroq yozuvi", ru: "Запись звонков" },
+    ],
+    highlights: [
+      {
+        icon: "phone",
+        title: { uz: "Bitta raqam — barcha operatorlar", ru: "Один номер — все операторы" },
+        text: {
+          uz: "Mijoz bitta raqamga qo'ng'iroq qiladi, tizim uni bo'sh xodimga uzatadi. Hamma band bo'lsa — navbatga qo'yadi va nechanchi o'rinda ekanini aytadi.",
+          ru: "Клиент звонит на один номер, система переводит его на свободного сотрудника. Если все заняты — ставит в очередь и сообщает номер в ней.",
+        },
+      },
+      {
+        icon: "bell",
+        title: { uz: "Javobsiz qo'ng'iroq yo'qolmaydi", ru: "Ни один пропущенный не теряется" },
+        text: {
+          uz: "Ko'tarilmagan har bir qo'ng'iroq alohida ro'yxatga tushadi va mas'ul xodimga biriktiriladi. Qayta aloqaga chiqilmaguncha ro'yxatdan chiqmaydi.",
+          ru: "Каждый непринятый звонок попадает в отдельный список и закрепляется за сотрудником. Из списка не уйдёт, пока не перезвонят.",
+        },
+      },
+      {
+        icon: "history",
+        title: { uz: "Barcha suhbatlar yoziladi", ru: "Все разговоры записываются" },
+        text: {
+          uz: "Har bir suhbat saqlanadi va istalgan vaqtda tinglash mumkin. Mijoz bilan bahs chiqqanda yoki yangi xodimni o'qitishda asqotadi.",
+          ru: "Каждый разговор сохраняется и его можно прослушать в любое время. Полезно при споре с клиентом и при обучении новых сотрудников.",
+        },
+      },
+      {
+        icon: "chart",
+        title: { uz: "Kim qancha ishladi — ko'rinib turadi", ru: "Видно, кто сколько работал" },
+        text: {
+          uz: "Har bir operator bo'yicha: nechta qo'ng'iroq qabul qilgan, o'rtacha necha soniyada javob bergan, qanchasini o'tkazib yuborgan. Soatlik yuklama grafigi ham bor — qachon odam yetishmasligi ko'rinadi.",
+          ru: "По каждому оператору: сколько звонков принял, за сколько секунд в среднем отвечал, сколько пропустил. Есть график нагрузки по часам — видно, когда не хватает людей.",
+        },
+      },
+      {
+        icon: "plug",
+        title: { uz: "Boshqa tizimlar bilan bog'lanadi", ru: "Связывается с другими системами" },
+        text: {
+          uz: "Qo'ng'iroq kelganda mijoz kartasi ekranda ochiladi — kim ekani, oldingi murojaatlari va qarzi ko'rinadi. Tinch CRM va Tinch Ombor bilan ulanadi.",
+          ru: "При входящем звонке карточка клиента открывается на экране — кто это, предыдущие обращения и задолженность. Подключается к Tinch CRM и Tinch Ombor.",
+        },
+      },
+      {
+        icon: "shield",
+        title: { uz: "Ochiq platforma — bog'lanib qolmaysiz", ru: "Открытая платформа — без привязки" },
+        text: {
+          uz: "Asterisk — ochiq kodli va dunyo bo'ylab ishlatiladigan platforma. Tizim sizning serveringizda turadi, qo'ng'iroq yozuvlari ham sizda qoladi.",
+          ru: "Asterisk — открытая платформа, которой пользуются по всему миру. Система стоит на вашем сервере, записи звонков тоже остаются у вас.",
+        },
+      },
+    ],
+    pricingModes: [
+      {
+        id: "project",
+        label: { uz: "Loyiha bo'yicha", ru: "По проекту" },
+        description: {
+          uz: "Narxlar tizim ishga tushgach e'lon qilinadi. Hozircha operatorlar soni va kerakli imkoniyatlarni ayting — tayyor bo'lishi bilan birinchilardan bo'lib xabar beramiz va taxminiy hisob-kitob yuboramiz.",
+          ru: "Цены будут объявлены после запуска. Пока сообщите количество операторов и нужные возможности — сообщим о запуске одними из первых и пришлём предварительный расчёт.",
+        },
+        showMatrix: false,
+        plans: [],
+      },
+    ],
+    notes: [
+      {
+        type: "info",
+        text: {
+          uz: "<b>Tizim ishlab chiqilmoqda.</b> Modullar ro'yxati va tariflar hali yakunlanmagan — yuqoridagi imkoniyatlar rejalashtirilgan tarkib. Aniq talabingiz bo'lsa ayting, ishlab chiqishda hisobga olamiz.",
+          ru: "<b>Система в разработке.</b> Список модулей и тарифы ещё не финальные — выше планируемый состав. Если у вас есть конкретное требование — скажите, учтём при разработке.",
+        },
+      },
+    ],
+  },
+
+  /* ==========================================================
+     5. TINCH UYLAR (ko'chmas mulk savdosi)
      ========================================================== */
   {
     id: "uylar",
@@ -1464,7 +1575,7 @@ window.PRODUCTS = [
   },
 
   /* ==========================================================
-     5. SAYTLAR VA PORTALLAR
+     6. SAYTLAR VA PORTALLAR
      ========================================================== */
   {
     id: "websites",
@@ -1636,7 +1747,7 @@ window.PRODUCTS = [
   },
 
   /* ==========================================================
-     6. TINCH CRM  —  tez orada
+     7. TINCH CRM  —  tez orada
      ========================================================== */
   {
     id: "crm",
@@ -1792,7 +1903,7 @@ window.PRODUCTS = [
   },
 
   /* ==========================================================
-     7. TINCH ERP  —  tez orada
+     8. TINCH ERP  —  tez orada
      ========================================================== */
   {
     id: "erp",

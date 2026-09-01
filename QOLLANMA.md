@@ -495,6 +495,47 @@ mahsulotlardan farqli, bu SVG — `image` maydoni obyekt emas, oddiy satr.
 
 ---
 
+## 11.2. Tinch Call Center: hali to'ldirilmagan
+
+Bu mahsulot **o'rinbosar matn bilan** qo'shilgan. Asterisk asosida
+qurilishi aniq, qolgani hali yo'q:
+
+| Nima | Holati |
+| --- | --- |
+| Modullar ro'yxati | aniqlanmagan — `highlights` da 6 ta tipik imkoniyat yozilgan |
+| Narxlar | yo'q — `plans: []`, kartochkada «Tez orada» chiqadi |
+| Rasm | vaqtinchalik SVG (`images/opt/callcenter.svg`) |
+
+`highlights` dagi matn Asterisk asosidagi call-markazlar odatda nima
+qilishiga qarab yozilgan. Haqiqiy tizim boshqacha bo'lsa — o'zgartiring.
+
+**Ishga tushganda qiladigan ishlar:**
+
+1. `highlights` ni haqiqiy modullarga moslang
+2. `pricingModes[0].plans` ga tariflarni qo'shing
+3. `notes` dagi «Tizim ishlab chiqilmoqda» izohini o'chiring
+4. **`soon: true` ni o'chiring**
+5. `image` ni haqiqiy skrinshotga almashtiring
+6. `site.js` → `home.hero.stats` dagi «tayyor mahsulot» sonini oshiring
+
+### Joylashuvi haqida
+
+Call Center **Savdodan keyin** turibdi — garchi hali chiqmagan bo'lsa
+ham. Bu egasining ataylab qilgan qarori. Umumiy qoida (chiqmaganlar
+oxirida) CRM va ERP uchun kuchda qolgan.
+
+### «Tayyor mahsulot» soni
+
+`site.js` → `home.hero.stats` dagi birinchi raqam **`soon: true`
+bo'lmaganlar sonini** ko'rsatishi kerak. Hozir 5 ta: Ombor, HR, Savdo,
+Uylar, Saytlar.
+
+Bu raqamni jami mahsulot soniga (8) tenglashtirmang: mehmon pastga
+tushib «Tez orada» yorlig'ini ko'radi va yozuv yolg'on ekanini
+darhol payqaydi.
+
+---
+
 ## 12. Tinch Uylar: narxlar va manba haqida
 
 Ma'lumot raqobatchining (GOHOUSE) taqdimotidan olingan. **Undan faqat
