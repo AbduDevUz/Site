@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /order.html
 
 Sitemap: https://tinch.uz/sitemap.xml

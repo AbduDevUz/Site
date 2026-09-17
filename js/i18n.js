@@ -35,7 +35,19 @@
       /* eski brauzer — e'tiborsiz qoldiramiz */
     }
 
-    // 2. Saqlangan tanlov
+    // 2. Sahifaning o'z tili (statik ruscha sahifa: <html data-lang="ru">).
+    //    Tanlov saqlanadi — keyingi sahifalar ham shu tilda ochiladi.
+    var declared = document.documentElement.getAttribute("data-lang");
+    if (declared && SUPPORTED.indexOf(declared) !== -1) {
+      try {
+        localStorage.setItem(STORAGE_KEY, declared);
+      } catch (e) {
+        /* xotira mavjud emas */
+      }
+      return declared;
+    }
+
+    // 3. Saqlangan tanlov
     try {
       var saved = localStorage.getItem(STORAGE_KEY);
       if (saved && SUPPORTED.indexOf(saved) !== -1) return saved;
@@ -50,7 +62,7 @@
       /* localStorage o'chirilgan bo'lishi mumkin */
     }
 
-    // 3. Standart til — o'zbekcha.
+    // 4. Standart til — o'zbekcha.
     //    Brauzer tili bo'yicha aniqlash ataylab qilinmaydi: O'zbekistondagi
     //    ko'p qurilmalarda tizim tili ru-RU bo'lgani uchun sayt doim ruscha
     //    ochilib ketardi. Foydalanuvchi tanlasa — tanlovi saqlanadi.
@@ -167,6 +179,14 @@
       localStorage.setItem(STORAGE_KEY, next);
     } catch (e) {
       /* xotira mavjud emas — sessiya davomida ishlaydi */
+    }
+
+    // Statik sahifaning boshqa tildagi nusxasi bor — o'shanga o'tamiz
+    // (<link rel="alternate" hreflang="ru" data-lang-switch="product-hr-ru.html">)
+    var twin = document.querySelector('link[rel="alternate"][hreflang="' + next + '"][data-lang-switch]');
+    if (twin) {
+      window.location.href = twin.getAttribute("data-lang-switch");
+      return;
     }
 
     document.documentElement.lang = next;

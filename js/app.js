@@ -165,7 +165,7 @@
     host.className = "site-footer";
 
     var productLinks = PRODUCTS.map(function (p) {
-      return '<li><a href="product.html?id=' + p.id + '">' + esc(t(p.name)) + "</a></li>";
+      return '<li><a href="' + window.R.productUrl(p.id) + '">' + esc(t(p.name)) + "</a></li>";
     }).join("");
 
     var companyLinks = S.footer.companyLinks

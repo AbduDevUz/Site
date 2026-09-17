@@ -10,7 +10,19 @@
 | `js/data/products.js` | Mahsulotlar, tariflar, imkoniyatlar matritsasi, narxlar jadvali |
 
 Har bir tarjima qilinadigan qiymat — `{ uz: "...", ru: "..." }` obyekti.
-Faylni tahrirlab saqlang, brauzerni yangilang — tamom. Build yoki npm kerak emas.
+Faylni tahrirlab saqlang, brauzerni yangilang — tamom. npm kerak emas.
+
+### Saytga yuklashdan oldin — bitta buyruq
+
+```bash
+node tools/build.js
+```
+
+U mahsulot sahifalarini (`product-<id>.html`, `product-<id>-ru.html`),
+`sitemap.xml` va keshni yangilash belgilarini (`?v=`) qayta yasaydi.
+Batafsil — **§14.1**. Unutsangiz ham sayt ishlayveradi, faqat mahsulot
+sahifalarining sarlavhasi eskicha qoladi va mijoz eski CSS/JS ni ko'rishi
+mumkin.
 
 ---
 
@@ -463,7 +475,9 @@ Yoki onlayn: [squoosh.app](https://squoosh.app) — kenglik 1200px, sifat ~80.
 
 ```
 index.html          bosh sahifa
-product.html        mahsulot sahifasi (?id=hr)
+product-hr.html     mahsulot sahifasi (tools/build.js yasaydi, ruschasi product-hr-ru.html)
+product.html        eski manzil (?id=hr) — statik sahifasi yo'q mahsulot uchun
+maxfiylik.html      maxfiylik siyosati
 pricing.html        barcha tariflar (?product=hr)
 order.html          buyurtma formasi (?product=hr&plan=pro)
 contacts.html       aloqa
@@ -476,6 +490,8 @@ css/pages.css       hero, tariflar, aloqa sahifasi bloklari
 
 js/data/site.js     ← SAYT MATNLARI
 js/data/products.js ← MAHSULOT VA TARIFLAR
+js/data/pages.js    statik sahifasi bor mahsulotlar (tools/build.js yozadi)
+tools/build.js      sahifalar, sitemap va ?v= ni yasaydi (§14.1)
 js/i18n.js          til tizimi (atribut asosida)
 js/icons.js         SVG ikonkalar
 js/render.js        karta, tarif, jadval markupi
@@ -736,8 +752,39 @@ qoldiring; xato bo'lsa `8 000 USD` ni `8 100 USD` ga tuzating
 
 ## 14. Serverga qo'yish (deploy)
 
-Sayt statik — hech qanday PHP, Node yoki baza kerak emas. Barcha fayllarni
-hosting ildiziga (`public_html`) ko'chirasiz, tamom.
+Sayt statik — serverda PHP, Node yoki baza kerak emas. Barcha fayllarni
+hosting ildiziga (`public_html`) ko'chirasiz.
+
+> **GitHub'ga push saytni yangilamaydi.** 2026-09-17 da tekshirildi: push'dan
+> keyin tinch.uz eski holatda qoldi. Fayllarni serverga o'zingiz yuklaysiz.
+
+### 14.1. Har deploy ro'yxati
+
+1. `node tools/build.js` — natijada «Yangilandi: …» yoki «Hammasi dolzarb».
+2. `git add -A && git commit` — yasalgan sahifalar ham commit qilinadi.
+3. §15 ro'yxatidagi fayllarni serverga yuklash (`product-*.html` ham).
+4. Tekshirish:
+   ```bash
+   curl -s https://tinch.uz/js/data/products.js | grep -c "amount: 69000"
+   curl -sI https://tinch.uz/product-warehouse.html | head -1
+   ```
+   Birinchisi `1`, ikkinchisi `HTTP/2 200` bo'lishi kerak.
+5. Telegram'da `https://tinch.uz/product-warehouse.html` ni tashlab ko'ring —
+   Ombor nomi va rasmi chiqishi kerak.
+
+### 14.2. Server aslida nginx + Apache
+
+Jonli serverda oldinda **nginx (Engintron)**, orqasida Apache turadi.
+`.htaccess` ishlaydi (yo'naltirishlar, 404, xavfsizlik), lekin **JS va CSS
+keshini nginx 30 kunga qo'yadi** — `.htaccess` dagi 7 kun e'tiborga olinmaydi.
+Shuning uchun `tools/build.js` har bir CSS/JS havolasiga fayl xeshini
+qo'shadi (`app.js?v=1a2b3c4d`): fayl o'zgarsa manzil o'zgaradi va brauzer
+yangisini yuklaydi.
+
+### 14.3. Mahsulot sahifalari manzili
+
+`product.html?id=hr` → `product-hr.html` ga 301 bilan yo'naltiriladi
+(`.htaccess`, faqat shunday fayl bor bo'lsa). Eski havolalar ishlayveradi.
 
 ### Apache / cPanel
 
@@ -812,6 +859,7 @@ Qolgani — rasmlarning asl nusxalari, ular git tarixida saqlanib qoladi.
 ```
 *.html          .htaccess       robots.txt      sitemap.xml
 css/            js/             images/opt/     images/logo2.png
+(product-*.html ham *.html ichida — build yasagan sahifalar)
 ```
 
 ### Yuklamang (27.6 MB, ishlatilmaydi)
@@ -821,7 +869,7 @@ images/pages/   asl rasmlar — images/opt/ shulardan yasalgan
 images/video/   eski videolar va boshqa saytlarning skrinshotlari
 images/icon/    eski dizayn ikonkalari — endi SVG kod ichida
 images/bg-7.png images/Screenshot_1.png
-QOLLANMA.md     SEO_QOLLANMA.md     .git/
+QOLLANMA.md     SEO_QOLLANMA.md     .git/     tools/
 ```
 
 Bu papkalarni **o'chirmang** — kelajakda rasmni qayta siqish kerak bo'lsa,

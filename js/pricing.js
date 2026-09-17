@@ -62,7 +62,7 @@
           '<h2 class="h2">' + esc(t(product.name)) + "</h2>" +
           '<p class="lead" style="max-width:60ch">' + esc(t(product.tagline)) + "</p>" +
           '<div class="row" style="margin-top:var(--space-3)">' +
-            '<a class="link-arrow" href="product.html?id=' + product.id + '">' +
+            '<a class="link-arrow" href="' + window.R.productUrl(product.id) + '">' +
               esc(t(S.ui.detailsCta)) +
             "</a>" +
           "</div>" +

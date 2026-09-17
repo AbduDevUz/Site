@@ -46,6 +46,22 @@
     return null;
   }
 
+  /** tools/build.js statik sahifa yasaganmi (js/data/pages.js) */
+  function hasStaticPage(id) {
+    return (window.STATIC_PAGES || []).indexOf(id) !== -1;
+  }
+
+  /**
+   * Mahsulot sahifasi manzili. Statik sahifa bo'lsa — product-<id>.html
+   * (ruschasi product-<id>-ru.html), bo'lmasa eski product.html?id=<id>:
+   * build ishga tushirilmagan yangi mahsulot ham ochilaveradi.
+   */
+  function productUrl(id, lang) {
+    if (!hasStaticPage(id)) return "product.html?id=" + id;
+    lang = lang || window.I18N.lang();
+    return "product-" + id + (lang === "ru" ? "-ru" : "") + ".html";
+  }
+
   function planById(product, planId) {
     var out = null;
     (product.pricingModes || []).forEach(function (mode) {
@@ -163,13 +179,13 @@
 
     return (
       '<article class="card card--hover product-card reveal' + (product.soon ? " is-soon" : "") + '">' +
-        '<a class="product-card__media" href="product.html?id=' + product.id + '" aria-label="' + esc(t(product.name)) + '">' +
+        '<a class="product-card__media" href="' + productUrl(product.id) + '" aria-label="' + esc(t(product.name)) + '">' +
           picture(product.image, t(product.name) + " — " + t(product.tagline), { width: 1200, height: 675 }) +
           '<span class="product-card__glyph">' + icon(product.icon) + "</span>" +
           (product.soon ? soonRibbon() : "") +
         "</a>" +
         '<div class="product-card__body">' +
-          "<" + h + ' class="card__title"><a href="product.html?id=' + product.id + '">' + esc(t(product.name)) + "</a></" + h + ">" +
+          "<" + h + ' class="card__title"><a href="' + productUrl(product.id) + '">' + esc(t(product.name)) + "</a></" + h + ">" +
           '<p class="dim" style="font-size:var(--fs-xs)">' + esc(t(product.tagline)) + "</p>" +
           '<p class="card__text">' + esc(t(product.short)) + "</p>" +
           '<div class="product-card__tags">' + tags + "</div>" +
@@ -178,7 +194,7 @@
           (product.soon
             ? '<div class="product-card__price"><b>' + esc(t(S.ui.soon)) + "</b></div>"
             : priceHtml) +
-          '<a class="link-arrow" href="product.html?id=' + product.id + '">' + esc(t(S.ui.detailsCta)) + "</a>" +
+          '<a class="link-arrow" href="' + productUrl(product.id) + '">' + esc(t(S.ui.detailsCta)) + "</a>" +
         "</div>" +
       "</article>"
     );
@@ -686,6 +702,8 @@
 
   window.R = {
     byId: byId,
+    hasStaticPage: hasStaticPage,
+    productUrl: productUrl,
     planById: planById,
     matrixMode: matrixMode,
     entryPrice: entryPrice,

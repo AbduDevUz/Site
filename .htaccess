@@ -79,6 +79,8 @@ AddType image/svg+xml .svg
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # Brauzer bu saytni bir yil davomida faqat HTTPS orqali ochadi
+  Header always set Strict-Transport-Security "max-age=31536000"
   Header unset X-Powered-By
 </IfModule>
 
@@ -114,6 +116,12 @@ AddType image/svg+xml .svg
 
   # Eski aloqa sahifasi
   RewriteRule ^content\.html$ /contacts.html [R=301,L]
+
+  # product.html?id=hr  ->  /product-hr.html (tools/build.js yasagan statik sahifa).
+  # Faqat shunday fayl bo'lsa: yangi mahsulotda build unutilsa, eski manzil ishlayveradi.
+  RewriteCond %{QUERY_STRING} ^id=([a-z0-9-]+)$
+  RewriteCond %{DOCUMENT_ROOT}/product-%1.html -f
+  RewriteRule ^product\.html$ /product-%1.html? [R=301,L]
 </IfModule>
 
 
@@ -136,7 +144,7 @@ RedirectMatch 404 /\.git(/|$)
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(\.git|\.vscode|\.claude|\.omc)(/|$) - [F,L]
+  RewriteRule ^(\.git|\.vscode|\.claude|\.omc|tools)(/|$) - [F,L]
 </IfModule>
 
 # Nuqta bilan boshlanadigan fayllar (.env, .gitignore va h.k.)

@@ -187,8 +187,8 @@ window.SITE = {
         ru: "Tinch — автоматизация бизнеса: HR, ERP, CRM, склад и сайты",
       },
       description: {
-        uz: "Tinch — Toshkentda biznes jarayonlarini avtomatlashtirish: Tinch Ombor, Tinch HR, Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
-        ru: "Tinch — автоматизация бизнес-процессов в Ташкенте: Tinch Ombor, Tinch HR, Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
+        uz: "Tinch — biznesni avtomatlashtirish: Tinch Ombor, Tinch HR va Tinch Savdo, shuningdek Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
+        ru: "Tinch — автоматизация бизнеса в Ташкенте: Tinch Ombor, Tinch HR и Tinch Savdo, а также Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
       },
     },
     hero: {

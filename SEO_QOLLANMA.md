@@ -8,18 +8,20 @@
 | Open Graph (1200×630 rasm)   | ✓      | `images/opt/og-cover.jpg` — Telegram/FB preview |
 | Twitter Card                | ✓      | Har sahifada `summary_large_image`             |
 | `hreflang` (uz / ru / x-default) | ✓ | Barcha indekslanadigan sahifalarda             |
-| Canonical                   | ✓      | Har sahifada; `product.html` da JS qo'yadi     |
+| Canonical                   | ✓      | Har sahifada; mahsulotlarda statik (`product-<id>.html`) |
 | `robots.txt`                | ✓      | Ildizda                                        |
-| `sitemap.xml` + `lastmod`   | ✓      | 9 ta manzil                                    |
+| `sitemap.xml` + `lastmod`   | ✓      | `tools/build.js` yasaydi, hreflang bilan       |
 | Organization JSON-LD        | ✓      | `index.html`                                   |
-| SoftwareApplication + Offer | ✓      | `product.html` (narxlardan quriladi)           |
-| BreadcrumbList              | ✓      | `product.html` — qidiruvda yo'l ko'rinadi      |
+| SoftwareApplication + Offer | ✓      | Mahsulot sahifalarida statik, narx birligi (`unitText`) bilan |
+| BreadcrumbList              | ✓      | Mahsulot sahifalari — qidiruvda yo'l ko'rinadi |
+| Mahsulot sahifalari uz + ru | ✓      | `product-<id>.html`, `product-<id>-ru.html` — JS'siz ham to'liq sarlavha, tavsif, OG |
 | ContactPage JSON-LD         | ✓      | `contacts.html`                                |
 | Rasmlarda `alt`             | ✓      | Tekshirildi — bitta ham bo'sh emas             |
 | WebP + o'lcham              | ✓      | `images/opt/`, `<picture>` bilan               |
 | 404 sahifasi                | ✓      | `404.html` — noindex, mahsulotlar ro'yxati bilan |
 | Mobil moslashuv             | ✓      | 320px dan boshlab tekshirilgan                 |
-| gzip + kesh                 | ✓      | `.htaccess` (Apache) — QOLLANMA 14-bo'lim      |
+| gzip + kesh                 | ✓      | `.htaccess` + `?v=` xesh (server nginx) — QOLLANMA §14.2 |
+| HSTS                        | ✓      | `.htaccess`                                    |
 | `max-image-preview:large`   | ✓      | Googlda katta rasm bilan chiqadi               |
 
 
@@ -75,16 +77,8 @@ uchun uni qaytarmadim.
 ## Yangi mahsulot qo'shganda
 
 1. `js/data/products.js` ga mahsulotni qo'shing.
-2. `sitemap.xml` ga qatorini qo'shing:
-
-```xml
-<url>
-  <loc>https://tinch.uz/product.html?id=YANGI_ID</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.8</priority>
-</url>
-```
-
+2. `node tools/build.js` — `product-YANGI_ID.html`, ruscha nusxasi va
+   `sitemap.xml` o'zi yasaladi. Sitemap'ni qo'lda tahrirlamang.
 3. Google Search Console'da sitemap'ni qayta yuboring.
 
 ---
@@ -112,6 +106,9 @@ sahifalarni indekslaydi, lekin:
   bajarmaydi — shuning uchun `<title>`, `description` va OG teglari
   HTML'da **statik** holda ham yozilgan.
 
-Agar kelajakda indekslash muhim bo'lsa, keyingi qadam — sahifalarni
-statik generatsiya qilish (Astro yoki oddiy Node skripti bilan
-`products.js` dan `product-hr.html`, `product-erp.html` yaratish).
+**2026-09-17 dan mahsulot sahifalari statik** (`tools/build.js`): har biri
+o'z sarlavhasi, tavsifi, rasmi, hreflang va JSON-LD bilan, uz va ru tilida.
+Telegram va Yandex ularni JS'siz ham to'g'ri ko'radi.
+
+Bosh sahifa, tariflar va aloqa sahifasining ruscha versiyasi hali JS orqali
+(`?lang=ru`) — keyingi qadam shu sahifalarni ham xuddi shunday yasash.

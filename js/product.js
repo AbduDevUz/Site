@@ -1,6 +1,7 @@
 /* ============================================================
    Tinch — Mahsulot sahifasi
-   URL: product.html?id=hr
+   URL: product-hr.html (tools/build.js yasagan statik sahifa)
+        product.html?id=hr (statik sahifasi yo'q mahsulot uchun)
    ============================================================ */
 
 (function () {
@@ -17,7 +18,11 @@
     }
   }
 
-  var productId = param("id") || (window.PRODUCTS[0] && window.PRODUCTS[0].id);
+  // Statik sahifada id belgilangan: <div id="productRoot" data-product="hr">
+  var productId =
+    param("id") ||
+    (root && root.getAttribute("data-product")) ||
+    (window.PRODUCTS[0] && window.PRODUCTS[0].id);
 
   /* ------------------------------------------------------------
      Bloklar
@@ -38,7 +43,7 @@
       '<div class="product-switch">' +
       window.PRODUCTS.map(function (p) {
         return (
-          '<a href="product.html?id=' + p.id + '"' +
+          '<a href="' + window.R.productUrl(p.id) + '"' +
             (p.id === product.id ? ' class="is-active"' : "") +
             (p.soon ? ' data-soon="1"' : "") + ">" +
           icon(p.icon) + esc(t(p.name)) +
@@ -270,12 +275,22 @@
       description: product.short,
     });
 
-    var pageUrl = S.company.url + "/product.html?id=" + product.id;
-
-    link("canonical", null, pageUrl);
-    link("alternate", "uz", pageUrl + "&lang=uz");
-    link("alternate", "ru", pageUrl + "&lang=ru");
-    link("alternate", "x-default", pageUrl);
+    var pageUrl;
+    if (window.R.hasStaticPage(product.id)) {
+      // Statik sahifa bor — eski product.html?id= ham shunga ishora qiladi
+      var base = S.company.url + "/";
+      pageUrl = base + window.R.productUrl(product.id);
+      link("canonical", null, pageUrl);
+      link("alternate", "uz", base + window.R.productUrl(product.id, "uz"));
+      link("alternate", "ru", base + window.R.productUrl(product.id, "ru"));
+      link("alternate", "x-default", base + window.R.productUrl(product.id, "uz"));
+    } else {
+      pageUrl = S.company.url + "/product.html?id=" + product.id;
+      link("canonical", null, pageUrl);
+      link("alternate", "uz", pageUrl + "&lang=uz");
+      link("alternate", "ru", pageUrl + "&lang=ru");
+      link("alternate", "x-default", pageUrl);
+    }
 
     meta("property", "og:url", pageUrl);
     meta("property", "og:type", "product");
