@@ -24,11 +24,36 @@
       .join("");
   }
 
+  /**
+   * Ikki guruh: yuqorida `main: true` mahsulotlar, pastda qolganlari.
+   * Ikkalasi ham bir xil katta kartochkada. Tartib products.js dagidek.
+   */
   function renderProducts() {
-    var host = document.getElementById("productGrid");
-    if (!host) return;
+    var mainHost = document.getElementById("productGrid");
+    var moreHost = document.getElementById("productMoreGrid");
+    if (!mainHost) return;
 
-    host.innerHTML = (window.PRODUCTS || []).map(window.R.productCard).join("");
+    var all = window.PRODUCTS || [];
+    var main = all.filter(function (p) {
+      return p.main;
+    });
+    var grouped = main.length > 0;
+    // Hech biri belgilanmagan bo'lsa — hammasi bitta to'rda, sarlavhasiz
+    if (!grouped) main = all;
+
+    var rest = all.filter(function (p) {
+      return main.indexOf(p) === -1;
+    });
+
+    mainHost.innerHTML = main.map(window.R.productCard).join("");
+
+    var mainTitle = mainHost.parentNode.querySelector(".products-group__title");
+    if (mainTitle) mainTitle.hidden = !grouped;
+
+    if (moreHost) {
+      moreHost.innerHTML = rest.map(window.R.productCard).join("");
+      moreHost.parentNode.hidden = !rest.length;
+    }
   }
 
   function renderWhy() {

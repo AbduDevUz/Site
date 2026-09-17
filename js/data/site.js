@@ -224,6 +224,9 @@ window.SITE = {
         uz: "Modullar alohida ham, birgalikda ham ishlaydi. Kerakligidan boshlang — keyin kengaytiring.",
         ru: "Модули работают как по отдельности, так и вместе. Начните с нужного — расширяйте позже.",
       },
+      /* Ikki guruh: `main: true` mahsulotlar va qolganlari (products.js) */
+      mainTitle: { uz: "Faol mahsulotlar", ru: "Активные продукты" },
+      moreTitle: { uz: "Boshqa yechimlar", ru: "Другие решения" },
     },
     whySection: {
       eyebrow: { uz: "Nega Tinch", ru: "Почему Tinch" },

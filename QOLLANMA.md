@@ -153,6 +153,52 @@ Yangi ikonka `js/icons.js` dagi `PATHS` obyektiga qo'shiladi (24×24 SVG path).
 
 ---
 
+## 4.1. Bosh sahifa: «Faol mahsulotlar» va «Boshqa yechimlar»
+
+Bosh sahifadagi mahsulotlar bloki ikki guruhga bo'lingan (2026-09-17):
+
+| Guruh | Qaysi mahsulotlar |
+| --- | --- |
+| **Faol mahsulotlar** | `main: true` qo'yilganlar — hozir Ombor, HR, Savdo |
+| **Boshqa yechimlar** | Qolgan hammasi — Uylar, Saytlar, Call Center, CRM, ERP |
+
+Ikkala guruh ham **bir xil katta kartochkada** (rasm, teglar, narx), 3 ustunda.
+Ixcham kartochka ham sinab ko'rildi, lekin egasiga juda kichik tuyuldi va
+olib tashlandi.
+
+Mahsulotni yuqoriga chiqarish yoki pastga tushirish — `products.js` da
+o'sha mahsulotga bitta qator:
+
+```js
+{
+  id: "uylar",
+  icon: "building",
+  main: true,        // ← yuqoriga chiqadi; o'chirsangiz pastga tushadi
+  ...
+}
+```
+
+Guruh ichidagi tartib — `products.js` dagi tartib.
+
+**Sarlavha nomi:** «Faol mahsulotlar» (ruschasi «Активные продукты») —
+egasining tanlovi, ma'nosi «hozir eng ko'p sotilayotganlar». Variantlar
+ko'rib chiqilgan: «Top mahsulotlar», «Ommabop mahsulotlar», «Mijozlar
+tanlovi». Nomni o'zgartirish — `site.js` → `home.productsSection.mainTitle`
+(va `index.html` dagi zaxira matn).
+
+**Ekran kengligiga qarab:** kompyuterda 3 ustun, 860px dan tor ekranda
+bitta ustun. 2 ustun ataylab yo'q — 3 ta kartochkadan bittasi yolg'iz
+qolardi. Ustunlar soni `css/components.css` → `.product-grid`.
+
+Guruh sarlavhalari `site.js` → `home.productsSection.mainTitle` va
+`moreTitle`. Birorta ham mahsulotda `main: true` bo'lmasa, sarlavhalar
+yashiriladi va hamma mahsulot bitta to'rda chiqadi.
+
+> 404 sahifasi va mahsulot sahifasidagi «Boshqa mahsulotlar» bloki bundan
+> ta'sirlanmaydi.
+
+---
+
 ## 5. Sayt matnlarini o'zgartirish
 
 `js/data/site.js` ichida:
@@ -162,6 +208,7 @@ Yangi ikonka `js/icons.js` dagi `PATHS` obyektiga qo'shiladi (24×24 SVG path).
 | `company`            | Nom, shior, telefon, email, Telegram, tarmoqlar |
 | `nav`                | Yuqoridagi menyu                             |
 | `home.hero`          | Bosh sahifa sarlavhasi va statistika         |
+| `home.productsSection` | Mahsulotlar bloki va ikki guruh sarlavhasi (4.1) |
 | `home.brandStrip`    | «Nega Tinch?» bloki                          |
 | `home.whySection`    | «Nega biz» kartalari                         |
 | `home.processSection`| 4 qadam                                      |
@@ -545,9 +592,10 @@ qilishiga qarab yozilgan. Haqiqiy tizim boshqacha bo'lsa — o'zgartiring.
 
 ### Joylashuvi haqida
 
-Call Center **Savdodan keyin** turibdi — garchi hali chiqmagan bo'lsa
-ham. Bu egasining ataylab qilgan qarori. Umumiy qoida (chiqmaganlar
-oxirida) CRM va ERP uchun kuchda qolgan.
+Call Center «Tez orada» mahsulotlar qatorida — **Saytlardan keyin, CRM
+oldida**. Oldin u ataylab Savdodan keyin turardi; 2026-09-17 da egasi
+qoidani hamma uchun bir xil qildi: chiqmaganlar oxirida. Ishga tushgach
+uni `products.js` da yuqoriroqqa ko'chirasiz.
 
 ### «Tayyor mahsulot» soni
 
