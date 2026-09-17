@@ -127,7 +127,7 @@ window.PRODUCTS = [
               uz: "Bitta ombor: kirim, chiqim, partiya, muddat va qarz hisobi. Qog'oz daftardan tizimga o'tish uchun.",
               ru: "Один склад: приход, расход, партии, сроки и учёт долга. Для перехода с бумажной тетради в систему.",
             },
-            price: { amount: 42000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 69000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
             highlights: [
               { uz: "Kirim, chiqim, qaytarish, hisobdan chiqarish", ru: "Приход, расход, возврат, списание" },
               { uz: "Partiya, tannarx va yaroqlilik muddati", ru: "Партии, себестоимость и сроки годности" },
@@ -145,7 +145,7 @@ window.PRODUCTS = [
               uz: "Distribyutsiya uchun: bir necha ombor, agentlar, kredit limiti, qarzdorlik yoshi, foyda va Telegram-bot.",
               ru: "Для дистрибуции: несколько складов, агенты, кредитный лимит, возраст задолженности, прибыль и Telegram-бот.",
             },
-            price: { amount: 60000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 99000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
             highlights: [
               { uz: "Basic tarifidagi barcha imkoniyatlar", ru: "Все возможности тарифа Basic" },
               { uz: "Bir necha ombor va agentlar boshqaruvi", ru: "Несколько складов и управление агентами" },
@@ -165,9 +165,9 @@ window.PRODUCTS = [
               { key: "perUser", label: { uz: "Har bir foydalanuvchi", ru: "За пользователя" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch Ombor Basic 10", users: "10", total: "420 000 UZS", perUser: "42 000 UZS" },
-              { name: "Tinch Ombor Basic 20", users: "20", total: "760 000 UZS", perUser: "38 000 UZS" },
-              { name: "Tinch Ombor Basic 40", users: "40", total: "1 400 000 UZS", perUser: "35 000 UZS" },
+              { name: "Tinch Ombor Basic 10", users: "10", total: "690 000 UZS", perUser: "69 000 UZS" },
+              { name: "Tinch Ombor Basic 20", users: "20", total: "1 250 000 UZS", perUser: "62 500 UZS" },
+              { name: "Tinch Ombor Basic 40", users: "40", total: "2 300 000 UZS", perUser: "57 500 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",
@@ -183,9 +183,9 @@ window.PRODUCTS = [
               { key: "perUser", label: { uz: "Har bir foydalanuvchi", ru: "За пользователя" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch Ombor PRO 10", users: "10", total: "600 000 UZS", perUser: "60 000 UZS" },
-              { name: "Tinch Ombor PRO 20", users: "20", total: "1 100 000 UZS", perUser: "55 000 UZS" },
-              { name: "Tinch Ombor PRO 40", users: "40", total: "2 000 000 UZS", perUser: "50 000 UZS" },
+              { name: "Tinch Ombor PRO 10", users: "10", total: "990 000 UZS", perUser: "99 000 UZS" },
+              { name: "Tinch Ombor PRO 20", users: "20", total: "1 800 000 UZS", perUser: "90 000 UZS" },
+              { name: "Tinch Ombor PRO 40", users: "40", total: "3 300 000 UZS", perUser: "82 500 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",
@@ -485,7 +485,7 @@ window.PRODUCTS = [
               uz: "Kadrlar hisobi, Face ID davomat va asosiy ishga yollash jarayoni bilan boshlash uchun.",
               ru: "Для старта: кадровый учёт, Face ID посещаемость и базовый процесс найма.",
             },
-            price: { amount: 27000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 39000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
             highlights: [
               { uz: "Xodimlarning elektron kartalari", ru: "Электронные карточки сотрудников" },
               { uz: "Face ID qurilmalarini ulash", ru: "Подключение устройств Face ID" },
@@ -503,7 +503,7 @@ window.PRODUCTS = [
               uz: "Barcha modullar to'liq ochiq: to'liq tabel, maosh, ko'p bosqichli muvofiqlashtirish, rollar matritsasi.",
               ru: "Все модули открыты полностью: полный табель, зарплата, многоэтапное согласование, матрица ролей.",
             },
-            price: { amount: 35000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 55000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
             highlights: [
               { uz: "Basic tarifidagi barcha imkoniyatlar", ru: "Все возможности тарифа Basic" },
               { uz: "To'liq oylik tabel va maosh ma'lumotlari", ru: "Полный месячный табель и данные о зарплате" },
@@ -523,9 +523,9 @@ window.PRODUCTS = [
               { key: "perEmployee", label: { uz: "Har bir xodim uchun", ru: "За сотрудника" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch HR Basic 15", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
-              { name: "Tinch HR Basic 45", employees: "45", total: "1 035 000 UZS", perEmployee: "25 000 UZS" },
-              { name: "Tinch HR Basic 90", employees: "90", total: "2 070 000 UZS", perEmployee: "23 000 UZS" },
+              { name: "Tinch HR Basic 15", employees: "15", total: "585 000 UZS", perEmployee: "39 000 UZS" },
+              { name: "Tinch HR Basic 45", employees: "45", total: "1 620 000 UZS", perEmployee: "36 000 UZS" },
+              { name: "Tinch HR Basic 90", employees: "90", total: "2 970 000 UZS", perEmployee: "33 000 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",
@@ -541,9 +541,9 @@ window.PRODUCTS = [
               { key: "perEmployee", label: { uz: "Har bir xodim uchun", ru: "За сотрудника" }, quiet: true },
             ],
             rows: [
-              { name: "Tinch HR PRO 15", employees: "15", total: "525 000 UZS", perEmployee: "35 000 UZS" },
-              { name: "Tinch HR PRO 45", employees: "45", total: "1 485 000 UZS", perEmployee: "33 000 UZS" },
-              { name: "Tinch HR PRO 90", employees: "90", total: "2 700 000 UZS", perEmployee: "30 000 UZS" },
+              { name: "Tinch HR PRO 15", employees: "15", total: "825 000 UZS", perEmployee: "55 000 UZS" },
+              { name: "Tinch HR PRO 45", employees: "45", total: "2 340 000 UZS", perEmployee: "52 000 UZS" },
+              { name: "Tinch HR PRO 90", employees: "90", total: "4 230 000 UZS", perEmployee: "47 000 UZS" },
             ],
             foot: {
               uz: "<b>Texnik qo'llab-quvvatlash:</b> 5 murojaat — 400 000 UZS / oyiga",

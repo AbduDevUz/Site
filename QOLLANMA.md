@@ -20,7 +20,7 @@ Faylni tahrirlab saqlang, brauzerni yangilang — tamom. Build yoki npm kerak em
 
 ```js
 price: {
-  amount: 27000,                 // ← shu yerni o'zgartiring
+  amount: 39000,                 // ← shu yerni o'zgartiring
   currency: "UZS",
   period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" }
 }
@@ -32,7 +32,7 @@ Narx so'rov bo'yicha bo'lsa: `price: null`.
 
 ```js
 rows: [
-  { name: "Tinch HR Basic 15", employees: "15", total: "405 000 UZS", perEmployee: "27 000 UZS" },
+  { name: "Tinch HR Basic 15", employees: "15", total: "585 000 UZS", perEmployee: "39 000 UZS" },
 ]
 ```
 
@@ -444,23 +444,48 @@ skrinshoti. Bosh sahifadagi «brauzer ramkasi» aynan shu uchun qilingan.
 
 ---
 
-## 11. Tinch Ombor narxlari qayerdan olingan
+## 11. Tinch Ombor narxlari
 
-Tinch HR narxlari sizdan kelgan PDF'da tayyor edi. **Tinch Ombor narxlarini
-men qo'ydim** — O'zbekiston bozoridagi raqobatchilarga qarab:
+Tinch HR narxlari sizdan kelgan PDF'da tayyor edi. Tinch Ombor narxlarini
+dastlab men qo'ygandim (raqobatchilarga qarab), **2026-09-16 da egasi
+yangiladi**:
 
-| Tizim | Oylik narxi (2026) |
+| Paket | 1 foydalanuvchiga / oy | Oylik jami | Chegirma |
+| --- | --- | --- | --- |
+| Basic 10 | **69 000** | 690 000 | — |
+| Basic 20 | 62 500 | 1 250 000 | ~−9% |
+| Basic 40 | 57 500 | 2 300 000 | ~−17% |
+| PRO 10 | **99 000** | 990 000 | — |
+| PRO 20 | 90 000 | 1 800 000 | ~−9% |
+| PRO 40 | 82 500 | 3 300 000 | ~−17% |
+
+Chegirma foizlari oldingi narxlardagidek qoldirildi (42/38/35 va 60/55/50
+ming edi), summalar yumaloq qilib olindi.
+
+**Qoida:** tarif kartasidagi «… dan» narxi eng kichik paketning
+«1 foydalanuvchiga» narxiga teng bo'lishi shart — aks holda kartadagi
+raqam jadvalda uchramaydi.
+
+Narxni o'zgartirganda **uch joyni** yangilang:
+
+1. `products.js` → `warehouse` → `pricingModes[0].plans[].price.amount`
+2. `products.js` → `warehouse` → `pricingModes[0].priceTables[].rows`
+3. `pricing.html` → `<meta name="description">` (JS'siz zaxira tavsif,
+   «Ombor … so'mdan» deb yozilgan)
+
+Bosh sahifa kartochkasi, buyurtma formasi va Google uchun JSON-LD narxi
+1-banddan o'zi olinadi.
+
+### Raqobatchilar (dastlabki narx shularga qarab qo'yilgan)
+
+| Tizim | Oylik narxi |
 | --- | --- |
 | MoySklad UZ | Start 74 250 · Bazaviy 180 000 · Professional 510 000 · Korporativ 1 185 000 |
 | BILLZ | Start 299 000 · Advanced 499 000 · Pro 999 000 (+179 000 har qo'shimcha nuqta) |
-| **Tinch Ombor Basic** | **225 000** (5 foydalanuvchi × 45 000) |
-| **Tinch Ombor PRO** | **325 000** (5 foydalanuvchi × 65 000) |
 
-Mantiq: MoySklad Bazaviy'dan qimmat, chunki unda partiya + FEFO + agent + kredit
-limiti yo'q. BILLZ Start'dan arzon, chunki BILLZ chakana savdo (kassa, POS)
-uchun, Tinch Ombor esa distribyutsiya uchun. Narxni o'zgartirmoqchi bo'lsangiz —
-`products.js` → `warehouse` → `pricingModes[0].plans[].price.amount` va
-`priceTables[].rows`.
+Tinch Ombor BILLZ'dan farqli — chakana savdo (kassa, POS) uchun emas,
+distribyutsiya uchun; MoySklad'da esa partiya + FEFO + agent + kredit
+limiti yo'q.
 
 ---
 
@@ -594,10 +619,22 @@ PDF'da tarif nomi va xodimlar soni mos kelmasdi (`Basic 20` → 15 xodim,
 endi nomdagi son xodimlar soniga aynan teng — `Basic 15 / 45 / 90` va
 `PRO 15 / 45 / 90`. Narxlar o'zgarmadi.
 
-Tinch Ombor jadvalida esa kirish tarifi ataylab `4` deb nomlangan, lekin
-foydalanuvchilar ustunida `5` turadi (`Basic 4` / `PRO 4` → 5 foydalanuvchi).
-Bu — egasining qarori, xato emas. Nomni foydalanuvchi soniga tenglashtirmoqchi
-bo'lsangiz, `priceTables[].rows[0].name` ni `... 5` ga qaytaring.
+**2026-09-16 da egasi obuna narxlarini oshirdi** — endi ular PDF'dagidan farq qiladi:
+
+| Paket | 1 xodimga / oy | Oylik jami | Chegirma |
+| --- | --- | --- | --- |
+| Basic 15 | **39 000** (edi 27 000) | 585 000 | — |
+| Basic 45 | 36 000 (edi 25 000) | 1 620 000 | ~−8% |
+| Basic 90 | 33 000 (edi 23 000) | 2 970 000 | ~−15% |
+| PRO 15 | **55 000** (edi 35 000) | 825 000 | — |
+| PRO 45 | 52 000 (edi 33 000) | 2 340 000 | ~−5% |
+| PRO 90 | 47 000 (edi 30 000) | 4 230 000 | ~−15% |
+
+Katta paketdagi chegirma foizlari eskisidek qoldirildi, summalar 1 000 ga yumaloqlandi.
+Tinch HR Sale (bir martalik) narxlari o'zgarmadi.
+
+Tinch Ombor jadvalida paket nomidagi son foydalanuvchilar soniga teng:
+`Basic 10 / 20 / 40` va `PRO 10 / 20 / 40`.
 
 ### Tekshirilishi kerak bo'lgan arifmetika
 
