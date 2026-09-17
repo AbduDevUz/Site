@@ -408,6 +408,10 @@ function assetHash(rel) {
   return hashes[rel];
 }
 
+function unstamp(html) {
+  return html.replace(/\?v=[\w-]+"/g, '"');
+}
+
 function stamp(html) {
   return html.replace(
     /(href|src)="(\/?)((?:css|js)\/[^"?#]+\.(?:css|js))(?:\?v=[\w-]+)?"/g,
@@ -442,8 +446,11 @@ function main() {
       const file = pageFile(p.id, l.code);
       wanted.add(file);
       const html = stamp(productPage(SITE, p, l.code));
+      const full = path.join(ROOT, file);
+      const before = fs.existsSync(full) ? fs.readFileSync(full, "utf8") : "";
       if (write(file, html)) {
-        changedIds.add(p.id);
+        // Faqat ?v= o'zgargan bo'lsa — sahifa matni o'sha, sitemap sanasi qoladi
+        if (unstamp(before) !== unstamp(html)) changedIds.add(p.id);
         report.push(file);
       }
     }

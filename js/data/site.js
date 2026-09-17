@@ -80,6 +80,28 @@ window.SITE = {
   },
 
   /* ------------------------------------------------------------
+     ANALITIKA — ID qo'yilmaguncha hech narsa yuklanmaydi
+     ------------------------------------------------------------
+     yandexMetrika — metrika.yandex.ru da hisoblagich yaratib, uning
+                     raqamini yozing: "98765432"
+     ga4           — analytics.google.com → Admin → Data streams:
+                     "G-XXXXXXXXXX"
+
+     Sayt quyidagi hodisalarni yuboradi. Metrika'da ularni
+     «JavaScript-событие» turidagi maqsad qilib shu nomlar bilan yarating:
+       order_click     — «Buyurtma berish» havolasi bosildi
+       telegram_click  — Telegram havolasi yoki tugmasi bosildi
+       phone_click     — telefon raqami bosildi
+       lead_fallback   — forma yuborildi (Telegram/pochta ochildi)
+       lead_sent       — forma serverga yuborildi (endpoint bo'lsa)
+     Batafsil: QOLLANMA.md §6.1
+     ------------------------------------------------------------ */
+  analytics: {
+    yandexMetrika: "",
+    ga4: "",
+  },
+
+  /* ------------------------------------------------------------
      AKSIYA — vaqtinchalik chegirma
      ------------------------------------------------------------
      O'CHIRISH: `active` ni false qiling — tamom. Banner yo'qoladi,

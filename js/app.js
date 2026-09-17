@@ -236,6 +236,68 @@
   }
 
   /* ------------------------------------------------------------
+     Analitika (site.js → analytics)
+     ID bo'sh bo'lsa hech qanday tashqi skript yuklanmaydi,
+     window.track esa shunchaki hech narsa qilmaydi.
+     ------------------------------------------------------------ */
+
+  function loadScript(src) {
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = src;
+    document.head.appendChild(s);
+  }
+
+  function initAnalytics() {
+    var cfg = S.analytics || {};
+    var ymId = cfg.yandexMetrika ? Number(cfg.yandexMetrika) : 0;
+    var gaId = cfg.ga4 || "";
+
+    if (ymId) {
+      window.ym =
+        window.ym ||
+        function () {
+          (window.ym.a = window.ym.a || []).push(arguments);
+        };
+      window.ym.l = Date.now();
+      loadScript("https://mc.yandex.ru/metrika/tag.js");
+      window.ym(ymId, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+    }
+
+    if (gaId) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      loadScript("https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(gaId));
+      window.gtag("js", new Date());
+      window.gtag("config", gaId);
+    }
+
+    window.track = function (goal, params) {
+      try {
+        if (ymId && window.ym) window.ym(ymId, "reachGoal", goal, params || {});
+        if (gaId && window.gtag) window.gtag("event", goal, params || {});
+      } catch (e) {
+        /* statistika saytni buzmasligi kerak */
+      }
+    };
+
+    if (!ymId && !gaId) return;
+
+    // Asosiy harakatlar: buyurtma, Telegram, telefon
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("a[href]") : null;
+      if (!a) return;
+      var href = a.getAttribute("href");
+      var from = { page: window.location.pathname };
+      if (href.indexOf("order.html") === 0) window.track("order_click", from);
+      else if (href.indexOf("t.me/") !== -1) window.track("telegram_click", from);
+      else if (href.indexOf("tel:") === 0) window.track("phone_click", from);
+    });
+  }
+
+  /* ------------------------------------------------------------
      Scroll effektlari
      ------------------------------------------------------------ */
 
@@ -287,6 +349,7 @@
      ------------------------------------------------------------ */
 
   function boot() {
+    initAnalytics();
     renderHeader();
     renderFooter();
     renderFab();

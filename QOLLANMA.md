@@ -452,6 +452,40 @@ Telegram-botga yuborish uchun ham shu endpoint'ni ishlating (bot tokenini
 
 ---
 
+## 6.1. Analitika (Yandex Metrika, Google Analytics)
+
+Hozir **o'chiq** — hech qanday statistika yig'ilmaydi. Yoqish uchun
+`js/data/site.js` → `analytics` ga ID yozasiz:
+
+```js
+analytics: {
+  yandexMetrika: "98765432",      // metrika.yandex.ru → hisoblagich raqami
+  ga4: "G-XXXXXXXXXX",            // ixtiyoriy
+},
+```
+
+So'ng `node tools/build.js` va saytga yuklash. ID bo'sh bo'lsa hech qanday
+tashqi skript yuklanmaydi.
+
+**Maqsadlar.** Sayt quyidagi hodisalarni yuboradi — Metrika'da
+«Цели → JavaScript-событие» turida aynan shu nomlar bilan yarating:
+
+| Hodisa | Qachon |
+| --- | --- |
+| `order_click` | «Buyurtma berish» havolasi bosildi (istalgan sahifada) |
+| `telegram_click` | Telegram havolasi yoki suzuvchi tugma bosildi |
+| `phone_click` | Telefon raqami bosildi |
+| `lead_fallback` | Forma yuborildi va Telegram/pochta ochildi |
+| `lead_sent` | Forma serverga yuborildi (`forms.endpoint` bo'lsa) |
+
+`lead_fallback` — mijoz Telegram'da «Yuborish» ni bosganini emas, faqat
+formani to'ldirib tugmani bosganini bildiradi.
+
+> Maxfiylik siyosatida statistika xizmatlari allaqachon eslatilgan
+> (`site.js` → `privacy`).
+
+---
+
 ## 7. Rasm qo'shish
 
 Rasmlar `images/opt/` papkasida `.webp` + `.jpg` juftligi sifatida saqlanadi
