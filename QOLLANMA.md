@@ -351,7 +351,7 @@ qaytadi. Boshqa hech qayerga tegish shart emas.
 
 ### O'zi o'chadi
 
-`until: "2026-09-30"` sanasi o'tgach aksiya **avtomatik o'chadi** —
+`until: "2026-11-30"` sanasi o'tgach aksiya **avtomatik o'chadi** (2026-09-17 da egasi 30-sentyabrdan 30-noyabrgacha uzaytirdi) —
 `active: true` qolib ketsa ham. Ya'ni unutib qo'ysangiz ham sayt eski
 narxlarni ko'rsatadi. Sanani uzaytirish uchun `until` va `untilLabel`
 ni birga yangilang.

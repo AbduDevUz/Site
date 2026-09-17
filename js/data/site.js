@@ -115,8 +115,8 @@ window.SITE = {
   promo: {
     active: true,
     percent: 35,
-    until: "2026-09-30",
-    untilLabel: { uz: "30-sentyabr", ru: "30 сентября" },
+    until: "2026-11-30",
+    untilLabel: { uz: "30-noyabr", ru: "30 ноября" },
 
     badge: { uz: "−35%", ru: "−35%" },
     title: {
@@ -128,8 +128,8 @@ window.SITE = {
       ru: "При полной покупке системы — скидка 35% и вдобавок 1 год серверного обслуживания бесплатно. Дальше система полностью ваша, ежемесячных платежей нет.",
     },
     deadline: {
-      uz: "Chegirma 30-sentyabrgacha amal qiladi",
-      ru: "Скидка действует до 30 сентября",
+      uz: "Chegirma 30-noyabrgacha amal qiladi",
+      ru: "Скидка действует до 30 ноября",
     },
     serverNote: {
       uz: "<b>1 yillik server xizmati bepul.</b> Birinchi yil hosting, zaxira nusxa va yangilanishlar biz tomondan. Ikkinchi yildan qo'llab-quvvatlash shartnomasi alohida rasmiylashtiriladi.",
