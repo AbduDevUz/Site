@@ -447,7 +447,7 @@ window.PRODUCTS = [
         title: { uz: "Ishga yollash (ATS)", ru: "Подбор персонала (ATS)" },
         text: {
           uz: "Vakansiya e'loni, onlayn arizalar, nomzodlarni saralash va baholash, bosqichma-bosqich pipeline, oferta va buyruq.",
-          ru: "Публикация вакансий, онлайн-заявки, отбор и оценка кандидатов, пошаговый pipeline, оффер и приказ.",
+          ru: "Публикация вакансий, онлайн-заявки, отбор и оценка кандидатов, пошаговая воронка найма, оффер и приказ.",
         },
       },
       {
@@ -463,7 +463,7 @@ window.PRODUCTS = [
         title: { uz: "Vazifalar va kanban", ru: "Задачи и канбан" },
         text: {
           uz: "Drag-and-drop doska, vazifa a'zolari va muddatlar, izohlar va muhokama.",
-          ru: "Drag-and-drop доска, участники и сроки задач, комментарии и обсуждение.",
+          ru: "Доска задач с перетаскиванием карточек, участники и сроки, комментарии и обсуждение.",
         },
       },
       {
@@ -675,7 +675,7 @@ window.PRODUCTS = [
         items: [
           { label: { uz: "Hujjatlarni yuborish va qabul qilish", ru: "Отправка и приём документов" }, plans: { basic: true, pro: true } },
           { label: { uz: "Elektron imzo", ru: "Электронная подпись" }, plans: { basic: true, pro: true } },
-          { label: { uz: "Ko'p bosqichli muvofiqlashtirish (approval)", ru: "Многоэтапное согласование (approval)" }, plans: { basic: false, pro: true } },
+          { label: { uz: "Ko'p bosqichli muvofiqlashtirish (approval)", ru: "Многоэтапное согласование" }, plans: { basic: false, pro: true } },
           { label: { uz: "Hujjat arxivi va ro'yxatga olish", ru: "Архив и регистрация документов" }, plans: { basic: false, pro: true } },
           { label: { uz: "Maxfiy hujjatlar bo'limi", ru: "Раздел конфиденциальных документов" }, plans: { basic: false, pro: true } },
           { label: { uz: "Hujjat tarixi va chat", ru: "История документа и чат" }, plans: { basic: false, pro: true } },
@@ -685,7 +685,7 @@ window.PRODUCTS = [
         title: { uz: "Vazifalar boshqaruvi", ru: "Управление задачами" },
         items: [
           { label: { uz: "Kanban doskasi", ru: "Канбан-доска" }, plans: { basic: true, pro: true } },
-          { label: { uz: "Drag-and-drop boshqaruv", ru: "Управление drag-and-drop" }, plans: { basic: false, pro: true } },
+          { label: { uz: "Drag-and-drop boshqaruv", ru: "Управление перетаскиванием" }, plans: { basic: false, pro: true } },
           { label: { uz: "Vazifa a'zolari va muddatlar", ru: "Участники задач и сроки" }, plans: { basic: false, pro: true } },
           { label: { uz: "Vazifa izohlari va muhokama", ru: "Комментарии и обсуждение задач" }, plans: { basic: false, pro: true } },
         ],
@@ -705,7 +705,7 @@ window.PRODUCTS = [
           { label: { uz: "Ish vaqti jadvali va bayram kunlari", ru: "График работы и праздничные дни" }, plans: { basic: true, pro: true } },
           { label: { uz: "Ko'nikmalar, talablar, manbalar", ru: "Навыки, требования, источники" }, plans: { basic: true, pro: true } },
           { label: { uz: "Valyuta, til, vaqt mintaqasi", ru: "Валюта, язык, часовой пояс" }, plans: { basic: true, pro: true } },
-          { label: { uz: "Yollash bosqichlari (pipeline)", ru: "Этапы найма (pipeline)" }, plans: { basic: true, pro: true } },
+          { label: { uz: "Yollash bosqichlari (pipeline)", ru: "Этапы найма" }, plans: { basic: true, pro: true } },
           { label: { uz: "Davlatlar, viloyatlar, shaharlar", ru: "Страны, регионы, города" }, plans: { basic: false, pro: true } },
         ],
       },
@@ -1518,7 +1518,7 @@ window.PRODUCTS = [
         title: { uz: "Tezlik va SEO", ru: "Скорость и SEO" },
         text: {
           uz: "Optimallashtirilgan rasm va kod, to'g'ri meta-teglar, sitemap va structured data.",
-          ru: "Оптимизированные изображения и код, корректные мета-теги, sitemap и structured data.",
+          ru: "Оптимизированные изображения и код, корректные мета-теги, карта сайта и микроразметка.",
         },
       },
       {
@@ -1644,7 +1644,7 @@ window.PRODUCTS = [
         items: [
           { label: { uz: "Meta-teglar va Open Graph", ru: "Мета-теги и Open Graph" }, plans: { landing: true, corporate: true, portal: true } },
           { label: { uz: "Sitemap va robots.txt", ru: "Sitemap и robots.txt" }, plans: { landing: true, corporate: true, portal: true } },
-          { label: { uz: "Structured data (Schema.org)", ru: "Structured data (Schema.org)" }, plans: { landing: false, corporate: true, portal: true } },
+          { label: { uz: "Structured data (Schema.org)", ru: "Микроразметка Schema.org" }, plans: { landing: false, corporate: true, portal: true } },
           { label: { uz: "Analitika ulash (GA / Yandex)", ru: "Подключение аналитики (GA / Yandex)" }, plans: { landing: false, corporate: true, portal: true } },
         ],
       },
@@ -2071,7 +2071,7 @@ window.PRODUCTS = [
         items: [
           { label: { uz: "Kassa va bank", ru: "Касса и банк" }, plans: { start: true, business: true, enterprise: true } },
           { label: { uz: "Kontragentlar bilan hisob-kitob", ru: "Взаиморасчёты с контрагентами" }, plans: { start: true, business: true, enterprise: true } },
-          { label: { uz: "Boshqaruv hisoboti (P&L, Cash Flow)", ru: "Управленческая отчётность (P&L, Cash Flow)" }, plans: { start: false, business: true, enterprise: true } },
+          { label: { uz: "Boshqaruv hisoboti (P&L, Cash Flow)", ru: "Управленческая отчётность (P&L, движение денежных средств)" }, plans: { start: false, business: true, enterprise: true } },
           { label: { uz: "Byudjetlash", ru: "Бюджетирование" }, plans: { start: false, business: false, enterprise: true } },
         ],
       },

@@ -324,6 +324,14 @@
   color: var(--text);
 }
 
+/* O'zbekcha «69 000 UZS dan» — qo'shimcha narxdan keyin, kichik */
+.product-card__price .price-from {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
 /* Statistika kartasi */
 .stat {
   display: flex;

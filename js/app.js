@@ -77,9 +77,18 @@
     var host = document.getElementById("siteHeader");
     if (!host) return;
 
+    // Aksiya lentasi sticky header'dan tashqarida: telefonda header bilan
+    // birga ekranning chorak qismini doim band qilib turardi
+    var bar = document.getElementById("promoBar");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.id = "promoBar";
+      host.parentNode.insertBefore(bar, host);
+    }
+    bar.innerHTML = promoBar();
+
     host.className = "site-header";
     host.innerHTML =
-      promoBar() +
       '<div class="container site-header__inner">' +
         '<a class="brand-logo" href="index.html" aria-label="' + esc(S.company.name) + '">' +
           '<img src="' + S.company.logo + '" alt="" width="34" height="34" />' +
@@ -241,9 +250,13 @@
     }
 
     if (!("IntersectionObserver" in window)) {
-      document.querySelectorAll(".reveal").forEach(function (el) {
-        el.classList.add("is-visible");
-      });
+      // Kuzatuvchi yo'q — hammasini darhol ko'rsatamiz, keyin chiziladiganlarini ham
+      window.observeReveal = function (root) {
+        (root || document).querySelectorAll(".reveal").forEach(function (el) {
+          el.classList.add("is-visible");
+        });
+      };
+      window.observeReveal();
       return;
     }
 

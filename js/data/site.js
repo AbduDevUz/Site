@@ -134,7 +134,8 @@ window.SITE = {
     contactCta: { uz: "Bog'lanish", ru: "Связаться" },
     writeTelegram: { uz: "Telegram orqali yozish", ru: "Написать в Telegram" },
     priceOnRequest: { uz: "Narx so'rov bo'yicha", ru: "Цена по запросу" },
-    from: { uz: "dan", ru: "от" },
+    /* {n} — narx. O'zbekchada qo'shimcha narxdan keyin, ruschada oldin */
+    from: { uz: "{n} dan", ru: "от {n}" },
     sum: { uz: "so'm", ru: "сум" },
     rateNote: {
       uz: "So'mdagi miqdor joriy kurs bo'yicha taxminiy",

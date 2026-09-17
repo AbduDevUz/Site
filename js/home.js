@@ -45,13 +45,19 @@
       return main.indexOf(p) === -1;
     });
 
-    mainHost.innerHTML = main.map(window.R.productCard).join("");
+    // Guruh sarlavhasi h3 bo'lgani uchun kartochka nomi h4
+    var level = grouped ? 4 : 3;
+    var card = function (p) {
+      return window.R.productCard(p, { level: level });
+    };
+
+    mainHost.innerHTML = main.map(card).join("");
 
     var mainTitle = mainHost.parentNode.querySelector(".products-group__title");
     if (mainTitle) mainTitle.hidden = !grouped;
 
     if (moreHost) {
-      moreHost.innerHTML = rest.map(window.R.productCard).join("");
+      moreHost.innerHTML = rest.map(card).join("");
       moreHost.parentNode.hidden = !rest.length;
     }
   }

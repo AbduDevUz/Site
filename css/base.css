@@ -127,9 +127,10 @@ hr {
   color: var(--text-on-accent);
 }
 
+/* Fokus aniq ko'rinishi kerak: yarim shaffof halqa navy fonda 1.5:1 edi */
 :focus-visible {
-  outline: none;
-  box-shadow: var(--ring);
+  outline: 2px solid var(--brand-indigo-300);
+  outline-offset: 2px;
   border-radius: var(--r-sm);
 }
 

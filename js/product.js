@@ -52,8 +52,12 @@
 
   function hero(product) {
     var price = window.R.entryPrice(product);
+    var from = window.R.fromParts();
     var priceLine = price
-      ? esc(t(S.ui.from)) + " <b>" + window.I18N.num(price.amount) + " " + price.currency + "</b> / " + esc(t(price.period))
+      ? (from.before ? esc(from.before) + " " : "") +
+        "<b>" + window.I18N.num(price.amount) + " " + price.currency + "</b>" +
+        (from.after ? " " + esc(from.after) : "") +
+        " / " + esc(t(price.period))
       : esc(t(S.ui.priceOnRequest));
 
     return (

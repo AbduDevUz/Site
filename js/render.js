@@ -57,6 +57,15 @@
   }
 
   /**
+   * «… dan» qolipini narxdan oldingi va keyingi qismga ajratadi:
+   * uz "{n} dan" → { before: "", after: "dan" }, ru "от {n}" → { before: "от", after: "" }
+   */
+  function fromParts() {
+    var parts = String(t(S.ui.from)).split("{n}");
+    return { before: (parts[0] || "").trim(), after: (parts[1] || "").trim() };
+  }
+
+  /**
    * Rasm markupi. image { webp, jpg } bo'lsa <picture> qaytaradi,
    * oddiy satr bo'lsa — oddiy <img>.
    */
@@ -123,13 +132,24 @@
      Mahsulot kartasi (bosh sahifa)
      ------------------------------------------------------------ */
 
-  function productCard(product) {
+  /**
+   * @param {object} product
+   * @param {object} [opts] { level: 4 } — sarlavha darajasi. Bosh sahifada
+   *   kartochkalar h3 guruh sarlavhasi ichida turgani uchun h4.
+   *   (.map() indeks uzatadi — shuning uchun obyekt emasligini tekshiramiz)
+   */
+  function productCard(product, opts) {
+    opts = opts && typeof opts === "object" ? opts : {};
+    var h = opts.level === 4 ? "h4" : "h3";
     var price = entryPrice(product);
     var priceUzs =
       product.showUzs && price && price.currency === "USD" ? toUzs(price.amount) : "";
+    var from = fromParts();
     var priceHtml = price
-      ? '<div class="product-card__price">' + esc(t(S.ui.from)) +
-        "<b>" + window.I18N.num(price.amount) + " " + price.currency + "</b>" +
+      ? '<div class="product-card__price">' + esc(from.before) +
+        "<b>" + window.I18N.num(price.amount) + " " + price.currency +
+          (from.after ? ' <small class="price-from">' + esc(from.after) + "</small>" : "") +
+        "</b>" +
         '<span>' + esc(t(price.period)) + "</span>" +
         (priceUzs ? '<span class="product-card__uzs">' + esc(priceUzs) + "</span>" : "") +
         "</div>"
@@ -149,7 +169,7 @@
           (product.soon ? soonRibbon() : "") +
         "</a>" +
         '<div class="product-card__body">' +
-          '<h3 class="card__title"><a href="product.html?id=' + product.id + '">' + esc(t(product.name)) + "</a></h3>" +
+          "<" + h + ' class="card__title"><a href="product.html?id=' + product.id + '">' + esc(t(product.name)) + "</a></" + h + ">" +
           '<p class="dim" style="font-size:var(--fs-xs)">' + esc(t(product.tagline)) + "</p>" +
           '<p class="card__text">' + esc(t(product.short)) + "</p>" +
           '<div class="product-card__tags">' + tags + "</div>" +
@@ -669,6 +689,7 @@
     planById: planById,
     matrixMode: matrixMode,
     entryPrice: entryPrice,
+    fromParts: fromParts,
     mark: mark,
     soonBadge: soonBadge,
     soonRibbon: soonRibbon,

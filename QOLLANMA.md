@@ -224,7 +224,14 @@ HTML'da matn kerak bo'lsa, `data-i18n` atributidan foydalaning:
 <input data-i18n-attr="placeholder:order.fields.namePh" />
 ```
 
-Qiymat `site.js` dagi nuqtali yo'l bo'yicha topiladi. **`i18n.js` ga hech
+Qiymat `site.js` dagi nuqtali yo'l bo'yicha topiladi.
+
+### «… dan» narx yozuvi
+
+`ui.from` — qolip, `{n}` o'rniga narx qo'yiladi: `{ uz: "{n} dan", ru: "от {n}" }`.
+O'zbekchada qo'shimcha narxdan keyin keladi («69 000 UZS dan»), ruschada
+oldin («от 69 000 UZS»). Kartochka ham, mahsulot sahifasi ham shu qolipdan
+foydalanadi. **`i18n.js` ga hech
 narsa qo'shish kerak emas** — eski versiyadan asosiy farqi shu.
 
 ### Kompaniya nomi va shior
