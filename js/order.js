@@ -1,9 +1,12 @@
 /* ============================================================
    Tinch — Buyurtma formasi
    URL: order.html?product=hr&plan=pro
+        order.html?product=warehouse&plan=onetime:start  (Sale paketi)
    ------------------------------------------------------------
    Yuborish: SITE.forms.endpoint bo'lsa — JSON POST.
-   Bo'sh bo'lsa — to'ldirilgan email xati ochiladi (zaxira rejim).
+   Bo'sh bo'lsa — to'ldirilgan xabar bilan Telegram (yoki email)
+   ochiladi (zaxira rejim). Zaxira rejimda forma tozalanmaydi:
+   Telegram ochilmasa, mijoz xabarni nusxalab yubora oladi.
    ============================================================ */
 
 (function () {
@@ -19,6 +22,10 @@
   var submitBtn = document.getElementById("submitBtn");
 
   if (!form) return;
+
+  var countInput = form.elements.employees;
+  var countField = countInput.closest(".field");
+  var countLabel = countField.querySelector("label");
 
   function param(name) {
     try {
@@ -53,27 +60,103 @@
     if (chosen && window.R.byId(chosen)) productSel.value = chosen;
   }
 
+  /**
+   * Formada tanlanadigan tariflar, rejim bo'yicha guruhlangan.
+   * Tarif kartasi bor rejimda — kartalar (basic, pro…). Kartasi yo'q
+   * rejimda (Ombor va HR ning bir martalik «Sale» paketlari) — narx
+   * jadvalining sotib olinadigan qatorlari (R.packageId: "onetime:start").
+   */
+  function choices(product) {
+    var groups = [];
+
+    (product.pricingModes || []).forEach(function (mode) {
+      var items = [];
+
+      if (mode.plans && mode.plans.length) {
+        mode.plans.forEach(function (plan) {
+          var price = plan.price
+            ? window.I18N.num(window.R.planAmount(plan)) + " " + plan.price.currency +
+              (plan.price.period ? " / " + t(plan.price.period) : "")
+            : "";
+          items.push({ id: plan.id, name: t(plan.name), price: price });
+        });
+      } else {
+        (mode.priceTables || []).forEach(function (table) {
+          (table.rows || []).forEach(function (row) {
+            if (!window.R.isPackageRow(row)) return;
+            items.push({
+              id: window.R.packageId(mode, row),
+              name: (mode.badge ? t(mode.badge) + " · " : "") + t(row.name),
+              price: window.R.packagePrice(product, mode, row),
+            });
+          });
+        });
+      }
+
+      if (items.length) groups.push({ label: t(mode.label), items: items });
+    });
+
+    return groups;
+  }
+
+  function chosenItem(product) {
+    if (!product || !planSel.value) return null;
+    var found = null;
+    choices(product).forEach(function (g) {
+      g.items.forEach(function (item) {
+        if (item.id === planSel.value) found = item;
+      });
+    });
+    return found;
+  }
+
   function fillPlans() {
     var product = window.R.byId(productSel.value);
     var chosen = planSel.value || initialPlan;
 
-    var options = ['<option value="">' + esc(t(S.order.fields.any)) + "</option>"];
+    var html = '<option value="">' + esc(t(S.order.fields.any)) + "</option>";
 
     if (product) {
-      (product.pricingModes || []).forEach(function (mode) {
-        (mode.plans || []).forEach(function (plan) {
-          options.push('<option value="' + plan.id + '">' + esc(t(plan.name)) + "</option>");
-        });
+      var groups = choices(product);
+      groups.forEach(function (g) {
+        var opts = g.items
+          .map(function (item) {
+            return '<option value="' + esc(item.id) + '">' + esc(item.name) + "</option>";
+          })
+          .join("");
+        // Bitta rejim bo'lsa guruh sarlavhasi ortiqcha
+        html += groups.length > 1 ? '<optgroup label="' + esc(g.label) + '">' + opts + "</optgroup>" : opts;
       });
     }
 
-    planSel.innerHTML = options.join("");
+    planSel.innerHTML = html;
     planSel.disabled = !product;
 
     if (chosen) {
       planSel.value = chosen;
       if (planSel.value !== chosen) planSel.value = ""; // bunday tarif yo'q
     }
+  }
+
+  /**
+   * «Xodimlar soni» maydoni mahsulotga qarab: Ombor va Uylar foydalanuvchi
+   * soni bo'yicha sotiladi, Savdo va Saytlarda bu maydon kerak emas
+   * (products.js → orderCount).
+   */
+  function countKind(product) {
+    if (product && product.orderCount !== undefined) return product.orderCount;
+    return "employees";
+  }
+
+  function updateCountField() {
+    var kind = countKind(window.R.byId(productSel.value));
+    countField.hidden = kind === false;
+    if (kind === false) {
+      countInput.value = "";
+      return;
+    }
+    countLabel.textContent = t(S.order.fields[kind]);
+    countInput.setAttribute("placeholder", t(S.order.fields[kind + "Ph"]));
   }
 
   /* ------------------------------------------------------------
@@ -87,16 +170,14 @@
       return;
     }
 
-    var plan = planSel.value ? window.R.planById(product, planSel.value) : null;
-    var line = plan
-      ? t(plan.name) + (plan.price ? " · " + window.I18N.num(plan.price.amount) + " " + plan.price.currency + " / " + t(plan.price.period) : "")
-      : t(product.tagline);
+    var item = chosenItem(product);
+    var line = item ? item.name + (item.price ? " · " + item.price : "") : t(product.tagline);
 
     summaryHost.innerHTML =
       '<div class="order-summary">' +
         '<span class="order-summary__ic">' + icon(product.icon) + "</span>" +
         "<div>" +
-          "<small>" + esc(t(plan ? S.order.fields.plan : S.order.fields.product)) + "</small>" +
+          "<small>" + esc(t(item ? S.order.fields.plan : S.order.fields.product)) + "</small>" +
           "<b>" + esc(t(product.name)) + "</b>" +
           '<small style="margin-top:2px">' + esc(line) + "</small>" +
         "</div>" +
@@ -111,6 +192,7 @@
     var field = input.closest(".field");
     var box = field.querySelector(".field__error");
     field.classList.toggle("has-error", !!message);
+    input.setAttribute("aria-invalid", message ? "true" : "false");
     if (box) {
       box.textContent = message || "";
       box.hidden = !message;
@@ -161,7 +243,8 @@
 
   function collect() {
     var product = window.R.byId(productSel.value);
-    var plan = product && planSel.value ? window.R.planById(product, planSel.value) : null;
+    var item = chosenItem(product);
+    var kind = countKind(product);
 
     return {
       name: form.elements.name.value.trim(),
@@ -171,8 +254,10 @@
       productId: productSel.value,
       product: product ? t(product.name) : "",
       planId: planSel.value,
-      plan: plan ? t(plan.name) : "",
-      employees: form.elements.employees.value.trim(),
+      plan: item ? item.name + (item.price ? " (" + item.price + ")" : "") : "",
+      employees: kind === false ? "" : countInput.value.trim(),
+      // Xabar matnida maydon nomi o'zbekcha — so'rovni egasi o'qiydi
+      countLabel: kind === false ? "" : S.order.fields[kind].uz,
       message: form.elements.message.value.trim(),
       lang: window.I18N.lang(),
       page: window.location.href,
@@ -180,28 +265,25 @@
   }
 
   function asText(data) {
-    return [
+    var lines = [
       "Ism: " + data.name,
       "Korxona: " + (data.company || "—"),
       "Telefon: " + data.phone,
       "Email: " + (data.email || "—"),
       "Mahsulot: " + (data.product || "—"),
       "Tarif: " + (data.plan || "—"),
-      "Xodimlar soni: " + (data.employees || "—"),
-      "",
-      "Xabar:",
-      data.message || "—",
-      "",
-      "Til: " + data.lang,
-      "Sahifa: " + data.page,
-    ].join("\n");
+    ];
+    if (data.countLabel) lines.push(data.countLabel + ": " + (data.employees || "—"));
+    return lines
+      .concat(["", "Xabar:", data.message || "—", "", "Til: " + data.lang, "Sahifa: " + data.page])
+      .join("\n");
   }
 
   function status(kind, message, extraHtml) {
     statusHost.innerHTML = message
       ? '<div class="form-status form-status--' + kind + '">' +
         icon(kind === "ok" ? "check" : "info") +
-        "<span>" + esc(message) + (extraHtml || "") + "</span></div>"
+        "<div><p>" + esc(message) + "</p>" + (extraHtml || "") + "</div></div>"
       : "";
   }
 
@@ -214,6 +296,10 @@
     return "Tinch — " + (data.product || "so'rov") + (data.plan ? " / " + data.plan : "");
   }
 
+  function messageOf(data) {
+    return subjectOf(data) + "\n\n" + asText(data);
+  }
+
   function mailtoHref(data) {
     return (
       "mailto:" + S.forms.fallbackEmail +
@@ -222,23 +308,73 @@
     );
   }
 
-  function mailtoFallback(data) {
-    window.location.href = mailtoHref(data);
-  }
-
   /**
    * Telegramda to'ldirilgan xabar bilan suhbatni ochadi.
    * Bot tokeni kerak emas — shuning uchun frontendda sir saqlanmaydi.
    * Telegram uzun matnni kesib qo'yishi mumkin, shuning uchun cheklaymiz.
+   *
+   * "noopener" ni window.open ga uzatib bo'lmaydi: bunda brauzer
+   * standarti bo'yicha doim null qaytadi va kod saytning o'z tabini
+   * ham t.me ga o'tkazib yuborardi. opener qo'lda uziladi.
    */
-  function telegramFallback(data) {
-    var text = subjectOf(data) + "\n\n" + asText(data);
+  function openTelegram(data) {
+    var text = messageOf(data);
     if (text.length > 1500) text = text.slice(0, 1497) + "…";
 
     var url = S.company.telegramDirect + "?text=" + encodeURIComponent(text);
-    var win = window.open(url, "_blank", "noopener");
-    // Popup bloklansa — shu oynada ochamiz
-    if (!win) window.location.href = url;
+    var win = window.open(url, "_blank");
+    if (win) {
+      win.opener = null;
+    } else {
+      // Popup bloklangan — shu oynada ochamiz
+      window.location.href = url;
+    }
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      try {
+        if (document.execCommand("copy")) resolve();
+        else reject(new Error("copy"));
+      } catch (e) {
+        reject(e);
+      } finally {
+        document.body.removeChild(area);
+      }
+    });
+  }
+
+  /** Zaxira rejimdagi natija: xabar + «ochilmadimi?» uchun ikki yo'l */
+  function fallbackStatus(data, viaEmail) {
+    status(
+      "ok",
+      t(viaEmail ? S.order.sentEmail : S.order.sentTelegram),
+      '<p class="form-status__actions">' +
+        "<span>" + esc(t(viaEmail ? S.order.notOpenedEmail : S.order.notOpened)) + "</span>" +
+        '<button type="button" class="form-status__alt" data-copy>' + esc(t(S.order.copyCta)) + "</button>" +
+        (viaEmail
+          ? ""
+          : '<a class="form-status__alt" href="' + mailtoHref(data) + '">' + esc(t(S.order.viaEmail)) + "</a>") +
+      "</p>"
+    );
+
+    var btn = statusHost.querySelector("[data-copy]");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      copyText(messageOf(data)).then(function () {
+        btn.textContent = t(S.order.copied);
+      });
+    });
   }
 
   form.addEventListener("submit", function (e) {
@@ -249,28 +385,18 @@
     status("", "");
 
     if (!S.forms.endpoint) {
-      // Server sozlanmagan — zaxira rejim (site.js → forms.fallback)
+      // Server sozlanmagan — zaxira rejim (site.js → forms.fallback).
+      // Forma tozalanmaydi: yetib borgani noma'lum.
       var viaEmail = S.forms.fallback === "email";
 
       if (viaEmail) {
-        mailtoFallback(data);
+        window.location.href = mailtoHref(data);
       } else {
-        telegramFallback(data);
+        openTelegram(data);
       }
 
-      status(
-        "ok",
-        t(viaEmail ? S.order.sentEmail : S.order.sentTelegram),
-        viaEmail
-          ? ""
-          : '<br><a href="' + mailtoHref(data) + '" class="form-status__alt">' +
-            esc(t(S.order.fallbackAlt)) + "</a>"
-      );
-
-      form.reset();
-      fillProducts();
-      fillPlans();
-      renderSummary();
+      fallbackStatus(data, viaEmail);
+      if (window.track) window.track("lead_fallback", { productId: data.productId, via: viaEmail ? "email" : "telegram" });
       return;
     }
 
@@ -284,9 +410,11 @@
       .then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
         status("ok", t(S.order.success));
+        if (window.track) window.track("lead_sent", { productId: data.productId });
         form.reset();
         fillProducts();
         fillPlans();
+        updateCountField();
         renderSummary();
       })
       .catch(function () {
@@ -305,6 +433,7 @@
     initialPlan = "";
     planSel.value = "";
     fillPlans();
+    updateCountField();
     renderSummary();
   });
 
@@ -324,6 +453,7 @@
     window.I18N.applyMeta(S.order.meta);
     fillProducts();
     fillPlans();
+    updateCountField();
     renderSummary();
     setBusy(false);
   }

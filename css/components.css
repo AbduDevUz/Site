@@ -1417,6 +1417,45 @@ body.is-locked {
   color: var(--text);
 }
 
+/* Zaxira rejim: «ochilmadimi?» + nusxalash + email */
+.form-status__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.form-status__actions .form-status__alt {
+  margin-top: 0;
+}
+
+button.form-status__alt {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.form-note a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.form-note a:hover {
+  color: var(--text);
+}
+
+/* Narx jadvalidagi «Buyurtma» havolasi */
+.price-table .cell-order {
+  text-align: right;
+  white-space: nowrap;
+}
+
 /* ------------------------------------------------------------
    Suzuvchi harakat tugmasi (Telegram)
    ------------------------------------------------------------ */

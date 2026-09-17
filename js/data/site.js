@@ -118,6 +118,7 @@ window.SITE = {
 
   /* ---------- Umumiy UI matnlari ---------- */
   ui: {
+    skipLink: { uz: "Asosiy kontentga o'tish", ru: "Перейти к основному содержимому" },
     address: { uz: "Toshkent, O'zbekiston", ru: "Ташкент, Узбекистан" },
     phoneLabel: { uz: "Telefon", ru: "Телефон" },
     addressLabel: { uz: "Manzil", ru: "Адрес" },
@@ -125,6 +126,7 @@ window.SITE = {
     hoursWeekdays: { uz: "Du – Ju: 9:00 – 18:00", ru: "Пн – Пт: 9:00 – 18:00" },
     hoursWeekends: { uz: "Sha – Yak: 10:00 – 16:00", ru: "Сб – Вс: 10:00 – 16:00" },
     orderCta: { uz: "Buyurtma berish", ru: "Оставить заявку" },
+    orderShort: { uz: "Buyurtma", ru: "Заказать" },
     demoCta: { uz: "Demo ko'rish", ru: "Смотреть демо" },
     detailsCta: { uz: "Batafsil", ru: "Подробнее" },
     tariffsCta: { uz: "Tariflarni ko'rish", ru: "Смотреть тарифы" },
@@ -418,13 +420,16 @@ window.SITE = {
       company: { uz: "Korxona nomi", ru: "Название компании" },
       companyPh: { uz: "Masalan: Tinch Group MChJ", ru: "Например: ООО Tinch Group" },
       phone: { uz: "Telefon", ru: "Телефон" },
-      phonePh: { uz: "+998 __ ___ __ __", ru: "+998 __ ___ __ __" },
+      phonePh: { uz: "Masalan: +998 90 123 45 67", ru: "Например: +998 90 123 45 67" },
       email: { uz: "Email", ru: "Email" },
       emailPh: { uz: "sizning@email.uz", ru: "ваш@email.uz" },
       product: { uz: "Mahsulot", ru: "Продукт" },
       plan: { uz: "Tarif", ru: "Тариф" },
+      /* Soni maydoni mahsulotga qarab: products.js → orderCount */
       employees: { uz: "Xodimlar soni", ru: "Количество сотрудников" },
       employeesPh: { uz: "Masalan: 45", ru: "Например: 45" },
+      users: { uz: "Foydalanuvchilar soni", ru: "Количество пользователей" },
+      usersPh: { uz: "Masalan: 10", ru: "Например: 10" },
       message: { uz: "Xabar", ru: "Сообщение" },
       messagePh: {
         uz: "Qaysi jarayonlarni avtomatlashtirmoqchisiz?",
@@ -451,13 +456,73 @@ window.SITE = {
       uz: "Pochta ochildi va xat tayyor — «Yuborish» tugmasini bosing.",
       ru: "Почта открыта, письмо готово — нажмите «Отправить».",
     },
-    fallbackAlt: {
-      uz: "Ochilmadimi? Email orqali yuboring",
-      ru: "Не открылось? Отправьте по email",
+    /* Zaxira rejimda Telegram/pochta ochilmasa — ikki yo'l */
+    notOpened: { uz: "Telegram ochilmadimi?", ru: "Telegram не открылся?" },
+    notOpenedEmail: { uz: "Pochta ochilmadimi?", ru: "Почта не открылась?" },
+    copyCta: { uz: "Xabarni nusxalash", ru: "Скопировать сообщение" },
+    copied: { uz: "Nusxalandi — @AbduDevUz ga yuboring", ru: "Скопировано — отправьте @AbduDevUz" },
+    viaEmail: { uz: "Email orqali yuborish", ru: "Отправить по email" },
+    /* Forma ostidagi rozilik yozuvi. Matnni yurist ko'rib chiqishi kerak. */
+    consent: {
+      uz: "«So'rovni yuborish» tugmasini bosib, siz kiritgan ma'lumotlarni so'rovingizga javob berish uchun qayta ishlashimizga rozilik bildirasiz. Batafsil: <a href=\"maxfiylik.html\">Maxfiylik siyosati</a>.",
+      ru: "Нажимая «Отправить заявку», вы соглашаетесь на обработку введённых данных для ответа на вашу заявку. Подробнее: <a href=\"maxfiylik.html\">Политика конфиденциальности</a>.",
     },
     error: {
       uz: "Yuborishda xatolik. Iltimos, Telegram yoki telefon orqali bog'laning.",
       ru: "Ошибка при отправке. Пожалуйста, свяжитесь через Telegram или по телефону.",
+    },
+  },
+
+  /* ---------- Maxfiylik siyosati (maxfiylik.html) ----------
+     DIQQAT: bu matnni saytga qo'yishdan oldin yurist ko'rib chiqsin.
+     Ayniqsa: ma'lumot Telegram (xorijiy xizmat) orqali o'tishi va
+     O'zbekistonda shaxsga doir ma'lumotlarni saqlash talablari. */
+  privacy: {
+    meta: {
+      title: { uz: "Maxfiylik siyosati — Tinch", ru: "Политика конфиденциальности — Tinch" },
+      description: {
+        uz: "Tinch saytidagi formalar orqali qanday ma'lumot yig'iladi, nima uchun ishlatiladi va uni qanday o'chirish mumkin.",
+        ru: "Какие данные собираются через формы на сайте Tinch, для чего используются и как их удалить.",
+      },
+    },
+    eyebrow: { uz: "Hujjatlar", ru: "Документы" },
+    title: { uz: "Maxfiylik siyosati", ru: "Политика конфиденциальности" },
+    updated: { uz: "Oxirgi yangilanish: 17-sentyabr 2026", ru: "Последнее обновление: 17 сентября 2026" },
+    body: {
+      uz:
+        "<h2>Kim ma'lumotlarni qayta ishlaydi</h2>" +
+        "<p>Tinch (tinch.uz) — Toshkentdagi dasturiy ta'minot kompaniyasi. Savollar bo'yicha: <a href=\"mailto:info@tinch.uz\">info@tinch.uz</a>, <a href=\"tel:+998948349555\">+998 (94) 834-95-55</a>.</p>" +
+        "<h2>Qanday ma'lumotlar yig'iladi</h2>" +
+        "<p>Buyurtma yoki aloqa formasiga o'zingiz kiritgan ma'lumotlar: ism, korxona nomi, telefon, email, tanlangan mahsulot va tarif, xodimlar yoki foydalanuvchilar soni, xabar matni. Shuningdek, so'rov qaysi sahifadan va qaysi tilda yuborilgani.</p>" +
+        "<h2>Nima uchun</h2>" +
+        "<p>Faqat so'rovingizga javob berish uchun: siz bilan bog'lanish, tarif tanlashda maslahat berish va narx taklifini tayyorlash. Ma'lumotlaringiz sotilmaydi va reklama uchun uchinchi shaxslarga berilmaydi.</p>" +
+        "<h2>Ma'lumot qanday yetib keladi</h2>" +
+        "<p>«So'rovni yuborish» tugmasini bosganingizda to'ldirilgan xabar Telegram ilovasida yoki pochta dasturingizda ochiladi va uni o'zingiz yuborasiz. Bunda xabar Telegram yoki pochta xizmati orqali o'tadi va ularning qoidalari ham amal qiladi.</p>" +
+        "<h2>Qancha saqlanadi</h2>" +
+        "<p>So'rovingiz bo'yicha ish davom etayotgan vaqtda. Keyin, agar hamkorlik boshlanmagan bo'lsa, so'rashingiz bilan o'chiriladi.</p>" +
+        "<h2>Brauzerda saqlanadigan ma'lumot</h2>" +
+        "<p>Sayt tanlagan tilingizni brauzeringizda eslab qoladi — bu ma'lumot bizga yuborilmaydi. Saytga tashriflar statistikasi xizmatlari (Yandex Metrika, Google Analytics) ulangan bo'lsa, ular cookie-fayllar orqali anonim statistika yig'adi.</p>" +
+        "<h2>Sizning huquqlaringiz</h2>" +
+        "<p>Siz haqingizda qanday ma'lumot borligini bilish, uni tuzatish yoki o'chirishni so'rash va roziligingizni qaytarib olish huquqiga egasiz. Buning uchun <a href=\"mailto:info@tinch.uz\">info@tinch.uz</a> ga yozing yoki qo'ng'iroq qiling.</p>" +
+        "<h2>Qonunchilik</h2>" +
+        "<p>Ushbu siyosat O'zbekiston Respublikasining «Shaxsga doir ma'lumotlar to'g'risida»gi qonuni asosida tuzilgan.</p>",
+      ru:
+        "<h2>Кто обрабатывает данные</h2>" +
+        "<p>Tinch (tinch.uz) — компания по разработке программного обеспечения в Ташкенте. По вопросам: <a href=\"mailto:info@tinch.uz\">info@tinch.uz</a>, <a href=\"tel:+998948349555\">+998 (94) 834-95-55</a>.</p>" +
+        "<h2>Какие данные собираются</h2>" +
+        "<p>Данные, которые вы сами вводите в форму заявки или обратной связи: имя, название компании, телефон, email, выбранный продукт и тариф, количество сотрудников или пользователей, текст сообщения. А также с какой страницы и на каком языке отправлена заявка.</p>" +
+        "<h2>Для чего</h2>" +
+        "<p>Только чтобы ответить на вашу заявку: связаться с вами, помочь выбрать тариф и подготовить ценовое предложение. Ваши данные не продаются и не передаются третьим лицам для рекламы.</p>" +
+        "<h2>Как данные до нас доходят</h2>" +
+        "<p>При нажатии «Отправить заявку» заполненное сообщение открывается в Telegram или в вашей почтовой программе, и отправляете его вы сами. В этом случае сообщение проходит через Telegram или почтовый сервис, и действуют также их правила.</p>" +
+        "<h2>Сколько хранятся</h2>" +
+        "<p>Пока идёт работа по вашей заявке. Если сотрудничество не началось — удаляются по вашему запросу.</p>" +
+        "<h2>Что хранится в браузере</h2>" +
+        "<p>Сайт запоминает выбранный язык в вашем браузере — эти данные нам не передаются. Если к сайту подключены сервисы статистики посещений (Яндекс Метрика, Google Analytics), они собирают анонимную статистику с помощью cookie-файлов.</p>" +
+        "<h2>Ваши права</h2>" +
+        "<p>Вы вправе узнать, какие данные о вас есть, попросить исправить или удалить их и отозвать согласие. Для этого напишите на <a href=\"mailto:info@tinch.uz\">info@tinch.uz</a> или позвоните.</p>" +
+        "<h2>Законодательство</h2>" +
+        "<p>Настоящая политика составлена на основе Закона Республики Узбекистан «О персональных данных».</p>",
     },
   },
 
@@ -490,6 +555,7 @@ window.SITE = {
       { href: "pricing.html", label: { uz: "Tariflar", ru: "Тарифы" } },
       { href: "contacts.html", label: { uz: "Aloqa", ru: "Контакты" } },
       { href: "order.html", label: { uz: "Buyurtma berish", ru: "Оставить заявку" } },
+      { href: "maxfiylik.html", label: { uz: "Maxfiylik siyosati", ru: "Политика конфиденциальности" } },
     ],
     rights: {
       uz: "Barcha huquqlar himoyalangan.",

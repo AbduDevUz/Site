@@ -36,40 +36,39 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#main">Asosiy kontentga o'tish</a>
+    <a class="skip-link" href="#main" data-i18n="ui.skipLink">Asosiy kontentga o'tish</a>
 
     <header class="site-header" id="siteHeader"></header>
 
     <main id="main">
       <section class="section">
-        <div class="container contact-grid">
-          <!-- Chap ustun -->
-          <div class="stack stack-4 reveal">
+        <!-- Uch qism: sarlavha, forma, kontaktlar. Kompyuterda forma o'ngda,
+             telefonda sarlavhadan keyin darhol forma, kontaktlar pastda. -->
+        <div class="container contact-grid contact-grid--order">
+          <div class="stack stack-4 reveal contact-grid__intro">
             <span class="eyebrow" data-i18n="order.eyebrow">Buyurtma</span>
             <h1 class="h1" data-i18n="order.title"></h1>
             <p class="lead" data-i18n="order.text"></p>
-
-            <div class="contact-list" id="contactList"></div>
           </div>
 
-          <!-- O'ng ustun: forma -->
-          <div class="form-card reveal">
+          <div class="form-card reveal contact-grid__form">
             <div id="orderSummary"></div>
 
             <form id="orderForm" novalidate>
               <div class="form-grid">
                 <div class="field">
-                  <label for="f-name" data-i18n="order.fields.name">Ismingiz</label>
+                  <label for="f-name"><span data-i18n="order.fields.name">Ismingiz</span> <span class="field__req" aria-hidden="true">*</span></label>
                   <input
                     class="input"
                     id="f-name"
+                    aria-describedby="f-name-error"
                     name="name"
                     type="text"
                     autocomplete="name"
                     required
                     data-i18n-attr="placeholder:order.fields.namePh"
                   />
-                  <span class="field__error" hidden></span>
+                  <span class="field__error" id="f-name-error" hidden></span>
                 </div>
 
                 <div class="field">
@@ -77,19 +76,21 @@
                   <input
                     class="input"
                     id="f-company"
+                    aria-describedby="f-company-error"
                     name="company"
                     type="text"
                     autocomplete="organization"
                     data-i18n-attr="placeholder:order.fields.companyPh"
                   />
-                  <span class="field__error" hidden></span>
+                  <span class="field__error" id="f-company-error" hidden></span>
                 </div>
 
                 <div class="field">
-                  <label for="f-phone" data-i18n="order.fields.phone">Telefon</label>
+                  <label for="f-phone"><span data-i18n="order.fields.phone">Telefon</span> <span class="field__req" aria-hidden="true">*</span></label>
                   <input
                     class="input"
                     id="f-phone"
+                    aria-describedby="f-phone-error"
                     name="phone"
                     type="tel"
                     inputmode="tel"
@@ -97,7 +98,7 @@
                     required
                     data-i18n-attr="placeholder:order.fields.phonePh"
                   />
-                  <span class="field__error" hidden></span>
+                  <span class="field__error" id="f-phone-error" hidden></span>
                 </div>
 
                 <div class="field">
@@ -105,12 +106,13 @@
                   <input
                     class="input"
                     id="f-email"
+                    aria-describedby="f-email-error"
                     name="email"
                     type="email"
                     autocomplete="email"
                     data-i18n-attr="placeholder:order.fields.emailPh"
                   />
-                  <span class="field__error" hidden></span>
+                  <span class="field__error" id="f-email-error" hidden></span>
                 </div>
 
                 <div class="field">
@@ -124,7 +126,7 @@
                 </div>
 
                 <div class="field">
-                  <label for="f-employees" data-i18n="order.fields.employees">Xodimlar soni</label>
+                  <label for="f-employees">Xodimlar soni</label>
                   <input
                     class="input"
                     id="f-employees"
@@ -133,7 +135,6 @@
                     min="1"
                     step="1"
                     inputmode="numeric"
-                    data-i18n-attr="placeholder:order.fields.employeesPh"
                   />
                 </div>
 
@@ -150,13 +151,16 @@
               </div>
 
               <div class="stack stack-4" style="margin-top: var(--space-6)">
-                <div id="formStatus"></div>
+                <div id="formStatus" role="status" aria-live="polite"></div>
                 <button class="btn btn--primary btn--lg btn--block" type="submit" id="submitBtn">
                   <span data-i18n="order.fields.submit">So'rovni yuborish</span>
                 </button>
+                <p class="form-note" data-i18n-html="order.consent"></p>
               </div>
             </form>
           </div>
+
+          <div class="contact-list contact-grid__contacts" id="contactList"></div>
         </div>
       </section>
     </main>

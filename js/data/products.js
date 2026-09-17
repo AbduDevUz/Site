@@ -17,6 +17,8 @@
      main          — true bo'lsa: bosh sahifada yuqorida, «Faol mahsulotlar»
                      guruhida chiqadi. Qolganlari pastda,
                      «Boshqa yechimlar» da. Kartochka ikkalasida bir xil.
+     orderCount    — buyurtma formasidagi soni maydoni: "users" (foydalanuvchilar),
+                     false (maydon yashiriladi). Berilmasa — "employees" (xodimlar).
      soon          — true bo'lsa: mahsulot hali ishga tushmagan.
                      Kartochkada, mahsulot sahifasida, tariflar tabida va
                      buyurtma formasida avtomatik "Tez orada" yorlig'i chiqadi.
@@ -40,6 +42,7 @@ window.PRODUCTS = [
   {
     id: "warehouse",
     icon: "warehouse",
+    orderCount: "users",
     /* Bosh sahifada yuqorida, «Faol mahsulotlar» guruhida chiqadi */
     main: true,
     image: { webp: "./images/opt/warehouse.webp", jpg: "./images/opt/warehouse.jpg" },
@@ -491,7 +494,7 @@ window.PRODUCTS = [
               uz: "Kadrlar hisobi, Face ID davomat va asosiy ishga yollash jarayoni bilan boshlash uchun.",
               ru: "Для старта: кадровый учёт, Face ID посещаемость и базовый процесс найма.",
             },
-            price: { amount: 39000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 39000, currency: "UZS", period: { uz: "xodim / oy", ru: "сотрудник / месяц" } },
             highlights: [
               { uz: "Xodimlarning elektron kartalari", ru: "Электронные карточки сотрудников" },
               { uz: "Face ID qurilmalarini ulash", ru: "Подключение устройств Face ID" },
@@ -509,7 +512,7 @@ window.PRODUCTS = [
               uz: "Barcha modullar to'liq ochiq: to'liq tabel, maosh, ko'p bosqichli muvofiqlashtirish, rollar matritsasi.",
               ru: "Все модули открыты полностью: полный табель, зарплата, многоэтапное согласование, матрица ролей.",
             },
-            price: { amount: 55000, currency: "UZS", period: { uz: "foydalanuvchi / oy", ru: "пользователь / месяц" } },
+            price: { amount: 55000, currency: "UZS", period: { uz: "xodim / oy", ru: "сотрудник / месяц" } },
             highlights: [
               { uz: "Basic tarifidagi barcha imkoniyatlar", ru: "Все возможности тарифа Basic" },
               { uz: "To'liq oylik tabel va maosh ma'lumotlari", ru: "Полный месячный табель и данные о зарплате" },
@@ -715,6 +718,7 @@ window.PRODUCTS = [
   {
     id: "savdo",
     icon: "cart",
+    orderCount: false,
     /* Bosh sahifada yuqorida, «Faol mahsulotlar» guruhida chiqadi */
     main: true,
     /* Narx yoniga taxminiy so'm yoziladi. Faqat shu mahsulotda —
@@ -921,6 +925,7 @@ window.PRODUCTS = [
   {
     id: "uylar",
     icon: "building",
+    orderCount: "users",
     image: { webp: "./images/opt/uylar.webp", jpg: "./images/opt/uylar.jpg" },
     name: { uz: "Tinch Uylar", ru: "Tinch Uylar" },
     tagline: {
@@ -1479,6 +1484,7 @@ window.PRODUCTS = [
   {
     id: "websites",
     icon: "globe",
+    orderCount: false,
     image: { webp: "./images/opt/websites.webp", jpg: "./images/opt/websites.jpg" },
     name: { uz: "Saytlar va portallar", ru: "Сайты и порталы" },
     tagline: {

@@ -172,13 +172,12 @@
     var priceHtml;
     if (plan.price) {
       // Aksiya davrida bir martalik tariflar narxi promoFull dan qayta hisoblanadi
-      var amount = plan.price.amount;
+      var amount = planAmount(plan);
       var wasHtml = "";
-      if (promoOn() && plan.promoFull) {
+      if (amount !== plan.price.amount) {
         wasHtml =
-          '<span class="plan-card__was">' + window.I18N.num(amount) + " " +
+          '<span class="plan-card__was">' + window.I18N.num(plan.price.amount) + " " +
           esc(plan.price.currency) + "</span>";
-        amount = Math.round(plan.promoFull * (1 - S.promo.percent / 100));
       }
       var uzsLine =
         product.showUzs && plan.price.currency === "USD" ? toUzs(amount) : "";
@@ -396,6 +395,32 @@
     return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " USD";
   }
 
+  /** Tarif narxi: aksiya davrida bir martalik tariflar promoFull dan hisoblanadi */
+  function planAmount(plan) {
+    if (!plan.price) return null;
+    if (promoOn() && plan.promoFull) return Math.round(plan.promoFull * (1 - S.promo.percent / 100));
+    return plan.price.amount;
+  }
+
+  /** Narx jadvalidagi sotib olinadigan paket qatori (Sale: Start, Progress…) */
+  function isPackageRow(row) {
+    return !!(row && (row.full || row.onceHtml));
+  }
+
+  /** Paketning buyurtma formasidagi kaliti: "onetime:start" */
+  function packageId(mode, row) {
+    var slug = String(t(row.name)).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return mode.id + ":" + slug;
+  }
+
+  /** Paket narxi oddiy matnda — buyurtma formasi va xabar uchun */
+  function packagePrice(product, mode, row) {
+    if (row.full && promoApplies(product, mode)) {
+      return usd(Math.round(row.full * (1 - S.promo.percent / 100))) + " (−" + S.promo.percent + "%)";
+    }
+    return String(row.onceHtml || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  }
+
   /**
    * Bir martalik to'lov katagi.
    * Aksiya o'chiq bo'lsa — jadvaldagi tayyor matn (odatdagi −10%).
@@ -411,7 +436,13 @@
     );
   }
 
-  function priceTable(table) {
+  /**
+   * @param {object} table
+   * @param {function} [orderHref] berilsa, sotib olinadigan paket qatoriga
+   *   «Buyurtma» havolasi qo'shiladi (kartasi yo'q Sale jadvallari uchun)
+   */
+  function priceTable(table, orderHref) {
+    var withOrder = typeof orderHref === "function" && table.rows.some(isPackageRow);
     var head =
       "<thead><tr>" +
       table.columns
@@ -419,6 +450,7 @@
           return "<th>" + esc(t(c.label)) + "</th>";
         })
         .join("") +
+      (withOrder ? '<th><span class="sr-only">' + esc(t(S.ui.orderCta)) + "</span></th>" : "") +
       "</tr></thead>";
 
     var body =
@@ -437,6 +469,13 @@
                 return "<td" + cls + ">" + value + "</td>";
               })
               .join("") +
+            (withOrder
+              ? '<td class="cell-order">' +
+                (isPackageRow(row)
+                  ? '<a class="link-arrow" href="' + esc(orderHref(row)) + '">' + esc(t(S.ui.orderShort)) + "</a>"
+                  : "") +
+                "</td>"
+              : "") +
             "</tr>"
           );
         })
@@ -556,7 +595,17 @@
             "</div>";
         }
         if (m.priceTables && m.priceTables.length) {
-          inner += m.priceTables.map(priceTable).join("");
+          // Kartasi yo'q rejimda paketni jadvalning o'zidan buyurtma qilinadi
+          var orderHref = m.plans && m.plans.length
+            ? null
+            : function (row) {
+                return "order.html?product=" + product.id + "&plan=" + encodeURIComponent(packageId(m, row));
+              };
+          inner += m.priceTables
+            .map(function (table) {
+              return priceTable(table, orderHref);
+            })
+            .join("");
         }
         inner += notes(m.notes);
         inner += "</div>";
@@ -630,6 +679,10 @@
     planCard: planCard,
     matrix: matrix,
     priceTable: priceTable,
+    planAmount: planAmount,
+    isPackageRow: isPackageRow,
+    packageId: packageId,
+    packagePrice: packagePrice,
     notes: notes,
     pricingBlock: pricingBlock,
     hydrate: hydrate,

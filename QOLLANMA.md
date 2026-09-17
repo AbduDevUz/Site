@@ -381,6 +381,26 @@ forms: {
 
 Qabul qiluvchini almashtirish: `company.telegramDirect`.
 
+### Forma qanday ishlaydi (2026-09-17 dan)
+
+- **Sayt tabi yopilmaydi.** Telegram yangi tabda ochiladi, sayt joyida qoladi
+  va «Telegram ochildi» xabarini ko'rsatadi. (Oldin `noopener` xatosi tufayli
+  sayt ham t.me ga o'tib ketardi.)
+- **Forma tozalanmaydi.** Mijoz haqiqatan yuborganini bilib bo'lmaydi, shuning
+  uchun ma'lumot joyida qoladi. Xabar ostida ikki yo'l bor: «Xabarni nusxalash»
+  (keyin @AbduDevUz ga qo'lda yuboradi) va «Email orqali yuborish».
+- **Bir martalik paketlarni ham tanlash mumkin.** Tarif kartasi yo'q rejimda
+  (Ombor va HR ning Sale jadvali) jadval qatorlari formaga paket sifatida
+  tushadi: `order.html?product=warehouse&plan=onetime:start`. Jadval
+  qatorida ham «Buyurtma» havolasi bor. Aksiya bo'lsa narx −35% bilan yoziladi.
+- **Soni maydoni mahsulotga qarab.** `products.js` → `orderCount`:
+  `"users"` — «Foydalanuvchilar soni» (Ombor, Uylar), `false` — maydon
+  yashiriladi (Savdo, Saytlar), berilmasa — «Xodimlar soni».
+- **Rozilik.** Tugma ostida shaxsiy ma'lumotlarni qayta ishlashga rozilik
+  yozuvi va `maxfiylik.html` havolasi turadi. Matnlar `site.js` → `order.consent`
+  va `privacy`. **Saytga qo'yishdan oldin yurist ko'rib chiqsin** — ayniqsa
+  ma'lumot Telegram (xorijiy xizmat) orqali o'tishi bo'yicha.
+
 ### Nega bot orqali avtomatik emas
 
 Telegram boti token talab qiladi. Tokenni frontend kodiga yozib bo'lmaydi —

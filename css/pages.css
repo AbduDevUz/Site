@@ -573,3 +573,64 @@ a.contact-item__value:hover {
   width: 28px;
   height: 28px;
 }
+
+/* Buyurtma sahifasi: sarlavha, forma, kontaktlar.
+   Kompyuterda forma o'ngda ikki qatorni egallaydi; telefonda sarlavhadan
+   keyin darhol forma turadi — kontaktlar pastga tushadi. */
+.contact-grid--order {
+  grid-template-areas:
+    "intro form"
+    "contacts form";
+  grid-template-rows: auto 1fr;
+  row-gap: var(--space-8);
+}
+
+.contact-grid__intro {
+  grid-area: intro;
+}
+
+.contact-grid__form {
+  grid-area: form;
+}
+
+.contact-grid__contacts {
+  grid-area: contacts;
+  margin-top: 0;
+}
+
+@media (max-width: 860px) {
+  .contact-grid--order {
+    grid-template-areas:
+      "intro"
+      "form"
+      "contacts";
+    grid-template-rows: auto;
+  }
+}
+
+/* ------------------------------------------------------------
+   Hujjat sahifasi (maxfiylik siyosati)
+   ------------------------------------------------------------ */
+
+.legal {
+  max-width: var(--w-prose);
+  color: var(--text-muted);
+  line-height: var(--lh-loose);
+}
+
+.legal h2 {
+  margin: var(--space-10) 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  color: var(--text);
+}
+
+.legal h2:first-child {
+  margin-top: 0;
+}
+
+.legal a {
+  color: var(--brand-indigo-300);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
