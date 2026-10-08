@@ -1608,6 +1608,23 @@ button.form-status__alt {
   color: var(--brand-yellow-400);
 }
 
+/* Bepul mahsulot (products.js → free: true) — o'sha yorliq, lekin yashil:
+   sariq «Tez orada» bilan adashmasligi kerak */
+.free-ribbon {
+  border-color: rgba(52, 211, 153, 0.4);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.product-card__price--free b,
+.plan-card__amount--free {
+  color: var(--ok);
+}
+
+.plan-card__amount--free {
+  font-size: var(--fs-h2);
+}
+
 /* Mahsulot sahifasidagi sarlavha yonidagi yorliq */
 h1 .soon-ribbon {
   font-size: var(--fs-sm);
@@ -1937,6 +1954,13 @@ h1 .soon-ribbon {
 
 .product-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Guruhda roppa-rosa 4 ta kartochka bo'lsa (Bandla qo'shilgandan beri
+   «Faol mahsulotlar» shunday) — 3 ustunda bittasi yolg'iz qolardi,
+   2×2 to'r tozaroq. Eski brauzer :has() ni tushunmasa — 3 ustun qoladi. */
+.product-grid:has(> :nth-child(4):last-child) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 /* Ikki ustunda uchinchi kartochka yolg'iz qolardi — shuning uchun

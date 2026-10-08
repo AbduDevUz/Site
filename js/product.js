@@ -58,7 +58,9 @@
   function hero(product) {
     var price = window.R.entryPrice(product);
     var from = window.R.fromParts();
-    var priceLine = price
+    var priceLine = product.free
+      ? "<b>" + esc(t(S.ui.free)) + "</b> · " + esc(t(S.ui.freeHint))
+      : price
       ? (from.before ? esc(from.before) + " " : "") +
         "<b>" + window.I18N.num(price.amount) + " " + price.currency + "</b>" +
         (from.after ? " " + esc(from.after) : "") +
@@ -74,17 +76,23 @@
               esc(t(product.tagline)) +
             "</span>" +
             '<h1 class="h1">' + esc(t(product.name)) +
-              (product.soon ? " " + window.R.soonRibbon() : "") +
+              (product.soon ? " " + window.R.soonRibbon() : product.free ? " " + window.R.freeRibbon() : "") +
             "</h1>" +
             '<p class="lead" style="max-width:60ch">' + esc(t(product.intro)) + "</p>" +
             (product.soon
               ? '<p class="note note--soon">' + icon("clock") + "<span>" + esc(t(S.ui.soonNote)) + "</span></p>"
               : "") +
             '<div class="row">' +
-              '<a class="btn btn--primary btn--lg" href="order.html?product=' + product.id + '">' +
-                esc(t(product.soon ? S.ui.notifyCta : S.ui.orderCta)) +
-              "</a>" +
-              '<a class="btn btn--ghost btn--lg" href="#pricing">' + esc(t(S.ui.tariffsCta)) + "</a>" +
+              (product.free
+                // Bepul mahsulot: buyurtma formasi emas, to'g'ridan-to'g'ri Telegram bot
+                ? '<a class="btn btn--primary btn--lg" href="' + esc(window.R.freeHref(product)) + '" target="_blank" rel="noopener">' +
+                    icon("telegram", "btn__icon") + esc(t(S.ui.openBotCta)) +
+                  "</a>" +
+                  '<a class="btn btn--ghost btn--lg" href="#features">' + esc(t(S.ui.howItWorksCta)) + "</a>"
+                : '<a class="btn btn--primary btn--lg" href="order.html?product=' + product.id + '">' +
+                    esc(t(product.soon ? S.ui.notifyCta : S.ui.orderCta)) +
+                  "</a>" +
+                  '<a class="btn btn--ghost btn--lg" href="#pricing">' + esc(t(S.ui.tariffsCta)) + "</a>") +
             "</div>" +
             '<p class="dim" style="font-size:var(--fs-sm)">' +
               (product.soon ? esc(t(S.ui.soon)) : priceLine) +
@@ -102,12 +110,12 @@
     );
   }
 
-  function anchorNav() {
+  function anchorNav(product) {
     return (
       '<div class="container"><nav class="anchor-nav" aria-label="section">' +
         '<a href="#features">' + esc(t(S.product.navFeatures)) + "</a>" +
         '<a href="#modules">' + esc(t(S.product.navModules)) + "</a>" +
-        '<a href="#pricing">' + esc(t(S.product.navPricing)) + "</a>" +
+        '<a href="#pricing">' + esc(t(product.free ? S.product.navFree : S.product.navPricing)) + "</a>" +
       "</nav></div>"
     );
   }
@@ -185,8 +193,8 @@
     return (
       '<section class="section" id="pricing"><div class="container">' +
         '<div class="section-head reveal">' +
-          '<span class="eyebrow">' + esc(t(S.product.pricingEyebrow)) + "</span>" +
-          '<h2 class="h2">' + esc(t(S.product.pricingTitle)) + "</h2>" +
+          '<span class="eyebrow">' + esc(t(product.free ? S.product.freeEyebrow : S.product.pricingEyebrow)) + "</span>" +
+          '<h2 class="h2">' + esc(t(product.free ? S.product.freeTitle : S.product.pricingTitle)) + "</h2>" +
         "</div>" +
         window.R.pricingBlock(product) +
       "</div></section>"
@@ -207,18 +215,24 @@
     );
   }
 
-  function cta() {
+  function cta(product) {
+    // Bepul mahsulotda: «Demo va hisob-kitob» o'rniga «botga kiring, biz sozlab beramiz»
+    var free = product.free;
     return (
       '<section class="section section--tight"><div class="container">' +
         '<div class="cta-band reveal">' +
           '<div class="cta-band__text stack stack-3">' +
-            '<h2 class="h3">' + esc(t(S.product.ctaTitle)) + "</h2>" +
-            '<p class="muted">' + esc(t(S.product.ctaText)) + "</p>" +
+            '<h2 class="h3">' + esc(t(free ? S.product.freeCtaTitle : S.product.ctaTitle)) + "</h2>" +
+            '<p class="muted">' + esc(t(free ? S.product.freeCtaText : S.product.ctaText)) + "</p>" +
           "</div>" +
           '<div class="cta-band__actions">' +
-            '<a class="btn btn--primary btn--lg" href="order.html?product=' + productId + '">' +
-              esc(t(S.ui.orderCta)) +
-            "</a>" +
+            (free
+              ? '<a class="btn btn--primary btn--lg" href="' + esc(window.R.freeHref(product)) + '" target="_blank" rel="noopener">' +
+                  icon("telegram", "btn__icon") + esc(t(S.ui.openBotCta)) +
+                "</a>"
+              : '<a class="btn btn--primary btn--lg" href="order.html?product=' + productId + '">' +
+                  esc(t(S.ui.orderCta)) +
+                "</a>") +
             '<a class="btn btn--ghost btn--lg" href="' + S.company.telegram + '" target="_blank" rel="noopener">' +
               esc(t(S.ui.writeTelegram)) +
             "</a>" +
@@ -304,6 +318,11 @@
     var offers = [];
     (product.pricingModes || []).forEach(function (mode) {
       (mode.plans || []).forEach(function (plan) {
+        if (plan.free) {
+          // Qidiruv tizimlari uchun «0 so'm» — bepul mahsulot ham offer
+          offers.push({ "@type": "Offer", name: t(plan.name), price: 0, priceCurrency: "UZS" });
+          return;
+        }
         if (!plan.price) return;
         offers.push({
           "@type": "Offer",
@@ -392,11 +411,11 @@
     root.innerHTML =
       '<div class="container" style="padding-top:var(--space-6)">' + switcher(product) + "</div>" +
       hero(product) +
-      anchorNav() +
+      anchorNav(product) +
       features(product) +
       modules(product) +
       pricing(product) +
-      cta() +
+      cta(product) +
       others(product);
 
     window.R.hydrate(root);

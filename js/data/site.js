@@ -176,6 +176,11 @@ window.SITE = {
       ru: "Этот продукт сейчас в разработке. Оставьте заявку — сообщим о запуске одними из первых.",
     },
     notifyCta: { uz: "Ishga tushganda xabar berish", ru: "Сообщить о запуске" },
+    /* Bepul mahsulot (products.js → free: true) */
+    free: { uz: "Bepul", ru: "Бесплатно" },
+    freeHint: { uz: "barcha imkoniyatlar", ru: "все возможности" },
+    openBotCta: { uz: "Telegram botda boshlash", ru: "Начать в Telegram-боте" },
+    howItWorksCta: { uz: "Qanday ishlaydi", ru: "Как это работает" },
     allFeatures: { uz: "Barcha imkoniyatlar", ru: "Все возможности" },
     featureCompare: { uz: "Tariflarni taqqoslash", ru: "Сравнение тарифов" },
     priceTable: { uz: "Narxlar jadvali", ru: "Таблица цен" },
@@ -209,8 +214,8 @@ window.SITE = {
         ru: "Tinch — автоматизация бизнеса: HR, ERP, CRM, склад и сайты",
       },
       description: {
-        uz: "Tinch — biznesni avtomatlashtirish: Tinch Ombor, Tinch HR va Tinch Savdo, shuningdek Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
-        ru: "Tinch — автоматизация бизнеса в Ташкенте: Tinch Ombor, Tinch HR и Tinch Savdo, а также Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
+        uz: "Tinch — biznesni avtomatlashtirish: Bandla (Telegramda bepul onlayn bron), Tinch Ombor, Tinch HR va Tinch Savdo, shuningdek Tinch Uylar va korporativ saytlar. Ochiq tariflar va narxlar.",
+        ru: "Tinch — автоматизация бизнеса в Ташкенте: Bandla (бесплатное онлайн-бронирование в Telegram), Tinch Ombor, Tinch HR и Tinch Savdo, а также Tinch Uylar и корпоративные сайты. Открытые тарифы и цены.",
       },
     },
     hero: {
@@ -223,7 +228,7 @@ window.SITE = {
         ru: "Персонал, склад, продажи и документы — в одной системе. Мы внедряем HR, ERP, CRM и складские решения для компаний Узбекистана: понятные тарифы, открытые цены, интеграция и поддержка.",
       },
       stats: [
-        { value: "5", label: { uz: "tayyor mahsulot", ru: "готовых продукта" } },
+        { value: "6", label: { uz: "tayyor mahsulot", ru: "готовых продуктов" } },
         { value: "2", label: { uz: "til: uz / ru", ru: "языка: uz / ru" } },
         { value: "24/7", label: { uz: "tizim ishlashi", ru: "работа системы" } },
       ],
@@ -371,6 +376,18 @@ window.SITE = {
     },
     pricingEyebrow: { uz: "Tariflar va narxlar", ru: "Тарифы и цены" },
     pricingTitle: { uz: "O'zingizga mos tarifni tanlang", ru: "Выберите подходящий тариф" },
+    /* Bepul mahsulot sahifasida tariflar bo'limining o'rniga */
+    navFree: { uz: "Narx", ru: "Цена" },
+    freeEyebrow: { uz: "Narx", ru: "Цена" },
+    freeTitle: { uz: "Bepul. Tarif tanlash shart emas", ru: "Бесплатно. Тариф выбирать не нужно" },
+    freeCtaTitle: {
+      uz: "Botga kiring — 5 daqiqada biznesingiz tayyor",
+      ru: "Откройте бота — бизнес готов за 5 минут",
+    },
+    freeCtaText: {
+      uz: "O'zingiz sozlay olmasangiz yoki savol bo'lsa — yozing, Toshkentda kelib o'zimiz sozlab beramiz va QR-kod chop etib beramiz.",
+      ru: "Если не хотите настраивать сами или есть вопрос — напишите: в Ташкенте приедем, настроим и напечатаем QR-код.",
+    },
     otherProducts: { uz: "Boshqa mahsulotlar", ru: "Другие продукты" },
     ctaTitle: {
       uz: "Demo ko'rsatamiz va aniq hisob-kitob tayyorlaymiz",
@@ -390,8 +407,8 @@ window.SITE = {
         ru: "Тарифы и цены — Tinch",
       },
       description: {
-        uz: "Tinch mahsulotlarining tariflari va narxlari: Tinch Ombor, Tinch HR va Tinch Uylar uchun Basic, PRO va bir martalik Sale paketlari. Har bir tarifga nimalar kirishi batafsil.",
-        ru: "Тарифы и цены продуктов Tinch: Tinch Ombor, Tinch HR и Tinch Uylar — Basic, PRO и разовые пакеты Sale. Подробно о том, что входит в каждый тариф.",
+        uz: "Tinch mahsulotlarining tariflari va narxlari: Bandla — bepul; Tinch Ombor, Tinch HR va Tinch Uylar uchun Basic, PRO va bir martalik Sale paketlari. Har bir tarifga nimalar kirishi batafsil.",
+        ru: "Тарифы и цены продуктов Tinch: Bandla — бесплатно; Tinch Ombor, Tinch HR и Tinch Uylar — Basic, PRO и разовые пакеты Sale. Подробно о том, что входит в каждый тариф.",
       },
     },
     eyebrow: { uz: "Tariflar va narxlar", ru: "Тарифы и цены" },

@@ -22,6 +22,14 @@
      soon          — true bo'lsa: mahsulot hali ishga tushmagan.
                      Kartochkada, mahsulot sahifasida, tariflar tabida va
                      buyurtma formasida avtomatik "Tez orada" yorlig'i chiqadi.
+     free          — true bo'lsa: mahsulot bepul (hozir faqat Bandla).
+                     Kartochkada narx o'rniga «Bepul», sahifada «Buyurtma»
+                     o'rniga `links.business` ga (Telegram bot) olib boradigan
+                     tugma, tarif kartasida narx o'rniga «Bepul».
+     links         — bepul mahsulotning tashqi havolalari:
+                     { business: biznes boti, client: mijoz boti }
+     spotlight     — bosh sahifada hero ostidagi alohida katta blok
+                     (faqat bitta mahsulotda bo'ladi; js/home.js chizadi)
      icon          — js/icons.js dagi ikonka nomi
      image         — kartochka rasmi
      name          — mahsulot nomi { uz, ru }
@@ -36,6 +44,283 @@
    ============================================================ */
 
 window.PRODUCTS = [
+  /* ==========================================================
+     0. BANDLA — Telegram orqali onlayn bron (BEPUL)
+     ------------------------------------------------------------
+     Ro'yxatning boshida: egasi 2026-10-08 da «hozir shu mahsulotga
+     urg'u beramiz» dedi. Boshqa mahsulotlardan farqi — to'lov yo'q,
+     tarif jadvali yo'q, «Buyurtma» o'rniga Telegram botga havola.
+     Manba: github.com/goaziz/bandla (kod, reja, pilot hujjati).
+
+     ⚠️ Bot username'lari koddagi standart qiymatlardan olingan
+     (bandla_biz_bot, bandlauz_bot). Botlar boshqa nom bilan ochilgan
+     bo'lsa — faqat `links` ni almashtiring.
+     ========================================================== */
+  {
+    id: "bandla",
+    icon: "calendar",
+    main: true,
+    free: true,
+    /* Formada «xodimlar soni» so'ralmaydi — bot o'zi sozlaydi */
+    orderCount: false,
+    links: {
+      business: "https://t.me/bandla_biz_bot",
+      client: "https://t.me/bandlauz_bot",
+    },
+    /* SVG — telefon ekranidagi bot suhbati va «Bugun» paneli.
+       Haqiqiy skrinshot bilan almashtirsangiz yanada ishonarli bo'ladi. */
+    image: "./images/opt/bandla.svg",
+    name: { uz: "Bandla", ru: "Bandla" },
+    tagline: {
+      uz: "Mijozlar Telegramda bron qiladi — bepul",
+      ru: "Клиенты бронируют в Telegram — бесплатно",
+    },
+    short: {
+      uz: "Sartaroshxona, salon, game klub yoki choyxona uchun. Mijoz botda 30 soniyada bron qiladi, siz bir tugma bilan tasdiqlaysiz, unga eslatma boradi. To'lov yo'q.",
+      ru: "Для барбершопа, салона, гейм-клуба или чайханы. Клиент бронирует в боте за 30 секунд, вы подтверждаете одной кнопкой, ему приходит напоминание. Без оплаты.",
+    },
+    intro: {
+      uz: "Bandla («band qil!») — xizmat ko'rsatuvchi bizneslar uchun Telegram ichidagi onlayn bron tizimi. Mijoz hech narsa o'rnatmaydi: botga kiradi, ustani, xizmatni va bo'sh vaqtni tanlaydi — tamom. Siz va ustalaringiz hammasini telefondan boshqarasiz: bugungi bronlar, tasdiqlash, jadval, eslatmalar. Qo'ng'iroqlarsiz, unutilgan bronlarsiz, kelmay qolganlarsiz. Mahsulot bepul.",
+      ru: "Bandla (по-узбекски «забронируй!») — онлайн-бронирование внутри Telegram для бизнесов сферы услуг. Клиент ничего не устанавливает: открывает бота, выбирает мастера, услугу и свободное время — готово. Вы и ваши мастера управляете всем с телефона: брони на сегодня, подтверждение, расписание, напоминания. Без звонков, забытых записей и неявок. Продукт бесплатный.",
+    },
+    tags: [
+      { uz: "Bepul", ru: "Бесплатно" },
+      { uz: "Telegram bot + Mini App", ru: "Telegram-бот + Mini App" },
+      { uz: "Sartaroshxona · salon · game klub", ru: "Барбершоп · салон · гейм-клуб" },
+      { uz: "3 til", ru: "3 языка" },
+    ],
+
+    /* Bosh sahifadagi katta blok (hero ostida) */
+    spotlight: {
+      eyebrow: { uz: "Yangi mahsulot · Bepul", ru: "Новый продукт · Бесплатно" },
+      title: {
+        uz: "Mijozlaringiz sizga Telegramda bron qilsin",
+        ru: "Пусть клиенты бронируют вас в Telegram",
+      },
+      text: {
+        uz: "Sartaroshxona, go'zallik saloni, game klub yoki choyxona yuritasizmi? Bandla bilan mijoz kechayu kunduz botda 30 soniyada bron qiladi, siz bir tugma bilan tasdiqlaysiz, unga eslatma boradi — kelmay qolish kamayadi. To'lov yo'q, sozlash 30 daqiqa.",
+        ru: "У вас барбершоп, салон красоты, гейм-клуб или чайхана? С Bandla клиент бронирует в боте за 30 секунд в любое время суток, вы подтверждаете одной кнопкой, ему приходит напоминание — неявок меньше. Без оплаты, настройка за 30 минут.",
+      },
+      stats: [
+        { value: "0", label: { uz: "so'm — to'lov yo'q", ru: "сум — без оплаты" } },
+        { value: "30 s", label: { uz: "mijozning bron qilishi", ru: "на бронь клиенту" } },
+        /* Biznes turlari soni yozilmaydi — «6» cheklovdek o'qiladi, aslida
+           istalgan xizmat biznesi uchun, yangi tur so'ralsa tez qo'shiladi */
+        { value: "24/7", label: { uz: "bron qabul qilinadi", ru: "приём броней" } },
+      ],
+      primary: { uz: "Biznesimni ulash", ru: "Подключить бизнес" },
+      secondary: { uz: "Qanday ishlaydi", ru: "Как это работает" },
+      /* Mijoz boti havolasi ostidagi kichik qator */
+      clientHint: {
+        uz: "Mijoz sifatida sinab ko'ring:",
+        ru: "Попробуйте как клиент:",
+      },
+    },
+
+    highlights: [
+      {
+        icon: "telegram",
+        title: { uz: "Mijoz 30 soniyada bron qiladi", ru: "Клиент бронирует за 30 секунд" },
+        text: {
+          uz: "Botda usta → xizmat → kun va vaqt → tayyor. Faqat bo'sh vaqtlar ko'rinadi. Telefon raqamini bir marta ulashadi. Hech qanday ilova o'rnatish shart emas.",
+          ru: "В боте: мастер → услуга → день и время → готово. Показывается только свободное время. Номер телефона — один раз. Никаких приложений устанавливать не нужно.",
+        },
+      },
+      {
+        icon: "bell",
+        title: { uz: "Eslatmalar — kelmay qolish kamayadi", ru: "Напоминания — меньше неявок" },
+        text: {
+          uz: "Tashrifdan 24 soat va 2 soat oldin mijozga Telegramda eslatma boradi. SMS emas — bepul. Bekor qilsa, vaqt darhol boshqalarga ochiladi.",
+          ru: "За 24 часа и за 2 часа до визита клиент получает напоминание в Telegram. Не SMS — бесплатно. Если отменит, время сразу открывается другим.",
+        },
+      },
+      {
+        icon: "calendar",
+        title: { uz: "Jadval telefoningizda", ru: "Расписание в телефоне" },
+        text: {
+          uz: "«Bugun» ekranida barcha bronlar: tasdiqlash yoki sabab bilan rad etish, keldi / tugadi / kelmadi deb belgilash. Telefon qilgan mijozni qo'lda kiritasiz — jadval doim to'g'ri turadi.",
+          ru: "На экране «Сегодня» все брони: подтвердить или отклонить с причиной, отметить «пришёл / завершено / не пришёл». Позвонившего клиента вносите вручную — расписание всегда актуально.",
+        },
+      },
+      {
+        icon: "users",
+        title: { uz: "Har usta o'z kabinetida", ru: "У каждого мастера свой кабинет" },
+        text: {
+          uz: "Ustalarni havola orqali taklif qilasiz. Har biri o'z bronlarini, ish soatlarini, dam olish kunlarini va daromadini ko'radi. Egasi esa butun jamoani va har usta bo'yicha hisobotni.",
+          ru: "Мастеров приглашаете по ссылке. Каждый видит свои брони, часы работы, выходные и доход. Владелец — всю команду и отчёт по каждому мастеру.",
+        },
+      },
+      {
+        icon: "qr-code",
+        title: { uz: "QR eshikka, havola Instagramga", ru: "QR на дверь, ссылка в Instagram" },
+        text: {
+          uz: "Har biznesga o'z havolasi va QR-kodi. Mijoz skanerlaydi — bot to'g'ri sizning sahifangizni ochadi. Yangi mijozlar esa botdagi katalog va «Yaqin atrofda» orqali topadi.",
+          ru: "У каждого бизнеса своя ссылка и QR-код. Клиент сканирует — бот открывает именно вашу страницу. Новые клиенты находят вас через каталог и «Рядом со мной».",
+        },
+      },
+      {
+        icon: "shield",
+        title: { uz: "Ikki marta bron bo'lmaydi", ru: "Двойной брони не бывает" },
+        text: {
+          uz: "Bitta vaqtga ikki mijoz yozilishi texnik jihatdan imkonsiz — ikkisi bir vaqtda bossa ham. Ma'lumotlar O'zbekistondagi serverda saqlanadi, har kuni zaxira nusxa olinadi.",
+          ru: "Записать двух клиентов на одно время технически невозможно — даже если нажмут одновременно. Данные хранятся на сервере в Узбекистане, резервная копия каждый день.",
+        },
+      },
+    ],
+
+    pricingModes: [
+      {
+        id: "free",
+        label: { uz: "Bepul", ru: "Бесплатно" },
+        description: {
+          uz: "Tarif yo'q, obuna yo'q, bron uchun komissiya yo'q. Botga kirasiz, biznesingizni yaratasiz va ishlatasiz.",
+          ru: "Нет тарифов, подписки и комиссии за бронь. Открываете бота, создаёте бизнес и пользуетесь.",
+        },
+        showMatrix: false,
+        plans: [
+          {
+            id: "free",
+            free: true,
+            featured: true,
+            name: { uz: "Bandla", ru: "Bandla" },
+            badge: { uz: "Bepul", ru: "Бесплатно" },
+            desc: {
+              uz: "Barcha imkoniyatlar — mijoz boti, biznes boti va Mini App.",
+              ru: "Все возможности — бот для клиентов, бот для бизнеса и Mini App.",
+            },
+            highlights: [
+              { uz: "Cheksiz bronlar va mijozlar", ru: "Безлимит броней и клиентов" },
+              { uz: "Istalgancha usta, xona yoki kompyuter", ru: "Любое число мастеров, комнат или компьютеров" },
+              { uz: "Eslatmalar va bildirishnomalar Telegramda", ru: "Напоминания и уведомления в Telegram" },
+              { uz: "QR-kod va shaxsiy havola", ru: "QR-код и личная ссылка" },
+              { uz: "Daromad hisoboti har usta bo'yicha", ru: "Отчёт о доходе по каждому мастеру" },
+              { uz: "O'zbek, rus va ingliz tillari", ru: "Узбекский, русский и английский" },
+            ],
+            /* Bepul tarifning tugmasi buyurtma formasiga emas, botga olib boradi */
+            cta: { href: "https://t.me/bandla_biz_bot", label: { uz: "Botda boshlash", ru: "Начать в боте" } },
+          },
+        ],
+        notes: [
+          {
+            type: "info",
+            text: {
+              uz: "<b>Birinchi bizneslarga o'zimiz sozlab beramiz.</b> Toshkentda bo'lsangiz — kelib, 30–45 daqiqada ish vaqti, xizmatlar va ustalarni kiritamiz, eshigingiz uchun QR-kod chop etib beramiz. Yozing — kelishib olamiz.",
+              ru: "<b>Первым бизнесам настраиваем сами.</b> Если вы в Ташкенте — приедем и за 30–45 минут внесём часы работы, услуги и мастеров, напечатаем QR-код для вашей двери. Напишите — договоримся.",
+            },
+          },
+          {
+            type: "info",
+            text: {
+              uz: "<b>Mijozlar uchun ham bepul</b> — ular faqat Telegram botdan foydalanadi, hech narsa o'rnatmaydi va to'lamaydi.",
+              ru: "<b>Для клиентов тоже бесплатно</b> — они пользуются только Telegram-ботом, ничего не устанавливают и не платят.",
+            },
+          },
+        ],
+      },
+    ],
+
+    /* Tarif jadvali yo'q — guruhlar mahsulot sahifasida «Tizim tarkibi»
+       kartochkalari sifatida chiqadi. `plans` shart emas. */
+    featureGroups: [
+      {
+        title: { uz: "Mijoz uchun — bot", ru: "Для клиента — бот" },
+        items: [
+          { label: { uz: "Biznesni topish: xizmat turi, nomi yoki «Yaqin atrofda»", ru: "Поиск: по типу услуги, названию или «Рядом со мной»" } },
+          { label: { uz: "QR yoki havola orqali to'g'ridan-to'g'ri ochish", ru: "Открытие напрямую по QR или ссылке" } },
+          { label: { uz: "Usta tanlash yoki «Istalgan bo'sh usta»", ru: "Выбор мастера или «Любой свободный»" } },
+          { label: { uz: "Faqat bo'sh vaqtlar ko'rinadi", ru: "Показывается только свободное время" } },
+          { label: { uz: "«Mening bronlarim»: ko'rish, bekor qilish", ru: "«Мои брони»: просмотр, отмена" } },
+          { label: { uz: "Eslatmalar: 24 soat va 2 soat oldin", ru: "Напоминания: за 24 часа и за 2 часа" } },
+          { label: { uz: "Mini App: rasmli sahifalar, xarita, usta profillari", ru: "Mini App: страницы с фото, карта, профили мастеров" } },
+        ],
+      },
+      {
+        title: { uz: "Egasi uchun — Mini App", ru: "Для владельца — Mini App" },
+        items: [
+          { label: { uz: "5 daqiqalik sozlash: tur → xizmatlar → ish vaqti", ru: "Настройка за 5 минут: тип → услуги → часы" } },
+          { label: { uz: "«Bugun»: tasdiqlash, rad etish, keldi / kelmadi", ru: "«Сегодня»: подтвердить, отклонить, пришёл / не пришёл" } },
+          { label: { uz: "Jadval kunlar va ustalar bo'yicha", ru: "Расписание по дням и мастерам" } },
+          { label: { uz: "Qo'lda bron: telefon qilgan, o'zi kelgan", ru: "Ручная бронь: позвонил, пришёл сам" } },
+          { label: { uz: "Ustalarni havola orqali taklif qilish", ru: "Приглашение мастеров по ссылке" } },
+          { label: { uz: "Xabar yuborish: ustalarga yoki mijozlarga", ru: "Рассылка: мастерам или клиентам" } },
+          { label: { uz: "Hisobot: har usta qancha ishladi, sizga qancha tushdi", ru: "Отчёт: сколько сделал каждый мастер, сколько вам" } },
+          { label: { uz: "Joy va usta rasmlari, xaritada nuqta", ru: "Фото заведения и мастеров, точка на карте" } },
+        ],
+      },
+      {
+        title: { uz: "Usta uchun", ru: "Для мастера" },
+        items: [
+          { label: { uz: "Faqat o'z bronlari va mijozlari", ru: "Только свои брони и клиенты" } },
+          { label: { uz: "O'z ish soatlari, dam olish kunlari, ta'til", ru: "Свои часы, выходные, отпуск" } },
+          { label: { uz: "O'z narxlari va profil rasmi", ru: "Свои цены и фото профиля" } },
+          { label: { uz: "O'z daromadi va xarajatlari, grafik", ru: "Свой доход и расходы, график" } },
+          { label: { uz: "O'z mijozlariga xabar («ertaga ishlamayman»)", ru: "Сообщение своим клиентам («завтра не работаю»)" } },
+        ],
+      },
+      {
+        title: { uz: "Sozlamalar", ru: "Настройки" },
+        items: [
+          { label: { uz: "Avtomatik yoki qo'lda tasdiq (egasi, usta yoki ikkalasi)", ru: "Авто- или ручное подтверждение (владелец, мастер или оба)" } },
+          { label: { uz: "Necha kun oldinga bron qilish mumkin", ru: "На сколько дней вперёд можно бронировать" } },
+          { label: { uz: "Minimal oldindan vaqt va bekor qilish muddati", ru: "Минимальный запас времени и срок отмены" } },
+          { label: { uz: "Slot qadami: 15 / 30 / 60 daqiqa", ru: "Шаг слота: 15 / 30 / 60 минут" } },
+          { label: { uz: "Tun orqali ish vaqti (10:00 – 02:00)", ru: "Часы работы через полночь (10:00 – 02:00)" } },
+          { label: { uz: "Bitta mijozga maksimal faol bronlar", ru: "Максимум активных броней на клиента" } },
+        ],
+      },
+      {
+        title: { uz: "Kimlar uchun — tayyor shablonlar", ru: "Для кого — готовые шаблоны" },
+        items: [
+          { label: { uz: "💈 Sartaroshxona — ustalar, 15 daqiqalik qadam", ru: "💈 Барбершоп — мастера, шаг 15 минут" } },
+          { label: { uz: "💅 Go'zallik saloni — manikyur, pedikyur, qosh", ru: "💅 Салон красоты — маникюр, педикюр, брови" } },
+          { label: { uz: "🎮 Game klub — kompyuter va PS5, soatbay narx", ru: "🎮 Гейм-клуб — компьютеры и PS5, почасовая цена" } },
+          { label: { uz: "🫖 Choyxona — xona va so'ri, odam soni, taom oldindan", ru: "🫖 Чайхана — комнаты и топчаны, число гостей, еда заранее" } },
+          { label: { uz: "🚗 Avtomoyka — bokslar", ru: "🚗 Автомойка — боксы" } },
+          { label: { uz: "🗂️ Boshqa — istalgan xizmat biznesi: sauna, futbol maydoni, repetitor…", ru: "🗂️ Другое — любой бизнес услуг: сауна, футбольное поле, репетитор…" } },
+          { label: { uz: "Sizning turingiz yo'qmi? Yozing — shablonni tezda qo'shib beramiz", ru: "Нет вашего типа? Напишите — быстро добавим шаблон" } },
+        ],
+      },
+      {
+        title: { uz: "Ishonchlilik va kelgusi", ru: "Надёжность и дальше" },
+        items: [
+          { label: { uz: "Ikki marta bron qilish texnik jihatdan imkonsiz", ru: "Двойная бронь технически невозможна" } },
+          { label: { uz: "Ma'lumotlar O'zbekistonda, har kuni zaxira nusxa", ru: "Данные в Узбекистане, резервная копия каждый день" } },
+          { label: { uz: "Maxfiylik siyosati va foydalanish shartlari", ru: "Политика конфиденциальности и условия" } },
+          { label: { uz: "Jonli navbat: «chipta oling, siz #5»", ru: "Живая очередь: «возьмите талон, вы #5»" }, soon: true },
+          { label: { uz: "Abonementlar va paketlar", ru: "Абонементы и пакеты" }, soon: true },
+          { label: { uz: "Onlayn to'lov: Payme, Click", ru: "Онлайн-оплата: Payme, Click" }, soon: true },
+          { label: { uz: "Biznesning o'z nomidagi bot", ru: "Бот под именем бизнеса" }, soon: true },
+        ],
+      },
+      /* Egasi 2026-10-08 da so'ragan takliflar — hali kodda yo'q, hammasi
+         `soon`. Qaysi biri qilinsa, bayroqni olib tashlang. */
+      {
+        title: { uz: "Rejada: biznes egasi uchun", ru: "В планах: для владельца" },
+        items: [
+          { label: { uz: "Biznes xarajatlari: ijara, kommunal, materiallar — oylik foyda / zarar", ru: "Расходы бизнеса: аренда, коммуналка, материалы — прибыль / убыток за месяц" }, soon: true },
+          { label: { uz: "Ustalar bilan hisob-kitob: qancha ishladi, qancha to'landi, qoldiq", ru: "Расчёт с мастерами: сколько сделал, сколько выплачено, остаток" }, soon: true },
+          { label: { uz: "Mijozlar bazasi: tashriflar tarixi, doimiylar, kelmay qolganlar", ru: "База клиентов: история визитов, постоянные, неявки" }, soon: true },
+          { label: { uz: "Yuklama tahlili: gavjum soatlar, bo'sh ustalar, o'rtacha chek", ru: "Аналитика загрузки: пиковые часы, свободные мастера, средний чек" }, soon: true },
+          { label: { uz: "Kutish ro'yxati: vaqt bo'shasa navbatdagi mijozga xabar", ru: "Лист ожидания: освободилось время — уведомление следующему клиенту" }, soon: true },
+          { label: { uz: "Bo'sh soatlarga aksiya va chegirmalar", ru: "Акции и скидки на свободные часы" }, soon: true },
+          { label: { uz: "Hisobotlarni Excel'ga yuklab olish", ru: "Выгрузка отчётов в Excel" }, soon: true },
+        ],
+      },
+      {
+        title: { uz: "Rejada: mijoz uchun", ru: "В планах: для клиента" },
+        items: [
+          { label: { uz: "Sharh va baho — ustaga va joyga", ru: "Отзывы и оценки — мастеру и заведению" }, soon: true },
+          { label: { uz: "Sevimli ustalar va «yana o'sha ustaga» bir bosishda", ru: "Любимые мастера и «снова к нему» в одно нажатие" }, soon: true },
+          { label: { uz: "Sodiqlik: har 5-tashrifga bonus yoki chegirma", ru: "Лояльность: бонус или скидка за каждый 5-й визит" }, soon: true },
+          { label: { uz: "Ustaning ishlari galereyasi", ru: "Галерея работ мастера" }, soon: true },
+          { label: { uz: "Bir vaqtda ikki kishi: o'zi + bola, ikki usta", ru: "Двое сразу: себе + ребёнку, два мастера" }, soon: true },
+          { label: { uz: "Bronni telefon taqvimiga qo'shish", ru: "Добавить бронь в календарь телефона" }, soon: true },
+          { label: { uz: "Do'stga tavsiya va sovg'a sertifikati", ru: "Пригласить друга и подарочный сертификат" }, soon: true },
+        ],
+      },
+    ],
+  },
+
   /* ==========================================================
      1. TINCH OMBOR
      ========================================================== */

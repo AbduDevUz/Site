@@ -141,7 +141,9 @@ function productPage(SITE, product, lang) {
   const fromTpl = String(tr(SITE.ui.from, lang)).split("{n}");
   const priceLine = product.soon
     ? tr(SITE.ui.soon, lang)
-    : price
+    : product.free
+      ? tr(SITE.ui.free, lang) + " · " + tr(SITE.ui.freeHint, lang)
+      : price
       ? [fromTpl[0].trim(), num(price.amount) + " " + price.currency, (fromTpl[1] || "").trim()]
           .filter(Boolean)
           .join(" ") + (price.period ? " / " + tr(price.period, lang) : "")
@@ -151,6 +153,17 @@ function productPage(SITE, product, lang) {
   if (!product.soon) {
     for (const mode of product.pricingModes || []) {
       for (const plan of mode.plans || []) {
+        if (plan.free) {
+          // Bepul mahsulot ham offer: qidiruv tizimi «0 so'm» ni ko'rsatadi
+          offers.push({
+            "@type": "Offer",
+            name: tr(plan.name, lang),
+            price: 0,
+            priceCurrency: "UZS",
+            availability: "https://schema.org/InStock",
+          });
+          continue;
+        }
         if (!plan.price) continue;
         offers.push({
           "@type": "Offer",
@@ -201,9 +214,11 @@ function productPage(SITE, product, lang) {
   const plans = [];
   for (const mode of product.pricingModes || []) {
     for (const plan of mode.plans || []) {
-      const p = plan.price
-        ? num(plan.price.amount) + " " + plan.price.currency + (plan.price.period ? " / " + tr(plan.price.period, lang) : "")
-        : tr(SITE.ui.priceOnRequest, lang);
+      const p = plan.free
+        ? tr(SITE.ui.free, lang)
+        : plan.price
+          ? num(plan.price.amount) + " " + plan.price.currency + (plan.price.period ? " / " + tr(plan.price.period, lang) : "")
+          : tr(SITE.ui.priceOnRequest, lang);
       plans.push("<li><b>" + esc(tr(plan.name, lang)) + "</b> — " + esc(p) + "</li>");
     }
   }
@@ -287,7 +302,11 @@ ${alternates}
               <span class="product-hero__badge">${esc(tagline)}</span>
               <h1 class="h1">${esc(name)}</h1>
               <p class="lead">${esc(tr(product.intro, lang))}</p>
-              <p><a class="btn btn--primary btn--lg" href="order.html?product=${product.id}">${esc(tr(product.soon ? SITE.ui.notifyCta : SITE.ui.orderCta, lang))}</a></p>
+              <p>${
+                product.free
+                  ? `<a class="btn btn--primary btn--lg" href="${esc((product.links && product.links.business) || SITE.company.telegram)}" target="_blank" rel="noopener">${esc(tr(SITE.ui.openBotCta, lang))}</a>`
+                  : `<a class="btn btn--primary btn--lg" href="order.html?product=${product.id}">${esc(tr(product.soon ? SITE.ui.notifyCta : SITE.ui.orderCta, lang))}</a>`
+              }</p>
               <p class="dim">${esc(priceLine)}</p>
             </div>
           </div>

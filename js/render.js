@@ -132,6 +132,21 @@
     );
   }
 
+  /** Bepul mahsulot (product.free) — kartochka rasmidagi yashil yorliq */
+  function freeRibbon() {
+    return (
+      '<span class="soon-ribbon free-ribbon">' + icon("check") + esc(t(S.ui.free)) + "</span>"
+    );
+  }
+
+  /**
+   * Bepul mahsulotning asosiy havolasi — buyurtma formasi emas, Telegram bot.
+   * Sahifadagi barcha «Buyurtma» tugmalari shu orqali almashtiriladi.
+   */
+  function freeHref(product) {
+    return (product.links && product.links.business) || S.company.telegram;
+  }
+
   /**
    * Ro'yxat elementi { uz, ru } yoki { label: { uz, ru }, soon: true }
    * ko'rinishida bo'lishi mumkin — ikkalasini ham qo'llab-quvvatlaymiz.
@@ -161,7 +176,10 @@
     var priceUzs =
       product.showUzs && price && price.currency === "USD" ? toUzs(price.amount) : "";
     var from = fromParts();
-    var priceHtml = price
+    var priceHtml = product.free
+      ? '<div class="product-card__price product-card__price--free"><b>' + esc(t(S.ui.free)) + "</b>" +
+        "<span>" + esc(t(S.ui.freeHint)) + "</span></div>"
+      : price
       ? '<div class="product-card__price">' + esc(from.before) +
         "<b>" + window.I18N.num(price.amount) + " " + price.currency +
           (from.after ? ' <small class="price-from">' + esc(from.after) + "</small>" : "") +
@@ -182,7 +200,7 @@
         '<a class="product-card__media" href="' + productUrl(product.id) + '" aria-label="' + esc(t(product.name)) + '">' +
           picture(product.image, t(product.name) + " — " + t(product.tagline), { width: 1200, height: 675 }) +
           '<span class="product-card__glyph">' + icon(product.icon) + "</span>" +
-          (product.soon ? soonRibbon() : "") +
+          (product.soon ? soonRibbon() : product.free ? freeRibbon() : "") +
         "</a>" +
         '<div class="product-card__body">' +
           "<" + h + ' class="card__title"><a href="' + productUrl(product.id) + '">' + esc(t(product.name)) + "</a></" + h + ">" +
@@ -206,7 +224,14 @@
 
   function planCard(product, plan) {
     var priceHtml;
-    if (plan.price) {
+    if (plan.free) {
+      // Bepul tarif: raqam o'rniga so'z, davr o'rniga «hamma imkoniyatlar»
+      priceHtml =
+        '<div class="plan-card__price">' +
+          '<span class="plan-card__amount plan-card__amount--free">' + esc(t(S.ui.free)) + "</span>" +
+          '<span class="plan-card__period">' + esc(t(S.ui.freeHint)) + "</span>" +
+        "</div>";
+    } else if (plan.price) {
       // Aksiya davrida bir martalik tariflar narxi promoFull dan qayta hisoblanadi
       var amount = planAmount(plan);
       var wasHtml = "";
@@ -260,10 +285,16 @@
         "</div>" +
         priceHtml +
         '<ul class="plan-card__list">' + list + "</ul>" +
-        '<a class="btn ' + (plan.featured ? "btn--primary" : "btn--ghost") + ' btn--block" ' +
-          'href="order.html?product=' + product.id + "&plan=" + plan.id + '">' +
-          esc(t(S.ui.orderCta)) +
-        "</a>" +
+        (plan.cta
+          // Tashqi havola (Telegram bot) — yangi oynada, saytning tabi qoladi
+          ? '<a class="btn ' + (plan.featured ? "btn--primary" : "btn--ghost") + ' btn--block" ' +
+            'href="' + esc(plan.cta.href) + '" target="_blank" rel="noopener">' +
+            icon("telegram", "btn__icon") + esc(t(plan.cta.label)) +
+            "</a>"
+          : '<a class="btn ' + (plan.featured ? "btn--primary" : "btn--ghost") + ' btn--block" ' +
+            'href="order.html?product=' + product.id + "&plan=" + plan.id + '">' +
+            esc(t(S.ui.orderCta)) +
+            "</a>") +
       "</article>"
     );
   }
@@ -711,6 +742,8 @@
     mark: mark,
     soonBadge: soonBadge,
     soonRibbon: soonRibbon,
+    freeRibbon: freeRibbon,
+    freeHref: freeHref,
     promoOn: promoOn,
     entry: entry,
     picture: picture,

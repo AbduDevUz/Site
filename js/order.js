@@ -74,7 +74,9 @@
 
       if (mode.plans && mode.plans.length) {
         mode.plans.forEach(function (plan) {
-          var price = plan.price
+          var price = plan.free
+            ? t(S.ui.free)
+            : plan.price
             ? window.I18N.num(window.R.planAmount(plan)) + " " + plan.price.currency +
               (plan.price.period ? " / " + t(plan.price.period) : "")
             : "";

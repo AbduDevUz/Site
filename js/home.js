@@ -62,6 +62,67 @@
     }
   }
 
+  /**
+   * Hero ostidagi katta blok — `spotlight` berilgan mahsulot (Bandla).
+   * Bitta mahsulotda bo'ladi; bo'lmasa bo'lim butunlay yashirinadi.
+   */
+  function renderSpotlight() {
+    var host = document.getElementById("spotlight");
+    if (!host) return;
+
+    var p = (window.PRODUCTS || []).filter(function (x) {
+      return x.spotlight;
+    })[0];
+    if (!p) {
+      host.hidden = true;
+      return;
+    }
+    var sp = p.spotlight;
+    var bot = window.R.freeHref(p);
+    var client = p.links && p.links.client;
+
+    var stats = (sp.stats || [])
+      .map(function (s) {
+        return (
+          '<div class="stat">' +
+            '<span class="stat__value">' + esc(s.value) + "</span>" +
+            '<span class="stat__label">' + esc(t(s.label)) + "</span>" +
+          "</div>"
+        );
+      })
+      .join("");
+
+    host.hidden = false;
+    host.innerHTML =
+      '<div class="container">' +
+        '<div class="spotlight reveal">' +
+          '<div class="spotlight__text stack stack-6">' +
+            '<span class="badge badge--ok"><span class="badge__dot"></span>' + esc(t(sp.eyebrow)) + "</span>" +
+            '<h2 class="h2">' + esc(t(sp.title)) + "</h2>" +
+            '<p class="lead">' + esc(t(sp.text)) + "</p>" +
+            '<div class="spotlight__actions">' +
+              '<a class="btn btn--primary btn--lg" href="' + esc(bot) + '" target="_blank" rel="noopener">' +
+                icon("telegram", "btn__icon") + esc(t(sp.primary)) +
+              "</a>" +
+              '<a class="btn btn--ghost btn--lg" href="' + window.R.productUrl(p.id) + '">' +
+                esc(t(sp.secondary)) +
+              "</a>" +
+            "</div>" +
+            (client
+              ? '<p class="spotlight__client dim">' + esc(t(sp.clientHint)) + " " +
+                '<a href="' + esc(client) + '" target="_blank" rel="noopener">' +
+                  esc(client.replace(/^https?:\/\//, "")) +
+                "</a></p>"
+              : "") +
+            '<div class="spotlight__stats">' + stats + "</div>" +
+          "</div>" +
+          '<a class="spotlight__media" href="' + window.R.productUrl(p.id) + '" aria-label="' + esc(t(p.name)) + '">' +
+            window.R.picture(p.image, t(p.name) + " — " + t(p.tagline), { width: 1200, height: 675 }) +
+          "</a>" +
+        "</div>" +
+      "</div>";
+  }
+
   function renderWhy() {
     var host = document.getElementById("whyGrid");
     if (!host) return;
@@ -98,6 +159,7 @@
   function render() {
     window.I18N.applyMeta(S.home.meta);
     renderStats();
+    renderSpotlight();
     renderProducts();
     renderWhy();
     renderSteps();

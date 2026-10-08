@@ -211,6 +211,57 @@ yashiriladi va hamma mahsulot bitta to'rda chiqadi.
 
 ---
 
+## 4.2. Bepul mahsulot — Bandla (2026-10-08)
+
+Bandla — Telegram orqali onlayn bron tizimi (bot + Mini App), kod va reja
+[github.com/goaziz/bandla](https://github.com/goaziz/bandla) da. Egasi uni
+**bepul** va **hozir urg'u beriladigan** mahsulot sifatida qo'shishni so'radi.
+Shuning uchun u `products.js` da **birinchi** turadi va `main: true`.
+
+Bepul mahsulotni boshqa mahsulotlardan ajratib turadigan narsa — `free: true`
+bayrog'i. U yoqilganda sayt o'zi quyidagicha o'zgaradi:
+
+| Qayerda | Nima bo'ladi |
+| --- | --- |
+| Bosh sahifa kartochkasi | Narx o'rniga yashil **«Bepul»**, rasmda yashil yorliq |
+| Bosh sahifa, hero ostida | Alohida katta blok — `spotlight` (matn, 3 ta raqam, 2 ta tugma, rasm) |
+| Mahsulot sahifasi | «Buyurtma berish» o'rniga **«Telegram botda boshlash»** (`links.business` ga, yangi oynada); «Tariflar» o'rniga «Narx: Bepul» |
+| Tarif kartasi | Narx o'rniga «Bepul», tugma botga (`plans[].cta`) |
+| Buyurtma formasi | Mahsulot ro'yxatda qoladi (egasi «sozlab bering» deb yozishi mumkin), tarif «Bandla — Bepul» |
+| Statik sahifa (build) | Narx qatori «Bepul · barcha imkoniyatlar», JSON-LD da `price: 0` |
+
+**Bot havolalarini o'zgartirish** — faqat `products.js` → `bandla` → `links`
+(`business` — biznes boti, `client` — mijoz boti) va `pricingModes[0].plans[0].cta.href`.
+Hozirgi qiymatlar bot kodidagi standart nomlardan olingan
+(`bandla_biz_bot`, `bandlauz_bot`) — botlar boshqa nom bilan ochilgan bo'lsa
+shu ikki joyni to'g'rilang.
+
+**Spotlight matnlari** — `products.js` → `bandla` → `spotlight`
+(`eyebrow`, `title`, `text`, `stats`, tugma yozuvlari). Blokni olib tashlash
+uchun `spotlight` obyektini o'chirsangiz kifoya — `index.html` dagi bo'lim
+o'zi yashirinadi.
+
+**«Bepul» so'zini o'zgartirish** (masalan, «Hozircha bepul») — `site.js` →
+`ui.free`, `ui.freeHint`; mahsulot sahifasidagi sarlavha `product.freeTitle`.
+
+**Rasm** — `images/opt/bandla.svg`: chizilgan telefon (bot suhbati) va «Bugun»
+paneli. Mini App'ning haqiqiy skrinshoti bo'lsa, `image: { webp, jpg }`
+ko'rinishida almashtiring (§7) — Telegram/Facebook SVG ni ko'rsatmaydi,
+shuning uchun hozir ijtimoiy tarmoqlarda umumiy muqova chiqadi.
+
+**Matn manbasi.** Imkoniyatlar ro'yxati bot kodidan tekshirib yozilgan
+(2026-10-08 holati). Hali ishlamaydigan narsalar (jonli navbat, abonementlar,
+onlayn to'lov, brendli bot) `soon: true` bilan belgilangan — ular chiqqanda
+bayroqni olib tashlaysiz. Yangi imkoniyat qo'shilsa — `featureGroups` ga
+qator.
+
+> ⚠️ Repodagi foydalanish shartlarida «pilot davrida bepul, kelajakdagi narx
+> kamida 30 kun oldin aytiladi» deb yozilgan. Saytda «Bepul» deyilgan, «doim»
+> yoki «umrbod» deyilmagan — narx qo'yiladigan bo'lsa saytni oldindan
+> yangilash kerak.
+
+---
+
 ## 5. Sayt matnlarini o'zgartirish
 
 `js/data/site.js` ichida:

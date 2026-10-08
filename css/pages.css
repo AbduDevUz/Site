@@ -284,6 +284,13 @@
   object-fit: cover;
 }
 
+/* Chizilgan SVG (Bandla, Savdo) — foto emas, kesilsa ma'no yo'qoladi:
+   to'liq ko'rsatamiz, bo'sh joy SVG fonidek to'q rangda qoladi */
+.product-hero__media img[src$=".svg"] {
+  object-fit: contain;
+  background: var(--navy-900);
+}
+
 .product-hero__media::after {
   content: "";
   position: absolute;
@@ -605,6 +612,106 @@ a.contact-item__value:hover {
       "form"
       "contacts";
     grid-template-rows: auto;
+  }
+}
+
+/* ------------------------------------------------------------
+   Spotlight — bosh sahifada hero ostidagi bitta mahsulot (Bandla)
+   ------------------------------------------------------------
+   CTA banner (indigo) va brend lentasi (sariq) dan farqi — yashil
+   chegara: «bepul» rangi, sahifada boshqa hech qayerda yo'q.
+   Chapda matn va tugmalar, o'ngda mahsulot rasmi.
+   ------------------------------------------------------------ */
+
+.spotlight {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  align-items: center;
+  padding: clamp(1.5rem, 1rem + 2.4vw, 2.75rem);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(60% 90% at 0% 0%, rgba(52, 211, 153, 0.1) 0%, transparent 60%),
+    var(--glow-accent),
+    linear-gradient(120deg, rgba(91, 91, 245, 0.1), rgba(52, 211, 153, 0.03)) var(--surface);
+  overflow: hidden;
+}
+
+/* Yorliq ustun bo'ylab cho'zilmasin — faqat matni kengligida */
+.spotlight__text .badge {
+  align-self: flex-start;
+}
+
+.spotlight__text .h2 {
+  max-width: 18ch;
+  line-height: var(--lh-tight);
+}
+
+.spotlight__text .lead {
+  max-width: 54ch;
+}
+
+.spotlight__actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+.spotlight__client {
+  margin-top: calc(var(--space-2) * -1);
+  font-size: var(--fs-sm);
+}
+
+.spotlight__client a {
+  color: var(--brand-indigo-300);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.spotlight__stats {
+  display: flex;
+  gap: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+  flex-wrap: wrap;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.spotlight__stats .stat__value {
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+}
+
+.spotlight__media {
+  display: block;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transform: perspective(1400px) rotateY(-5deg);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.spotlight__media:hover {
+  transform: perspective(1400px) rotateY(-1deg);
+}
+
+.spotlight__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .spotlight {
+    grid-template-columns: 1fr;
+  }
+  .spotlight__media {
+    order: -1;
+    transform: none;
   }
 }
 
