@@ -597,6 +597,11 @@
   .site-header__inner {
     gap: var(--space-4);
   }
+  /* Menyu yashiringanda til va burger o'ng chetga suriladi
+     (iPhone'da logotipga yopishib qolgan edi) */
+  .header-actions {
+    margin-left: auto;
+  }
 }
 
 /* Kichik ekranda CTA tugmasi mobil menyuda qoladi — sarlavhada joy bo'shatamiz */
@@ -1959,8 +1964,10 @@ h1 .soon-ribbon {
 /* Guruhda roppa-rosa 4 ta kartochka bo'lsa (Bandla qo'shilgandan beri
    «Faol mahsulotlar» shunday) — 3 ustunda bittasi yolg'iz qolardi,
    2×2 to'r tozaroq. Eski brauzer :has() ni tushunmasa — 3 ustun qoladi. */
-.product-grid:has(> :nth-child(4):last-child) {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (min-width: 861px) {
+  .product-grid:has(> :nth-child(4):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* Ikki ustunda uchinchi kartochka yolg'iz qolardi — shuning uchun
